@@ -13,7 +13,7 @@
 html { scroll-behavior: smooth; }
 :root {
   --g: #66c800; --black: #060704; --paper: #0a0d07; --ink: #e6f0d0;
-  --muted: #5a7040; --dim: #2e3d1e; --line: rgba(102,200,0,0.13);
+  --body:#a8c878;--sub:#7a9e52;--foot:#6b8f46;--dim:#3d5228;  --line: rgba(102,200,0,0.13);
   --ff-head: 'Bebas Neue', sans-serif;
   --ff-cond: 'Barlow Condensed', sans-serif;
   --ff-mono: 'IBM Plex Mono', monospace;
@@ -22,22 +22,22 @@ body { background: var(--black); color: var(--ink); font-family: var(--ff-mono);
 nav { position: sticky; top: 0; z-index: 500; display: flex; align-items: center; justify-content: space-between; padding: 0 40px; height: 60px; border-bottom: 1px solid var(--line); background: rgba(6,7,4,0.92); backdrop-filter: blur(16px); }
 .nav-logo { font-family: var(--ff-head); font-size: 24px; letter-spacing: 2px; color: var(--ink); text-decoration: none; display: flex; align-items: center; gap: 2px; }
 .nav-logo em { font-style: normal; color: var(--g); }
-.nav-logo sup { font-family: var(--ff-mono); font-size: 8px; letter-spacing: 1px; color: var(--muted); margin-top: -8px; font-weight: 400; }
-.nav-back { text-decoration: none; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); transition: color 0.15s; display: flex; align-items: center; gap: 8px; }
+.nav-logo sup { font-family: var(--ff-mono); font-size: 8px; letter-spacing: 1px; color:var(--body); margin-top: -8px; font-weight: 400; }
+.nav-back { text-decoration: none; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color:var(--body); transition: color 0.15s; display: flex; align-items: center; gap: 8px; }
 .nav-back:hover { color: var(--g); }
 
 .page-hero { padding: 80px 80px 60px; border-bottom: 1px solid var(--line); }
 .page-label { font-size: 9px; letter-spacing: 4px; text-transform: uppercase; color: var(--g); margin-bottom: 20px; }
 .page-title { font-family: var(--ff-head); font-size: clamp(52px, 8vw, 112px); line-height: 0.92; text-transform: uppercase; letter-spacing: 2px; color: var(--ink); }
 .page-title em { font-style: normal; color: var(--g); }
-.page-meta { margin-top: 24px; font-size: 11px; color: var(--muted); letter-spacing: 1px; }
+.page-meta { margin-top: 24px; font-size: 11px; color:var(--body); letter-spacing: 1px; }
 
 .content-wrap { max-width: 800px; padding: 80px; margin: 0 auto; }
 .content-section { margin-bottom: 60px; padding-bottom: 60px; border-bottom: 1px solid var(--line); }
 .content-section:last-child { border-bottom: none; }
 .sec-num { font-size: 9px; letter-spacing: 3px; color: var(--g); text-transform: uppercase; margin-bottom: 12px; opacity: 0.7; }
 .sec-title { font-family: var(--ff-cond); font-size: 28px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--ink); margin-bottom: 24px; }
-.sec-body { font-size: 13px; line-height: 2; color: var(--muted); }
+.sec-body { font-size: 13px; line-height: 2; color:var(--body); }
 .sec-body p { margin-bottom: 16px; }
 .sec-body p:last-child { margin-bottom: 0; }
 .sec-body strong { color: var(--ink); font-weight: 500; }
@@ -47,12 +47,12 @@ nav { position: sticky; top: 0; z-index: 500; display: flex; align-items: center
 .sec-body a { color: var(--g); text-decoration: none; }
 .sec-body a:hover { text-decoration: underline; }
 .highlight-box { border: 1px solid var(--line); padding: 24px 28px; background: rgba(102,200,0,0.03); border-left: 3px solid var(--g); margin: 24px 0; }
-.highlight-box p { font-size: 12px; color: var(--muted); line-height: 1.9; }
+.highlight-box p { font-size: 12px; color:var(--body); line-height: 1.9; }
 .highlight-box strong { color: var(--ink); }
 
 .cookie-table { width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 11px; }
 .cookie-table th { text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--g); color: var(--g); font-size: 9px; letter-spacing: 2px; text-transform: uppercase; font-weight: 500; }
-.cookie-table td { padding: 12px 16px; border-bottom: 1px solid var(--line); color: var(--muted); vertical-align: top; line-height: 1.7; }
+.cookie-table td { padding: 12px 16px; border-bottom: 1px solid var(--line); color:var(--body); vertical-align: top; line-height: 1.7; }
 .cookie-table td:first-child { color: var(--ink); font-family: var(--ff-mono); font-size: 10px; }
 .cookie-table tr:last-child td { border-bottom: none; }
 
