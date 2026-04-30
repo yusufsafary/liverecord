@@ -292,10 +292,10 @@ footer{border-top:1px solid var(--line);}
       <p class="doc-p">Get up and running with LiveRecord in 5 minutes. No sign-up required — just connect your wallet.</p>
 
       <h3>Step 1 — Connect Your Wallet</h3>
-      <p class="doc-p">LiveRecord uses EVM-compatible wallets. Connect via MetaMask, WalletConnect, or any supported wallet at <a href="https://kickstart.easya.io/" target="_blank" rel="noopener">kickstart.easya.io</a>.</p>
+      <p class="doc-p">LiveRecord uses Solana wallets. Connect via Phantom, Solflare, or any supported wallet at <a href="https://kickstart.easya.io/" target="_blank" rel="noopener">kickstart.easya.io</a>.</p>
       <ul class="doc-ul">
-        <li>Supported: MetaMask, WalletConnect, Coinbase Wallet, Rainbow, Rabby</li>
-        <li>Compatible with any EVM wallet that supports EIP-1193</li>
+        <li>Supported: Phantom, Solflare, Backpack, Glow</li>
+        <li>Compatible with any Solana wallet that supports the Solana Wallet Adapter standard</li>
         <li>No email, no KYC — your wallet address is your identity</li>
       </ul>
 
@@ -309,16 +309,18 @@ footer{border-top:1px solid var(--line);}
       <p class="doc-p">Once linked, the R.E.C. Engine continuously scores your fandom activity. You can check your score in real time at any time. Scores are committed to blockchain at each epoch (every 24 hours).</p>
 
       <h3>Step 4 — Claim $REC</h3>
-      <p class="doc-p">At each epoch, eligible fans can claim their $REC rewards based on their R.E.C. Score. Claims are gasless on supported L2 networks.</p>
+      <p class="doc-p">At each epoch, eligible fans can claim their $REC rewards based on their R.E.C. Score. Claims are low-cost and near-instant on Solana.</p>
       <div class="code-block">
-        <div class="cb-lang">Solidity</div>
-        <pre>// Claim your $REC rewards
-ILiveRecord(PROTOCOL_ADDRESS).claimRewards(
-  address recipient,
-  uint256 epoch,
-  uint256 score,
-  bytes32[] proof  // Merkle proof of your R.E.C. score
-);</pre>
+        <div class="cb-lang">Rust (Anchor)</div>
+        <pre>// Claim your $REC rewards (Anchor program instruction)
+liverecord.methods
+  .claimRewards(epoch, score, merkleProof)
+  .accounts({
+    recipient: wallet.publicKey,
+    rewardVault: REWARD_VAULT_PDA,
+    recTokenMint: REC_MINT,
+  })
+  .rpc();</pre>
         <button class="code-copy" onclick="copyCode(this)">Copy</button>
       </div>
     </div>
@@ -419,9 +421,9 @@ Where:
         <tbody>
           <tr><td>Symbol</td><td>$REC</td></tr>
           <tr><td>Total Supply</td><td>1,000,000,000 $REC</td></tr>
-          <tr><td>Standard</td><td>ERC-20</td></tr>
-          <tr><td>Networks</td><td>Ethereum, Base, Arbitrum (TBC)</td></tr>
-          <tr><td>Decimals</td><td>18</td></tr>
+          <tr><td>Standard</td><td>SPL Token (Solana)</td></tr>
+          <tr><td>Network</td><td>Solana</td></tr>
+          <tr><td>Decimals</td><td>9</td></tr>
           <tr><td>Emission Model</td><td>Epoch-based, decreasing inflation</td></tr>
         </tbody>
       </table>
@@ -430,18 +432,16 @@ Where:
     <!-- NETWORKS -->
     <div class="doc-section" id="networks">
       <div class="doc-section-label">Infrastructure</div>
-      <h2>SUPPORTED <em>NETWORKS</em></h2>
-      <p class="doc-p">LiveRecord Protocol is deployed on EVM-compatible networks. We prioritize low-cost chains so fans don't pay high gas fees when claiming rewards.</p>
+      <h2>SUPPORTED <em>NETWORK</em></h2>
+      <p class="doc-p">LiveRecord Protocol is built natively on Solana. Solana's high throughput and sub-cent transaction fees mean fans never pay meaningful costs to claim their rewards.</p>
       <table class="doc-table">
         <thead>
-          <tr><th>Network</th><th>Status</th><th>Chain ID</th><th>Notes</th></tr>
+          <tr><th>Cluster</th><th>Status</th><th>RPC Endpoint</th><th>Notes</th></tr>
         </thead>
         <tbody>
-          <tr><td>Ethereum Mainnet</td><td style="color:var(--g)">Live</td><td>1</td><td>Governance, staking</td></tr>
-          <tr><td>Base</td><td style="color:var(--g)">Live</td><td>8453</td><td>Primary rewards chain, gasless claims</td></tr>
-          <tr><td>Arbitrum One</td><td style="color:var(--body)">Coming Soon</td><td>42161</td><td>Planned Q3 2025</td></tr>
-          <tr><td>Polygon PoS</td><td style="color:var(--body)">Coming Soon</td><td>137</td><td>Planned Q3 2025</td></tr>
-          <tr><td>Optimism</td><td style="color:var(--sub)">Evaluating</td><td>10</td><td>TBD</td></tr>
+          <tr><td>Solana Mainnet-Beta</td><td style="color:var(--g)">Live</td><td>api.mainnet-beta.solana.com</td><td>Production: governance, staking, rewards</td></tr>
+          <tr><td>Solana Devnet</td><td style="color:var(--g)">Live</td><td>api.devnet.solana.com</td><td>Public testing &amp; integration sandbox</td></tr>
+          <tr><td>Solana Testnet</td><td style="color:var(--body)">Internal</td><td>api.testnet.solana.com</td><td>Validator and release testing</td></tr>
         </tbody>
       </table>
     </div>
@@ -462,31 +462,28 @@ Where:
           <tr><td>LiveRecordRegistry</td><td>Registers fans, IPs, and links wallet addresses to R.E.C. profiles</td></tr>
           <tr><td>RECScoreOracle</td><td>Publishes epoch Merkle roots for R.E.C. scores onchain</td></tr>
           <tr><td>RewardDistributor</td><td>Handles $REC epoch claims with Merkle proof verification</td></tr>
-          <tr><td>RECToken</td><td>ERC-20 contract for the $REC token</td></tr>
+          <tr><td>RECToken</td><td>SPL Token mint for the $REC token</td></tr>
           <tr><td>FandomPool</td><td>Per-IP reward pools and staking contracts</td></tr>
           <tr><td>Governance</td><td>Governor + Timelock for protocol governance</td></tr>
         </tbody>
       </table>
       <h3>Claiming Rewards (Full Interface)</h3>
       <div class="code-block">
-        <div class="cb-lang">Solidity</div>
-        <pre>interface IRewardDistributor {
+        <div class="cb-lang">Rust (Anchor)</div>
+        <pre>#[program]
+pub mod reward_distributor {
   // Claim $REC for a specific epoch
-  function claim(
-    uint256 epoch,
-    address recipient,
-    uint256 amount,
-    bytes32[] calldata merkleProof
-  ) external;
+  pub fn claim(
+    ctx: Context&lt;Claim&gt;,
+    epoch: u64,
+    amount: u64,
+    merkle_proof: Vec&lt;[u8; 32]&gt;,
+  ) -&gt; Result&lt;()&gt; { /* ... */ }
 
-  // Check if already claimed
-  function isClaimed(
-    uint256 epoch,
-    address recipient
-  ) external view returns (bool);
-
-  // Get Merkle root for epoch
-  function epochRoot(uint256 epoch) external view returns (bytes32);
+  // View whether a recipient already claimed an epoch
+  // (read the ClaimRecord PDA: seeds = [b"claim", epoch, recipient])
+  // Get Merkle root for an epoch
+  // (read the EpochRoot PDA: seeds = [b"epoch", epoch])
 }</pre>
         <button class="code-copy" onclick="copyCode(this)">Copy</button>
       </div>
@@ -500,7 +497,7 @@ Where:
 
       <h3>Integration Options</h3>
       <ul class="doc-ul">
-        <li><strong>Direct contract integration</strong> — call LiveRecord smart contracts from your dApp</li>
+        <li><strong>Direct program integration</strong> — invoke the LiveRecord Solana programs from your dApp</li>
         <li><strong>REST API</strong> — query fan scores, epoch data, and IP statistics via our API</li>
         <li><strong>JavaScript SDK</strong> — high-level abstractions for common integration patterns</li>
         <li><strong>Webhooks</strong> — receive real-time events when scores update or epochs close</li>
@@ -529,16 +526,16 @@ Where:
       <p class="doc-p">Retrieve a fan's current R.E.C. Score and profile.</p>
       <div class="code-block">
         <div class="cb-lang">HTTP</div>
-        <pre>GET /v1/fan/0x1234...abcd
+        <pre>GET /v1/fan/7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU
 X-API-Key: your_api_key
 
 Response 200:
 {
-  "address": "0x1234...abcd",
+  "wallet": "7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU",
   "rec_score": 4821,
   "rec_score_rank": 1204,
   "epoch": 142,
-  "unclaimed_rec": "1240000000000000000",
+  "unclaimed_rec": "1240000000",
   "fandoms": [
     { "ip_id": "jpop-stars-001", "score": 2840, "rank": 88 },
     { "ip_id": "anime-xyz-002",  "score": 1981, "rank": 330 }
@@ -560,30 +557,30 @@ Response 200:
   "epoch": 142,
   "start_time": "2025-04-29T00:00:00Z",
   "end_time":   "2025-04-30T00:00:00Z",
-  "merkle_root": "0xabc123...",
-  "total_rec_distributed": "500000000000000000000000",
+  "merkle_root": "8f2QnXk4...",
+  "total_rec_distributed": "500000000000000",
   "total_fans_scored": 28471,
   "claim_window_closes": "2025-05-07T00:00:00Z"
 }</pre>
         <button class="code-copy" onclick="copyCode(this)">Copy</button>
       </div>
 
-      <h3>GET /fan/:address/proof/:epoch</h3>
+      <h3>GET /fan/:wallet/proof/:epoch</h3>
       <p class="doc-p">Retrieve the Merkle proof for a fan's claim for a specific epoch.</p>
       <div class="code-block">
         <div class="cb-lang">HTTP</div>
-        <pre>GET /v1/fan/0x1234...abcd/proof/142
+        <pre>GET /v1/fan/7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU/proof/142
 X-API-Key: your_api_key
 
 Response 200:
 {
-  "address": "0x1234...abcd",
+  "wallet": "7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU",
   "epoch": 142,
-  "amount": "1240000000000000000",
+  "amount": "1240000000",
   "proof": [
-    "0xdeadbeef...",
-    "0xcafebabe...",
-    "0x12345678..."
+    "9aZ5x7Q1wM3eR8Tn...",
+    "Fk2pLm6gV4Nh8YjQ...",
+    "Cz1bDx7JyU3Hs9KrPm..."
   ]
 }</pre>
         <button class="code-copy" onclick="copyCode(this)">Copy</button>
@@ -603,10 +600,10 @@ Response 200:
   "category": "music",
   "total_fans": 14820,
   "active_fans_7d": 4231,
-  "total_rec_allocated": "10000000000000000000000",
+  "total_rec_allocated": "10000000000000",
   "score_multiplier": 1.5,
   "top_fans": [
-    { "address": "0xabcd...1234", "score": 9821, "rank": 1 }
+    { "wallet": "5Tb9pXqK2Mr3VnHj4LzCsW8FdGyNoEaB1ZuPxR7QvJkM", "score": 9821, "rank": 1 }
   ]
 }</pre>
         <button class="code-copy" onclick="copyCode(this)">Copy</button>
@@ -635,21 +632,21 @@ yarn add @liverecord/sdk</pre>
 
 const lr = new LiveRecord({
   apiKey: 'your_api_key',
-  network: 'base', // 'ethereum' | 'base' | 'arbitrum'
+  cluster: 'mainnet-beta', // 'mainnet-beta' | 'devnet' | 'testnet'
 });
 
 // Connect user wallet
-await lr.connect(provider); // ethers.js or viem provider</pre>
+await lr.connect(wallet); // Solana Wallet Adapter wallet</pre>
         <button class="code-copy" onclick="copyCode(this)">Copy</button>
       </div>
 
       <h3>Get Fan Score</h3>
       <div class="code-block">
         <div class="cb-lang">JavaScript</div>
-        <pre>const fan = await lr.getFan('0x1234...abcd');
-console.log(fan.recScore);    // 4821
-console.log(fan.fandoms);     // [{ ipId, score, rank }, ...]
-console.log(fan.unclaimedRec); // BigNumber</pre>
+        <pre>const fan = await lr.getFan('7xKXt...abcd'); // Solana wallet pubkey
+console.log(fan.recScore);     // 4821
+console.log(fan.fandoms);      // [{ ipId, score, rank }, ...]
+console.log(fan.unclaimedRec); // BN (lamports of $REC)</pre>
         <button class="code-copy" onclick="copyCode(this)">Copy</button>
       </div>
 
@@ -657,12 +654,12 @@ console.log(fan.unclaimedRec); // BigNumber</pre>
       <div class="code-block">
         <div class="cb-lang">JavaScript</div>
         <pre>// Get claimable epochs
-const epochs = await lr.getClaimableEpochs(userAddress);
+const epochs = await lr.getClaimableEpochs(userPubkey);
 
 // Claim all pending rewards
 for (const epoch of epochs) {
-  const tx = await lr.claimRewards(epoch.id);
-  await tx.wait();
+  const sig = await lr.claimRewards(epoch.id);
+  await connection.confirmTransaction(sig, 'confirmed');
   console.log(`Claimed ${epoch.amount} $REC for epoch ${epoch.id}`);
 }</pre>
         <button class="code-copy" onclick="copyCode(this)">Copy</button>
@@ -694,11 +691,11 @@ for (const epoch of epochs) {
   "timestamp": "2025-04-30T00:00:00Z",
   "data": {
     "epoch": 142,
-    "merkle_root": "0xabc123...",
+    "merkle_root": "8f2QnXk4...",
     "total_fans": 28471,
-    "total_rec_distributed": "500000000000000000000000"
+    "total_rec_distributed": "500000000000000"
   },
-  "signature": "0xsig..."
+  "signature": "ed25519:5Yt9pXqK2Mr..."
 }</pre>
         <button class="code-copy" onclick="copyCode(this)">Copy</button>
       </div>
@@ -783,9 +780,9 @@ Where:
           </div>
           <div class="rm-phase-content">
             <h4>Genesis — Protocol Launch</h4>
-            <p>Initial launch of LiveRecord Protocol on Base. Core infrastructure live, first IP integrations, $REC token launch.</p>
+            <p>Initial launch of LiveRecord Protocol on Solana. Core infrastructure live, first IP integrations, $REC token launch.</p>
             <ul>
-              <li>LiveRecord Protocol v1 deployed on Base</li>
+              <li>LiveRecord Protocol v1 deployed on Solana</li>
               <li>R.E.C. Engine — first model version live</li>
               <li>$REC token launch via EasyA Kickstart</li>
               <li>IRC App — first fandom integration (J-Pop)</li>
@@ -799,11 +796,11 @@ Where:
             <span class="phase-status">Q3 2025</span>
           </div>
           <div class="rm-phase-content">
-            <h4>Expansion — More IPs & Chains</h4>
-            <p>Expand to more IP categories, add new EVM chains, launch SDK, and open IP registration to all.</p>
+            <h4>Expansion — More IPs & Reach</h4>
+            <p>Expand to more IP categories, scale infrastructure on Solana, launch the SDK, and open IP registration to all.</p>
             <ul>
               <li>Anime fandom integrations (3+ major series)</li>
-              <li>Multi-chain: Arbitrum + Polygon deployment</li>
+              <li>Solana infrastructure scale-up (priority fees, staked RPC, geyser)</li>
               <li>@liverecord/sdk v1 public release</li>
               <li>Permissionless IP registration open</li>
               <li>R.E.C. Engine v2 with enhanced signal coverage</li>
