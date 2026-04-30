@@ -81,6 +81,24 @@ nav{
 .nav-right a:hover{color:var(--g);}
 .nav-launch{border:1px solid var(--g)!important;color:var(--g)!important;padding:7px 18px;transition:background 0.15s,color 0.15s!important;}
 .nav-launch:hover{background:var(--g)!important;color:#000!important;}
+
+/* ── WALLET BUTTON ── */
+.wallet-btn{position:relative;background:var(--g);color:#000!important;border:1px solid var(--g);font-family:var(--ff-mono);font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:7px 16px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:background 0.15s,transform 0.12s,color 0.15s;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,0 100%);}
+.wallet-btn:hover{background:#7ddf00;}
+.wallet-btn .wb-icon{width:12px;height:12px;display:inline-block;background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%239945FF'/><stop offset='1' stop-color='%2314F195'/></linearGradient></defs><path fill='url(%23g)' d='M93 88H10c-3 0-6-3-6-7s3-7 6-7h83c3 0 6 3 6 7s-3 7-6 7zm0-32H10c-3 0-6-3-6-7s3-7 6-7h83c3 0 6 3 6 7s-3 7-6 7zm25 64H35c-3 0-6-3-6-7s3-7 6-7h83c3 0 6 3 6 7s-3 7-6 7z'/></svg>") center/contain no-repeat;}
+.wallet-btn--connected{background:transparent;color:var(--g)!important;border:1px solid rgba(102,200,0,0.5);}
+.wallet-btn--connected:hover{background:var(--g4);}
+.wallet-btn--connected .wb-dot{width:6px;height:6px;border-radius:50%;background:var(--g);box-shadow:0 0 8px var(--g);animation:blink 1.8s infinite;}
+.wallet-menu{position:absolute;top:calc(100% + 8px);right:0;min-width:220px;background:rgba(6,7,4,0.98);backdrop-filter:blur(20px);border:1px solid var(--line);padding:14px;display:none;flex-direction:column;gap:10px;z-index:600;}
+.wallet-menu.open{display:flex;}
+.wallet-menu-label{font-family:var(--ff-mono);font-size:9px;letter-spacing:2px;color:var(--sub);text-transform:uppercase;}
+.wallet-menu-addr{font-family:var(--ff-mono);font-size:11px;color:var(--ink);word-break:break-all;line-height:1.5;}
+.wallet-menu-btn{background:none;border:1px solid var(--dim);color:var(--body);font-family:var(--ff-mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:8px 12px;cursor:pointer;text-align:left;transition:border-color 0.15s,color 0.15s;}
+.wallet-menu-btn:hover{border-color:var(--g);color:var(--g);}
+.wallet-toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(20px);background:rgba(6,7,4,0.96);border:1px solid var(--g);padding:12px 20px;font-family:var(--ff-mono);font-size:11px;letter-spacing:1px;color:var(--ink);z-index:9999;opacity:0;pointer-events:none;transition:opacity 0.2s,transform 0.2s;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,0 100%);}
+.wallet-toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+.wallet-toast--err{border-color:#ff4d4d;color:#ff7a7a;}
+@media(max-width:900px){.wallet-menu{right:auto;left:0;}}
 .nav-status{display:flex;align-items:center;gap:6px;font-size:9px;letter-spacing:1px;color:var(--sub);}
 .nav-status-dot{width:5px;height:5px;background:var(--g);border-radius:50%;animation:blink 1.8s infinite;}
 @keyframes blink{0%,100%{opacity:1;}50%{opacity:0.2;}}
@@ -469,9 +487,22 @@ footer{border-top:1px solid var(--line);}
     <a href="community.html">Community</a>
     <a href="docs.html">Docs</a>
     <a href="https://x.com/liverecordfun" target="_blank" rel="noopener" class="nav-launch">Follow X</a>
+    <div class="wallet-wrap" style="position:relative;">
+      <button id="walletBtn" class="wallet-btn" type="button" onclick="onWalletClick(event)" aria-haspopup="true" aria-expanded="false">
+        <span class="wb-icon" aria-hidden="true"></span>
+        <span class="wb-text">Connect Wallet</span>
+      </button>
+      <div id="walletMenu" class="wallet-menu" role="menu">
+        <div class="wallet-menu-label">Connected Wallet</div>
+        <div id="walletAddr" class="wallet-menu-addr"></div>
+        <button class="wallet-menu-btn" type="button" onclick="copyWalletAddr(event)">Copy Address</button>
+        <button class="wallet-menu-btn" type="button" onclick="disconnectWallet(event)">Disconnect</button>
+      </div>
+    </div>
   </div>
   <button class="nav-hamburger" id="hamburger" aria-label="Open menu"><span></span><span></span><span></span></button>
 </nav>
+<div id="walletToast" class="wallet-toast" role="status" aria-live="polite"></div>
 
 <!-- MOBILE MENU -->
 <div class="mobile-menu" id="mobile-menu">
@@ -485,6 +516,10 @@ footer{border-top:1px solid var(--line);}
   <a href="privacy.html">Privacy Policy</a>
   <a href="cookies.html">Cookie Policy</a>
   <a href="https://x.com/liverecordfun" target="_blank" rel="noopener" style="color:var(--g)">Follow @liverecordfun on X →</a>
+  <button type="button" class="wallet-btn" id="mobileWalletBtn" style="margin-top:24px;align-self:flex-start;" onclick="onWalletClick(event); closeMobile();">
+    <span class="wb-icon" aria-hidden="true"></span>
+    <span class="wb-text">Connect Wallet</span>
+  </button>
 </div>
 
 <!-- HERO -->
@@ -511,8 +546,8 @@ footer{border-top:1px solid var(--line);}
       LiveRecord turns invisible fandom activity into visible, lasting value — captured by AI, preserved forever on blockchain. Your passion deserves a record.
     </p>
     <div class="hero-ctas reveal" style="transition-delay:0.22s">
-      <a href="docs.html" class="btn-primary">Read Docs</a>
-      <a href="https://x.com/liverecordfun" target="_blank" rel="noopener" class="btn-ghost">Follow on X →</a>
+      <button type="button" class="btn-primary" onclick="onWalletClick(event)" id="heroWalletBtn" style="border:none;cursor:pointer;font-family:var(--ff-mono);">Connect Wallet</button>
+      <a href="docs.html" class="btn-ghost">Read Docs →</a>
     </div>
     <div class="hero-notify reveal" style="transition-delay:0.30s">
       <div class="notify-label">Get notified on launch day</div>
@@ -1063,6 +1098,125 @@ function dismissCookies(accepted){
   document.getElementById('cookiesBanner').classList.add('hidden');
 }
 if(localStorage.getItem('lr_cookies')){document.getElementById('cookiesBanner').classList.add('hidden');}
+
+/* ── PHANTOM WALLET (SOLANA) ── */
+var walletPubkey = null;
+function getPhantom(){
+  if('phantom' in window && window.phantom && window.phantom.solana && window.phantom.solana.isPhantom) return window.phantom.solana;
+  if(window.solana && window.solana.isPhantom) return window.solana;
+  return null;
+}
+function shortAddr(a){return a ? a.slice(0,4)+'…'+a.slice(-4) : '';}
+function showWalletToast(msg, isErr){
+  var t=document.getElementById('walletToast'); if(!t) return;
+  t.textContent=msg;
+  t.classList.toggle('wallet-toast--err', !!isErr);
+  t.classList.add('show');
+  clearTimeout(window.__walletToastT);
+  window.__walletToastT=setTimeout(function(){t.classList.remove('show');},3200);
+}
+function setWalletConnectedUI(pubkey){
+  walletPubkey = pubkey;
+  var btn=document.getElementById('walletBtn');
+  var hero=document.getElementById('heroWalletBtn');
+  var mobile=document.getElementById('mobileWalletBtn');
+  var addrEl=document.getElementById('walletAddr');
+  if(pubkey){
+    if(btn){
+      btn.classList.add('wallet-btn--connected');
+      btn.innerHTML='<span class="wb-dot" aria-hidden="true"></span><span class="wb-text">'+shortAddr(pubkey)+'</span>';
+    }
+    if(hero){ hero.textContent='Wallet: '+shortAddr(pubkey); }
+    if(mobile){
+      mobile.classList.add('wallet-btn--connected');
+      mobile.innerHTML='<span class="wb-dot" aria-hidden="true"></span><span class="wb-text">'+shortAddr(pubkey)+'</span>';
+    }
+    if(addrEl){ addrEl.textContent=pubkey; }
+  } else {
+    if(btn){
+      btn.classList.remove('wallet-btn--connected');
+      btn.innerHTML='<span class="wb-icon" aria-hidden="true"></span><span class="wb-text">Connect Wallet</span>';
+    }
+    if(hero){ hero.textContent='Connect Wallet'; }
+    if(mobile){
+      mobile.classList.remove('wallet-btn--connected');
+      mobile.innerHTML='<span class="wb-icon" aria-hidden="true"></span><span class="wb-text">Connect Wallet</span>';
+    }
+    closeWalletMenu();
+  }
+}
+function openWalletMenu(){
+  var m=document.getElementById('walletMenu');
+  var b=document.getElementById('walletBtn');
+  if(m){ m.classList.add('open'); }
+  if(b){ b.setAttribute('aria-expanded','true'); }
+}
+function closeWalletMenu(){
+  var m=document.getElementById('walletMenu');
+  var b=document.getElementById('walletBtn');
+  if(m){ m.classList.remove('open'); }
+  if(b){ b.setAttribute('aria-expanded','false'); }
+}
+async function connectWallet(){
+  var p=getPhantom();
+  if(!p){
+    showWalletToast('Phantom wallet not found. Opening install page…',true);
+    setTimeout(function(){window.open('https://phantom.app/','_blank','noopener');},700);
+    return;
+  }
+  try{
+    var res=await p.connect();
+    var pk=res && res.publicKey ? res.publicKey.toString() : (p.publicKey ? p.publicKey.toString() : null);
+    if(!pk){ throw new Error('No public key returned'); }
+    setWalletConnectedUI(pk);
+    showWalletToast('Wallet connected: '+shortAddr(pk));
+  }catch(err){
+    var msg=(err && err.message) ? err.message : 'Connection rejected';
+    showWalletToast(msg,true);
+  }
+}
+async function disconnectWallet(e){
+  if(e){ e.stopPropagation(); }
+  var p=getPhantom();
+  try{ if(p && p.disconnect){ await p.disconnect(); } }catch(_){ }
+  setWalletConnectedUI(null);
+  showWalletToast('Wallet disconnected');
+}
+function copyWalletAddr(e){
+  if(e){ e.stopPropagation(); }
+  if(!walletPubkey) return;
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(walletPubkey).then(function(){ showWalletToast('Address copied'); });
+  } else {
+    showWalletToast('Address: '+walletPubkey);
+  }
+}
+function onWalletClick(e){
+  if(e){ e.stopPropagation(); }
+  if(walletPubkey){
+    var m=document.getElementById('walletMenu');
+    if(m && m.classList.contains('open')){ closeWalletMenu(); } else { openWalletMenu(); }
+  } else {
+    connectWallet();
+  }
+}
+document.addEventListener('click',function(e){
+  var wrap=document.querySelector('.wallet-wrap');
+  if(wrap && !wrap.contains(e.target)){ closeWalletMenu(); }
+});
+window.addEventListener('load',async function(){
+  var p=getPhantom(); if(!p) return;
+  if(p.on){
+    p.on('connect',function(pk){ setWalletConnectedUI(pk ? pk.toString() : (p.publicKey ? p.publicKey.toString() : null)); });
+    p.on('disconnect',function(){ setWalletConnectedUI(null); });
+    p.on('accountChanged',function(pk){ setWalletConnectedUI(pk ? pk.toString() : null); });
+  }
+  try{
+    var res=await p.connect({onlyIfTrusted:true});
+    var pk=res && res.publicKey ? res.publicKey.toString() : (p.publicKey ? p.publicKey.toString() : null);
+    if(pk){ setWalletConnectedUI(pk); }
+  }catch(_){ /* not previously authorized — ignore */ }
+});
 </script>
 </body>
 </html>
