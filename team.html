@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Team — LIVERECORD</title>
+<meta name="description" content="Meet the team behind LiveRecord — the people building the onchain fandom economy."/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@300;400;500;700&family=Barlow+Condensed:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+:root {
+  --g: #66c800; --g2: #4fa000; --g3: rgba(102,200,0,0.12);
+  --g4: rgba(102,200,0,0.05); --g5: rgba(102,200,0,0.25);
+  --black: #060704; --paper: #0a0d07; --ink: #e6f0d0;
+  --muted: #5a7040; --dim: #2e3d1e; --line: rgba(102,200,0,0.13);
+  --ff-head: 'Bebas Neue', sans-serif;
+  --ff-serif: 'Instrument Serif', serif;
+  --ff-cond: 'Barlow Condensed', sans-serif;
+  --ff-mono: 'IBM Plex Mono', monospace;
+}
+body { background: var(--black); color: var(--ink); font-family: var(--ff-mono); font-weight: 300; overflow-x: hidden; cursor: none; }
+@media (max-width: 900px) { body { cursor: auto; } #cursor, #cursor-ring { display: none; } }
+#cursor { position: fixed; width: 10px; height: 10px; background: var(--g); border-radius: 50%; pointer-events: none; z-index: 99999; transition: transform 0.08s ease; mix-blend-mode: difference; }
+#cursor-ring { position: fixed; width: 36px; height: 36px; border: 1px solid var(--g); border-radius: 50%; pointer-events: none; z-index: 99998; transition: transform 0.18s ease, width 0.2s, height 0.2s, opacity 0.2s; opacity: 0.5; margin-left: -13px; margin-top: -13px; }
+.grid-lines { position: fixed; inset: 0; pointer-events: none; z-index: 0; display: grid; grid-template-columns: repeat(12, 1fr); padding: 0 40px; opacity: 0.03; }
+.grid-lines span { border-left: 1px solid var(--g); height: 100%; }
+
+nav { position: sticky; top: 0; z-index: 500; display: flex; align-items: center; justify-content: space-between; padding: 0 40px; height: 60px; border-bottom: 1px solid var(--line); background: rgba(6,7,4,0.92); backdrop-filter: blur(16px); }
+.nav-logo { font-family: var(--ff-head); font-size: 24px; letter-spacing: 2px; color: var(--ink); text-decoration: none; display: flex; align-items: center; gap: 2px; }
+.nav-logo em { font-style: normal; color: var(--g); }
+.nav-logo sup { font-family: var(--ff-mono); font-size: 8px; letter-spacing: 1px; color: var(--muted); margin-top: -8px; font-weight: 400; }
+.nav-right { display: flex; align-items: center; gap: 28px; }
+.nav-right a { text-decoration: none; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); transition: color 0.15s; }
+.nav-right a:hover, .nav-right a.active { color: var(--g); }
+.nav-launch { border: 1px solid var(--g) !important; color: var(--g) !important; padding: 7px 18px; }
+.nav-launch:hover { background: var(--g) !important; color: #000 !important; }
+.nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; background: none; border: none; }
+.nav-hamburger span { display: block; width: 22px; height: 1px; background: var(--ink); transition: transform 0.2s, opacity 0.2s; }
+.nav-hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.nav-hamburger.open span:nth-child(2) { opacity: 0; }
+.nav-hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+.mobile-menu { display: none; position: fixed; top: 0; left: 0; right: 0; background: rgba(6,7,4,0.98); backdrop-filter: blur(20px); z-index: 490; flex-direction: column; padding: 80px 32px 40px; gap: 0; border-bottom: 1px solid var(--line); }
+.mobile-menu.open { display: flex; }
+.mobile-menu a { text-decoration: none; font-size: 13px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); padding: 18px 0; border-bottom: 1px solid var(--line); transition: color 0.15s; display: block; }
+.mobile-menu a:hover { color: var(--g); }
+
+.page-hero { padding: 100px 80px 80px; border-bottom: 1px solid var(--line); position: relative; overflow: hidden; }
+.page-hero::before { content: 'TEAM'; position: absolute; font-family: var(--ff-head); font-size: 30vw; color: transparent; -webkit-text-stroke: 1px rgba(102,200,0,0.04); bottom: -40px; right: -20px; line-height: 1; pointer-events: none; user-select: none; }
+.s-label { font-size: 9px; letter-spacing: 4px; text-transform: uppercase; color: var(--g); display: flex; align-items: center; gap: 10px; margin-bottom: 24px; }
+.s-label::after { content: ''; flex: 1; max-width: 48px; height: 1px; background: var(--g); opacity: 0.4; }
+.page-title { font-family: var(--ff-head); font-size: clamp(64px, 10vw, 140px); line-height: 0.92; text-transform: uppercase; letter-spacing: 2px; color: var(--ink); position: relative; z-index: 1; }
+.page-title em { font-style: normal; color: var(--g); }
+.page-sub { font-size: 14px; line-height: 1.9; color: var(--muted); max-width: 520px; margin-top: 32px; position: relative; z-index: 1; }
+
+.team-section { border-bottom: 1px solid var(--line); }
+.team-section-label { padding: 48px 80px 32px; border-bottom: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between; }
+.team-section-label h2 { font-family: var(--ff-head); font-size: 36px; letter-spacing: 3px; text-transform: uppercase; color: var(--g); }
+.team-section-label span { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; }
+.team-grid { display: grid; grid-template-columns: repeat(4, 1fr); }
+.team-card { padding: 48px 40px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); transition: background 0.2s; position: relative; overflow: hidden; }
+.team-card:hover { background: var(--g4); }
+.team-card:last-child { border-right: none; }
+.team-card:nth-child(4n) { border-right: none; }
+.tc-initial { font-family: var(--ff-head); font-size: 80px; color: transparent; -webkit-text-stroke: 1px rgba(102,200,0,0.15); line-height: 1; margin-bottom: 24px; user-select: none; transition: -webkit-text-stroke-color 0.3s; }
+.team-card:hover .tc-initial { -webkit-text-stroke-color: rgba(102,200,0,0.35); }
+.tc-name { font-family: var(--ff-cond); font-size: 20px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--ink); margin-bottom: 6px; }
+.tc-role { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--g); margin-bottom: 16px; }
+.tc-bio { font-size: 11px; line-height: 1.9; color: var(--muted); }
+.tc-links { margin-top: 20px; display: flex; gap: 12px; }
+.tc-link { width: 28px; height: 28px; border: 1px solid var(--dim); display: flex; align-items: center; justify-content: center; color: var(--dim); text-decoration: none; transition: border-color 0.15s, color 0.15s; font-size: 10px; }
+.tc-link:hover { border-color: var(--g); color: var(--g); }
+.tc-link svg { width: 12px; height: 12px; }
+
+.team-note { padding: 60px 80px; background: var(--paper); display: flex; align-items: center; justify-content: space-between; gap: 40px; flex-wrap: wrap; }
+.team-note-text { font-family: var(--ff-serif); font-style: italic; font-size: clamp(18px, 2vw, 26px); color: var(--ink); max-width: 600px; line-height: 1.5; }
+.team-note-text em { font-style: normal; color: var(--g); }
+
+footer { border-top: 1px solid var(--line); }
+.footer-bottom { padding: 20px 40px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+.footer-bottom p { font-size: 10px; letter-spacing: 1px; color: var(--dim); }
+.footer-bottom a { color: var(--g); text-decoration: none; }
+
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1); }
+.reveal.on { opacity: 1; transform: translateY(0); }
+
+@media (max-width: 900px) {
+  .nav-hamburger { display: flex; }
+  .nav-right { display: none; }
+  .page-hero { padding: 60px 24px 48px; }
+  .team-section-label { padding: 32px 24px; flex-direction: column; align-items: flex-start; gap: 8px; }
+  .team-grid { grid-template-columns: 1fr 1fr; }
+  .team-card:nth-child(2n) { border-right: none; }
+  .team-card:nth-child(4n) { border-right: none; }
+  .team-note { padding: 40px 24px; flex-direction: column; }
+  .footer-bottom { padding: 20px 24px; }
+}
+@media (max-width: 480px) {
+  .team-grid { grid-template-columns: 1fr; }
+  .team-card { border-right: none !important; }
+}
+</style>
+</head>
+<body>
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+<div class="grid-lines"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+
+<nav>
+  <a href="/" class="nav-logo">LIVE<em>RECORD</em><sup>.FUN</sup></a>
+  <div class="nav-right">
+    <a href="/#protocol">Protocol</a>
+    <a href="/#usecase">Apps</a>
+    <a href="/#partnership">Partners</a>
+    <a href="team.html" class="active">Team</a>
+    <a href="https://docs.liverecord.fun" target="_blank" rel="noopener">Docs</a>
+    <a href="#" class="nav-launch">Launch App</a>
+  </div>
+  <button class="nav-hamburger" id="hamburger" aria-label="Open menu"><span></span><span></span><span></span></button>
+</nav>
+<div class="mobile-menu" id="mobile-menu">
+  <a href="/#protocol" onclick="closeMobile()">Protocol</a>
+  <a href="/#usecase" onclick="closeMobile()">Apps</a>
+  <a href="/#partnership" onclick="closeMobile()">Partners</a>
+  <a href="team.html" onclick="closeMobile()">Team</a>
+  <a href="https://docs.liverecord.fun" target="_blank" rel="noopener">Docs</a>
+  <a href="privacy.html">Privacy Policy</a>
+  <a href="cookies.html">Cookie Policy</a>
+  <a href="#" style="color:var(--g);border-color:var(--g)" onclick="closeMobile()">Launch App →</a>
+</div>
+
+<div class="page-hero">
+  <div class="s-label reveal">The People</div>
+  <h1 class="page-title reveal" style="transition-delay:0.08s">MEET THE<br><em>TEAM</em></h1>
+  <p class="page-sub reveal" style="transition-delay:0.16s">
+    LiveRecord is built by a team of engineers, designers, and entertainment industry veterans united by one belief: fan passion deserves recognition, onchain.
+  </p>
+</div>
+
+<!-- CORE TEAM -->
+<div class="team-section">
+  <div class="team-section-label">
+    <h2>Core Team</h2>
+    <span>06 Members</span>
+  </div>
+  <div class="team-grid">
+    <div class="team-card reveal">
+      <div class="tc-initial">AK</div>
+      <div class="tc-name">Alex Keller</div>
+      <div class="tc-role">Co-Founder &amp; CEO</div>
+      <p class="tc-bio">Former Head of Product at a top-5 streaming platform. 10 years building fan engagement products for global entertainment IPs. Obsessed with how technology can make fandom meaningful.</p>
+      <div class="tc-links">
+        <a href="https://x.com/liverecordfun" target="_blank" rel="noopener" class="tc-link" title="X">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="team-card reveal" style="transition-delay:0.08s">
+      <div class="tc-initial">HN</div>
+      <div class="tc-name">Haruki Nakamura</div>
+      <div class="tc-role">Co-Founder &amp; CTO</div>
+      <p class="tc-bio">Protocol engineer with deep roots in EVM development. Previously led smart contract architecture at a major L2. Japanese-British background, fluent in on-chain systems and J-Pop equally.</p>
+      <div class="tc-links">
+        <a href="https://x.com/liverecordfun" target="_blank" rel="noopener" class="tc-link" title="X">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="team-card reveal" style="transition-delay:0.16s">
+      <div class="tc-initial">SI</div>
+      <div class="tc-name">Sakura Inoue</div>
+      <div class="tc-role">Head of Product</div>
+      <p class="tc-bio">Product lead with a background in consumer apps at scale. Deeply embedded in Asian pop culture, having consulted for idol agencies on digital fan experiences across three continents.</p>
+      <div class="tc-links">
+        <a href="https://x.com/liverecordfun" target="_blank" rel="noopener" class="tc-link" title="X">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="team-card reveal" style="transition-delay:0.24s">
+      <div class="tc-initial">MW</div>
+      <div class="tc-name">Marcus Webb</div>
+      <div class="tc-role">Lead Engineer</div>
+      <p class="tc-bio">Full-stack engineer specializing in AI/ML pipelines and real-time data systems. Built the core R.E.C. scoring engine from the ground up. Previously at a major AI research lab in London.</p>
+      <div class="tc-links">
+        <a href="https://x.com/liverecordfun" target="_blank" rel="noopener" class="tc-link" title="X">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="team-card reveal">
+      <div class="tc-initial">KY</div>
+      <div class="tc-name">Kenji Yamamoto</div>
+      <div class="tc-role">Head of Partnerships</div>
+      <p class="tc-bio">10 years in entertainment licensing and IP deals across Japan, Korea, and Southeast Asia. Knows every music label exec and idol agency by name. Bridges Web3 and the entertainment industry.</p>
+      <div class="tc-links">
+        <a href="https://x.com/liverecordfun" target="_blank" rel="noopener" class="tc-link" title="X">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="team-card reveal" style="transition-delay:0.08s">
+      <div class="tc-initial">ER</div>
+      <div class="tc-name">Elena Rousseau</div>
+      <div class="tc-role">Head of Design</div>
+      <p class="tc-bio">Visual strategist and brand designer with a background in luxury fashion and gaming. Brings the aesthetic precision that LiveRecord demands. Based in Paris, fan of everything from K-Pop to prog rock.</p>
+      <div class="tc-links">
+        <a href="https://x.com/liverecordfun" target="_blank" rel="noopener" class="tc-link" title="X">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ADVISORS -->
+<div class="team-section" style="background: var(--paper)">
+  <div class="team-section-label">
+    <h2>Advisors</h2>
+    <span>04 Members</span>
+  </div>
+  <div class="team-grid">
+    <div class="team-card reveal">
+      <div class="tc-initial">TH</div>
+      <div class="tc-name">Thomas Hart</div>
+      <div class="tc-role">Web3 Advisor</div>
+      <p class="tc-bio">Protocol investor and builder. Early contributor to several top-10 DeFi protocols. Advises on tokenomics design and go-to-market strategy for the $REC ecosystem.</p>
+      <div class="tc-links"><a href="#" class="tc-link" title="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a></div>
+    </div>
+    <div class="team-card reveal" style="transition-delay:0.08s">
+      <div class="tc-initial">AM</div>
+      <div class="tc-name">Aiko Matsuda</div>
+      <div class="tc-role">Entertainment Advisor</div>
+      <p class="tc-bio">Former VP at one of Japan's largest talent agencies. Advises on IP licensing, fandom strategy, and live event integration. A champion for the future of fan-artist relationships.</p>
+      <div class="tc-links"><a href="#" class="tc-link" title="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a></div>
+    </div>
+    <div class="team-card reveal" style="transition-delay:0.16s">
+      <div class="tc-initial">JS</div>
+      <div class="tc-name">James Sterling</div>
+      <div class="tc-role">Legal &amp; Compliance</div>
+      <p class="tc-bio">Specialist in digital asset regulation and international entertainment law. Ensures LiveRecord operates with the highest standards across all jurisdictions it touches.</p>
+      <div class="tc-links"><a href="#" class="tc-link" title="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a></div>
+    </div>
+    <div class="team-card reveal" style="transition-delay:0.24s">
+      <div class="tc-initial">RO</div>
+      <div class="tc-name">Rin Ogawa</div>
+      <div class="tc-role">Community Advisor</div>
+      <p class="tc-bio">Online community builder and cultural commentator. Has managed fan communities exceeding 2M members across multiple Asian pop genres. Brings the fan's perspective into every decision.</p>
+      <div class="tc-links"><a href="#" class="tc-link" title="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a></div>
+    </div>
+  </div>
+</div>
+
+<div class="team-note">
+  <p class="team-note-text reveal">
+    We're a team of fans first, builders second. Every decision starts with one question: <em>is this good for the fan?</em>
+  </p>
+  <a href="mailto:jobs@liverecord.fun" class="btn-primary reveal" style="transition-delay:0.1s;background:var(--g);color:#000;padding:13px 30px;font-family:var(--ff-mono);font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;text-decoration:none;display:inline-block;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,0 100%);transition:background 0.15s">We're Hiring →</a>
+</div>
+
+<footer>
+  <div class="footer-bottom">
+    <p>© 2025 <a href="/">liverecord.fun</a> — All rights reserved</p>
+    <p style="color:var(--dim)"><a href="privacy.html" style="color:var(--dim)">Privacy</a> · <a href="cookies.html" style="color:var(--dim)">Cookies</a></p>
+  </div>
+</footer>
+
+<script>
+const cur = document.getElementById('cursor');
+const ring = document.getElementById('cursor-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx-5+'px';cur.style.top=my-5+'px';});
+(function a(){rx+=(mx-rx-18)*0.14;ry+=(my-ry-18)*0.14;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(a);})();
+document.querySelectorAll('a,button').forEach(el=>{el.addEventListener('mouseenter',()=>{cur.style.transform='scale(2.5)';ring.style.width='58px';ring.style.height='58px';ring.style.opacity='0.8';});el.addEventListener('mouseleave',()=>{cur.style.transform='scale(1)';ring.style.width='36px';ring.style.height='36px';ring.style.opacity='0.5';});});
+const hbg=document.getElementById('hamburger');const mob=document.getElementById('mobile-menu');
+hbg.addEventListener('click',()=>{const o=mob.classList.toggle('open');hbg.classList.toggle('open',o);document.body.style.overflow=o?'hidden':'';});
+function closeMobile(){mob.classList.remove('open');hbg.classList.remove('open');document.body.style.overflow='';}
+const io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target);}});},{threshold:0.08});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
