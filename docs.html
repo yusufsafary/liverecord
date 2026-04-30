@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Documentation — LIVERECORD Protocol</title>
+<meta name="description" content="LiveRecord Protocol documentation. Learn how R.E.C. scoring works, how to earn $REC, and how to build on the fandom economy infrastructure."/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@300;400;500;700&family=Barlow+Condensed:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+:root{
+  --g:#66c800;--g2:#4fa000;--g4:rgba(102,200,0,0.06);
+  --black:#060704;--paper:#0c1008;--ink:#e8f2d2;
+  --body:#a8c878;--sub:#7a9e52;--foot:#6b8f46;--dim:#3d5228;
+  --line:rgba(102,200,0,0.15);
+  --ff-head:'Bebas Neue',sans-serif;
+  --ff-cond:'Barlow Condensed',sans-serif;
+  --ff-mono:'IBM Plex Mono',monospace;
+}
+body{background:var(--black);color:var(--ink);font-family:var(--ff-mono);font-weight:300;overflow-x:hidden;}
+
+/* ── NAV ── */
+nav{position:sticky;top:0;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:56px;border-bottom:1px solid var(--line);background:rgba(6,7,4,0.96);backdrop-filter:blur(20px);}
+.nav-logo{font-family:var(--ff-head);font-size:22px;letter-spacing:2px;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:2px;}
+.nav-logo em{font-style:normal;color:var(--g);}
+.nav-logo sup{font-family:var(--ff-mono);font-size:8px;letter-spacing:1px;color:var(--sub);margin-top:-8px;font-weight:400;}
+.nav-right{display:flex;align-items:center;gap:24px;}
+.nav-right a{text-decoration:none;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--sub);transition:color 0.15s;}
+.nav-right a:hover{color:var(--g);}
+.nav-launch{border:1px solid var(--g)!important;color:var(--g)!important;padding:6px 16px;}
+.nav-launch:hover{background:var(--g)!important;color:#000!important;}
+.nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;background:none;border:none;}
+.nav-hamburger span{display:block;width:20px;height:1px;background:var(--ink);transition:transform 0.2s,opacity 0.2s;}
+.nav-hamburger.open span:nth-child(1){transform:translateY(6px) rotate(45deg);}
+.nav-hamburger.open span:nth-child(2){opacity:0;}
+.nav-hamburger.open span:nth-child(3){transform:translateY(-6px) rotate(-45deg);}
+
+/* ── LAYOUT ── */
+.docs-layout{display:grid;grid-template-columns:260px 1fr;min-height:calc(100vh - 56px);align-items:start;}
+
+/* ── SIDEBAR ── */
+.docs-sidebar{position:sticky;top:56px;height:calc(100vh - 56px);overflow-y:auto;border-right:1px solid var(--line);padding:32px 0;scrollbar-width:thin;scrollbar-color:var(--dim) transparent;}
+.docs-sidebar::-webkit-scrollbar{width:4px;}
+.docs-sidebar::-webkit-scrollbar-track{background:transparent;}
+.docs-sidebar::-webkit-scrollbar-thumb{background:var(--dim);border-radius:2px;}
+.sidebar-section{margin-bottom:8px;}
+.sidebar-heading{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--g);padding:12px 28px 6px;display:block;}
+.sidebar-link{display:block;padding:9px 28px;font-size:11px;letter-spacing:1px;color:var(--sub);text-decoration:none;transition:color 0.15s,background 0.15s,border-left 0.15s;border-left:2px solid transparent;}
+.sidebar-link:hover{color:var(--ink);background:var(--g4);}
+.sidebar-link.active{color:var(--g);border-left-color:var(--g);background:var(--g4);}
+.sidebar-divider{height:1px;background:var(--line);margin:16px 28px;}
+
+/* ── CONTENT ── */
+.docs-content{padding:64px 80px;max-width:900px;}
+
+/* hero */
+.docs-hero{margin-bottom:80px;padding-bottom:64px;border-bottom:1px solid var(--line);}
+.docs-hero-label{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--g);margin-bottom:20px;}
+.docs-hero-title{font-family:var(--ff-head);font-size:clamp(52px,7vw,96px);line-height:0.92;text-transform:uppercase;letter-spacing:2px;color:var(--ink);margin-bottom:32px;}
+.docs-hero-title em{font-style:normal;color:var(--g);}
+.docs-hero-desc{font-size:15px;line-height:2;color:var(--body);max-width:600px;margin-bottom:36px;}
+.docs-hero-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:40px;}
+.docs-hero-card{border:1px solid var(--line);padding:24px;background:var(--g4);text-decoration:none;color:inherit;transition:border-color 0.2s,background 0.2s;display:flex;flex-direction:column;gap:8px;}
+.docs-hero-card:hover{border-color:var(--g);background:rgba(102,200,0,0.08);}
+.dhc-icon{font-size:24px;margin-bottom:4px;}
+.dhc-title{font-family:var(--ff-cond);font-size:16px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ink);}
+.dhc-desc{font-size:11px;color:var(--body);line-height:1.7;}
+
+/* doc sections */
+.doc-section{margin-bottom:80px;padding-bottom:64px;border-bottom:1px solid var(--line);}
+.doc-section:last-child{border-bottom:none;}
+.doc-section-label{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--g);margin-bottom:14px;}
+.doc-section h2{font-family:var(--ff-head);font-size:clamp(36px,4vw,60px);line-height:0.92;text-transform:uppercase;letter-spacing:2px;color:var(--ink);margin-bottom:32px;}
+.doc-section h2 em{font-style:normal;color:var(--g);}
+.doc-section h3{font-family:var(--ff-cond);font-size:22px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ink);margin:40px 0 16px;}
+.doc-section h4{font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--g);margin:28px 0 12px;}
+.doc-p{font-size:14px;line-height:2;color:var(--body);margin-bottom:20px;}
+.doc-p strong{color:var(--ink);font-weight:500;}
+.doc-p a{color:var(--g);text-decoration:none;}
+.doc-p a:hover{text-decoration:underline;}
+.doc-ul{list-style:none;display:flex;flex-direction:column;gap:10px;margin:20px 0;}
+.doc-ul li{padding-left:20px;position:relative;font-size:13px;line-height:1.9;color:var(--body);}
+.doc-ul li::before{content:'→';position:absolute;left:0;color:var(--g);font-size:11px;}
+.doc-ul li strong{color:var(--ink);font-weight:500;}
+
+/* code block */
+.code-block{background:rgba(0,0,0,0.5);border:1px solid var(--line);padding:24px;margin:24px 0;position:relative;overflow-x:auto;}
+.code-block pre{font-family:var(--ff-mono);font-size:12px;line-height:1.9;color:var(--g);white-space:pre;}
+.code-block .cb-lang{position:absolute;top:0;right:0;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--sub);padding:6px 12px;border-left:1px solid var(--line);border-bottom:1px solid var(--line);}
+.code-copy{position:absolute;bottom:12px;right:12px;background:none;border:1px solid var(--dim);color:var(--sub);font-family:var(--ff-mono);font-size:9px;letter-spacing:1px;text-transform:uppercase;padding:5px 10px;cursor:pointer;transition:border-color 0.15s,color 0.15s;}
+.code-copy:hover{border-color:var(--g);color:var(--g);}
+.code-copy.copied{border-color:var(--g);color:var(--g);}
+
+/* info/warn box */
+.doc-info{border:1px solid rgba(102,200,0,0.2);border-left:3px solid var(--g);padding:20px 24px;margin:24px 0;background:var(--g4);}
+.doc-info p{font-size:13px;color:var(--body);line-height:1.9;}
+.doc-info p strong{color:var(--ink);}
+.doc-warn{border:1px solid rgba(255,180,0,0.2);border-left:3px solid #ffb400;padding:20px 24px;margin:24px 0;background:rgba(255,180,0,0.03);}
+.doc-warn p{font-size:13px;color:var(--body);line-height:1.9;}
+.doc-warn p strong{color:#ffb400;}
+
+/* table */
+.doc-table{width:100%;border-collapse:collapse;margin:24px 0;font-size:12px;}
+.doc-table th{text-align:left;padding:12px 16px;border-bottom:1px solid var(--g);color:var(--g);font-size:9px;letter-spacing:2px;text-transform:uppercase;font-weight:500;}
+.doc-table td{padding:12px 16px;border-bottom:1px solid var(--line);color:var(--body);line-height:1.7;vertical-align:top;}
+.doc-table td:first-child{color:var(--ink);font-family:var(--ff-mono);font-size:11px;}
+.doc-table tr:last-child td{border-bottom:none;}
+
+/* roadmap */
+.roadmap{display:flex;flex-direction:column;gap:0;border-top:1px solid var(--line);}
+.rm-phase{padding:32px 0;border-bottom:1px solid var(--line);display:grid;grid-template-columns:140px 1fr;gap:32px;cursor:pointer;transition:background 0.15s;}
+.rm-phase:hover{background:var(--g4);}
+.rm-phase:last-child{border-bottom:none;}
+.rm-phase-label{font-family:var(--ff-head);font-size:13px;letter-spacing:2px;text-transform:uppercase;line-height:1;}
+.rm-phase-label .phase-num{font-size:32px;color:var(--g);display:block;margin-bottom:4px;}
+.rm-phase-label .phase-status{font-size:9px;letter-spacing:2px;color:var(--sub);}
+.rm-phase-label .phase-status.live{color:var(--g);}
+.rm-phase-content h4{font-family:var(--ff-cond);font-size:20px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ink);margin-bottom:12px;}
+.rm-phase-content p{font-size:13px;color:var(--body);line-height:1.9;}
+.rm-phase-content ul{list-style:none;margin-top:12px;display:flex;flex-direction:column;gap:8px;}
+.rm-phase-content ul li{padding-left:18px;position:relative;font-size:12px;color:var(--body);line-height:1.7;}
+.rm-phase-content ul li::before{content:'·';position:absolute;left:0;color:var(--g);font-size:16px;line-height:1.4;}
+
+/* mobile sidebar */
+.docs-mobile-nav{display:none;background:var(--paper);border-bottom:1px solid var(--line);padding:0;}
+.docs-mobile-nav-toggle{display:flex;align-items:center;justify-content:space-between;padding:14px 24px;cursor:pointer;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--body);}
+.docs-mobile-nav-toggle span{color:var(--g);}
+.docs-mobile-nav-list{display:none;padding:12px 0 20px;border-top:1px solid var(--line);}
+.docs-mobile-nav-list.open{display:block;}
+.docs-mobile-nav-list a{display:block;padding:10px 24px;font-size:12px;color:var(--sub);text-decoration:none;transition:color 0.15s;}
+.docs-mobile-nav-list a:hover{color:var(--g);}
+
+footer{border-top:1px solid var(--line);}
+.footer-bottom{padding:20px 32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.footer-bottom p{font-size:11px;letter-spacing:1px;color:var(--sub);}
+.footer-bottom a{color:var(--g);text-decoration:none;}
+
+@media(max-width:1100px){
+  .docs-content{padding:48px 40px;}
+  .docs-hero-cards{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:900px){
+  .nav-hamburger{display:flex;}
+  .nav-right{display:none;}
+  .docs-layout{grid-template-columns:1fr;}
+  .docs-sidebar{display:none;}
+  .docs-mobile-nav{display:block;}
+  .docs-content{padding:40px 24px;}
+  .docs-hero-cards{grid-template-columns:1fr;}
+  .rm-phase{grid-template-columns:1fr;gap:12px;}
+  .doc-table{display:block;overflow-x:auto;}
+  .footer-bottom{padding:20px 24px;flex-direction:column;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">LIVE<em>RECORD</em><sup>.FUN</sup></a>
+  <div class="nav-right">
+    <a href="/">Home</a>
+    <a href="/#protocol">Protocol</a>
+    <a href="team.html">Team</a>
+    <a href="#" class="nav-launch">Launch App</a>
+  </div>
+  <button class="nav-hamburger" id="hamburger" aria-label="Open menu"><span></span><span></span><span></span></button>
+</nav>
+
+<div class="docs-layout">
+  <!-- SIDEBAR -->
+  <aside class="docs-sidebar">
+    <div class="sidebar-section">
+      <span class="sidebar-heading">Getting Started</span>
+      <a class="sidebar-link active" href="#introduction">Introduction</a>
+      <a class="sidebar-link" href="#quickstart">Quick Start</a>
+      <a class="sidebar-link" href="#concepts">Core Concepts</a>
+    </div>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-section">
+      <span class="sidebar-heading">Protocol</span>
+      <a class="sidebar-link" href="#rec-scoring">R.E.C. Scoring</a>
+      <a class="sidebar-link" href="#rec-token">$REC Token</a>
+      <a class="sidebar-link" href="#networks">Networks</a>
+      <a class="sidebar-link" href="#smart-contracts">Smart Contracts</a>
+    </div>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-section">
+      <span class="sidebar-heading">Build</span>
+      <a class="sidebar-link" href="#developers">Developer Guide</a>
+      <a class="sidebar-link" href="#api-reference">API Reference</a>
+      <a class="sidebar-link" href="#sdk">SDK</a>
+      <a class="sidebar-link" href="#webhooks">Webhooks</a>
+    </div>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-section">
+      <span class="sidebar-heading">Tokenomics</span>
+      <a class="sidebar-link" href="#tokenomics">Token Distribution</a>
+      <a class="sidebar-link" href="#earning">Earning $REC</a>
+      <a class="sidebar-link" href="#governance">Governance</a>
+    </div>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-section">
+      <span class="sidebar-heading">Roadmap</span>
+      <a class="sidebar-link" href="#roadmap">Development Roadmap</a>
+    </div>
+  </aside>
+
+  <!-- MOBILE NAV -->
+  <div class="docs-mobile-nav">
+    <div class="docs-mobile-nav-toggle" onclick="toggleMobileNav()">
+      <span>Documentation</span><span id="mobileNavIcon">▾</span>
+    </div>
+    <div class="docs-mobile-nav-list" id="mobileNavList">
+      <a href="#introduction">Introduction</a>
+      <a href="#quickstart">Quick Start</a>
+      <a href="#concepts">Core Concepts</a>
+      <a href="#rec-scoring">R.E.C. Scoring</a>
+      <a href="#rec-token">$REC Token</a>
+      <a href="#networks">Networks</a>
+      <a href="#smart-contracts">Smart Contracts</a>
+      <a href="#developers">Developer Guide</a>
+      <a href="#api-reference">API Reference</a>
+      <a href="#sdk">SDK</a>
+      <a href="#tokenomics">Tokenomics</a>
+      <a href="#earning">Earning $REC</a>
+      <a href="#governance">Governance</a>
+      <a href="#roadmap">Roadmap</a>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <main class="docs-content">
+
+    <!-- HERO -->
+    <div class="docs-hero" id="introduction">
+      <div class="docs-hero-label">LiveRecord Protocol</div>
+      <h1 class="docs-hero-title">PROTOCOL<br><em>DOCUMENTATION</em></h1>
+      <p class="docs-hero-desc">
+        LiveRecord is an onchain infrastructure protocol that records fan engagement permanently on blockchain. This documentation covers everything you need to understand the protocol, earn $REC, and build on top of LiveRecord.
+      </p>
+      <div class="docs-hero-cards">
+        <a href="#quickstart" class="docs-hero-card">
+          <div class="dhc-icon">⚡</div>
+          <div class="dhc-title">Quick Start</div>
+          <div class="dhc-desc">Get started in 5 minutes. Connect your wallet and start earning.</div>
+        </a>
+        <a href="#rec-scoring" class="docs-hero-card">
+          <div class="dhc-icon">◈</div>
+          <div class="dhc-title">R.E.C. Protocol</div>
+          <div class="dhc-desc">Learn how the AI scoring engine works under the hood.</div>
+        </a>
+        <a href="#developers" class="docs-hero-card">
+          <div class="dhc-icon">{ }</div>
+          <div class="dhc-title">Build on LiveRecord</div>
+          <div class="dhc-desc">API reference, SDK, and integration guides for developers.</div>
+        </a>
+      </div>
+    </div>
+
+    <!-- INTRODUCTION -->
+    <div class="doc-section">
+      <div class="doc-section-label">Overview</div>
+      <h2>What is <em>LiveRecord?</em></h2>
+      <p class="doc-p">
+        LiveRecord is a blockchain protocol designed to solve one of entertainment's fundamental problems: <strong>fan contributions are invisible</strong>. Despite powering the cultural economy — trending artists, viral anime, global gaming communities — fans receive no recognition or reward for their devotion.
+      </p>
+      <p class="doc-p">
+        LiveRecord changes this. Through our <strong>R.E.C. (Record of Emotional Contribution)</strong> engine, we use AI to quantify genuine fan engagement across the internet — social media activity, streaming data, fan art creation, community participation, event attendance — and record it permanently on blockchain.
+      </p>
+      <p class="doc-p">
+        The result is a verifiable, immutable record of every fan's contribution to their fandom. This record is tied to <strong>$REC</strong> — the global fan engagement index token — which converts fandom activity into real economic value.
+      </p>
+      <div class="doc-info">
+        <p><strong>Core principle:</strong> Passion, not just capital, should determine worth. LiveRecord makes fan contribution visible, permanent, and valuable.</p>
+      </div>
+      <h3>Key Components</h3>
+      <ul class="doc-ul">
+        <li><strong>R.E.C. Engine</strong> — AI model that detects, scores, and validates genuine fan activity</li>
+        <li><strong>Fandom Records</strong> — Immutable onchain records of individual fan contributions</li>
+        <li><strong>$REC Token</strong> — Native protocol token and global fan engagement index</li>
+        <li><strong>LiveRecord Protocol</strong> — Permissionless smart contract infrastructure any IP can integrate</li>
+      </ul>
+    </div>
+
+    <!-- QUICK START -->
+    <div class="doc-section" id="quickstart">
+      <div class="doc-section-label">Getting Started</div>
+      <h2>QUICK<em> START</em></h2>
+      <p class="doc-p">Get up and running with LiveRecord in 5 minutes. No sign-up required — just connect your wallet.</p>
+
+      <h3>Step 1 — Connect Your Wallet</h3>
+      <p class="doc-p">LiveRecord uses EVM-compatible wallets. Connect via MetaMask, WalletConnect, or any supported wallet at <a href="https://kickstart.easya.io/" target="_blank" rel="noopener">kickstart.easya.io</a>.</p>
+      <ul class="doc-ul">
+        <li>Supported: MetaMask, WalletConnect, Coinbase Wallet, Rainbow, Rabby</li>
+        <li>Compatible with any EVM wallet that supports EIP-1193</li>
+        <li>No email, no KYC — your wallet address is your identity</li>
+      </ul>
+
+      <h3>Step 2 — Link Your Fandom Activity</h3>
+      <p class="doc-p">Authorize the R.E.C. Engine to observe your public fandom signals. This is read-only — we never post on your behalf.</p>
+      <div class="doc-info">
+        <p><strong>Privacy note:</strong> R.E.C. Engine only reads public data. Your wallet is never linked to your social identity in any way that is not explicitly opt-in.</p>
+      </div>
+
+      <h3>Step 3 — Your R.E.C. Score Builds</h3>
+      <p class="doc-p">Once linked, the R.E.C. Engine continuously scores your fandom activity. You can check your score in real time at any time. Scores are committed to blockchain at each epoch (every 24 hours).</p>
+
+      <h3>Step 4 — Claim $REC</h3>
+      <p class="doc-p">At each epoch, eligible fans can claim their $REC rewards based on their R.E.C. Score. Claims are gasless on supported L2 networks.</p>
+      <div class="code-block">
+        <div class="cb-lang">Solidity</div>
+        <pre>// Claim your $REC rewards
+ILiveRecord(PROTOCOL_ADDRESS).claimRewards(
+  address recipient,
+  uint256 epoch,
+  uint256 score,
+  bytes32[] proof  // Merkle proof of your R.E.C. score
+);</pre>
+        <button class="code-copy" onclick="copyCode(this)">Copy</button>
+      </div>
+    </div>
+
+    <!-- CORE CONCEPTS -->
+    <div class="doc-section" id="concepts">
+      <div class="doc-section-label">Fundamentals</div>
+      <h2>CORE <em>CONCEPTS</em></h2>
+
+      <h3>Fandom Economy</h3>
+      <p class="doc-p">The fandom economy refers to the economic value generated by fan communities — not through direct purchases, but through cultural participation: creating content, spreading trends, maintaining community energy, and driving discovery of new fans.</p>
+
+      <h3>R.E.C. Score</h3>
+      <p class="doc-p">Your <strong>Record of Emotional Contribution</strong> score is a composite, weighted measure of your fandom engagement across all tracked IPs. It is:</p>
+      <ul class="doc-ul">
+        <li><strong>Cumulative</strong> — builds over time; past contributions are preserved</li>
+        <li><strong>Multi-dimensional</strong> — measures quality, not just quantity of engagement</li>
+        <li><strong>Sybil-resistant</strong> — AI filters bots and inauthentic activity</li>
+        <li><strong>Onchain</strong> — each epoch's snapshot is published to the blockchain</li>
+      </ul>
+
+      <h3>Epochs</h3>
+      <p class="doc-p">LiveRecord operates in 24-hour epochs. At the end of each epoch, the R.E.C. Engine finalizes scores for all observed fans, publishes a Merkle root onchain, and opens the claim window for that epoch's $REC distribution.</p>
+
+      <h3>IP Fandoms</h3>
+      <p class="doc-p">An IP Fandom is a tracked entertainment property on LiveRecord — an idol group, anime series, music artist, or game franchise. Each IP Fandom has its own fandom pool, score multipliers, and reward allocation. IPs can join the protocol permissionlessly.</p>
+    </div>
+
+    <!-- REC SCORING -->
+    <div class="doc-section" id="rec-scoring">
+      <div class="doc-section-label">AI Engine</div>
+      <h2>R.E.C. <em>SCORING</em></h2>
+      <p class="doc-p">The R.E.C. (Record of Emotional Contribution) Engine is the core AI component of LiveRecord Protocol. It turns public fandom signals into verifiable, onchain scores.</p>
+
+      <h3>Signal Sources</h3>
+      <p class="doc-p">R.E.C. Engine ingests the following public signal types:</p>
+      <table class="doc-table">
+        <thead>
+          <tr><th>Signal Type</th><th>Weight</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Social Posts</td><td>1x–3x</td><td>Original content mentioning tracked IPs. Quality-weighted by engagement.</td></tr>
+          <tr><td>Fan Art / UGC</td><td>2x–5x</td><td>User-generated creative content. Higher weight for original work.</td></tr>
+          <tr><td>Community Activity</td><td>1x–2x</td><td>Participation in fan forums, Discord servers, Reddit threads.</td></tr>
+          <tr><td>Streaming Data</td><td>0.5x–1x</td><td>Streaming activity on supported platforms (anonymized, opt-in).</td></tr>
+          <tr><td>Event Attendance</td><td>3x–10x</td><td>Live events, concerts, fan meetups. Verified via ticket proof.</td></tr>
+          <tr><td>Referrals</td><td>1x</td><td>Bringing new fans to the ecosystem.</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Sybil Resistance</h3>
+      <p class="doc-p">The R.E.C. Engine employs multiple layers of sybil detection to ensure scores reflect genuine human fans:</p>
+      <ul class="doc-ul">
+        <li><strong>Behavioral analysis</strong> — pattern recognition to distinguish authentic fan behavior from bot activity</li>
+        <li><strong>Cross-signal correlation</strong> — genuine fans leave consistent signals across multiple platforms</li>
+        <li><strong>Temporal analysis</strong> — long-term engagement history carries more weight than sudden spikes</li>
+        <li><strong>Social graph verification</strong> — community relationships add credibility to scored signals</li>
+      </ul>
+
+      <h3>Score Formula (Simplified)</h3>
+      <div class="code-block">
+        <div class="cb-lang">Pseudocode</div>
+        <pre>REC_Score = Σ (signal_weight × quality_multiplier × recency_decay × ip_multiplier)
+
+Where:
+  signal_weight    = base weight per signal type (see table above)
+  quality_multiplier = 0.1 – 5.0 based on engagement quality
+  recency_decay    = e^(-λt) where t = days since signal
+  ip_multiplier    = 0.5 – 2.0 based on IP fandom size & activity</pre>
+        <button class="code-copy" onclick="copyCode(this)">Copy</button>
+      </div>
+
+      <div class="doc-warn">
+        <p><strong>Note:</strong> The full scoring model is proprietary to prevent gaming. The principles above reflect the general approach. The Merkle root published onchain allows anyone to verify their score is included correctly without revealing the full model.</p>
+      </div>
+    </div>
+
+    <!-- REC TOKEN -->
+    <div class="doc-section" id="rec-token">
+      <div class="doc-section-label">Token</div>
+      <h2>$REC <em>TOKEN</em></h2>
+      <p class="doc-p">$REC is the native token of LiveRecord Protocol. It serves as the <strong>global fan engagement index for entertainment</strong> — a benchmark for fandom value, denominated onchain.</p>
+
+      <h3>Token Utility</h3>
+      <ul class="doc-ul">
+        <li><strong>Fandom rewards</strong> — earned by fans with high R.E.C. scores each epoch</li>
+        <li><strong>IP integration</strong> — IP owners stake $REC to join the protocol and allocate reward pools</li>
+        <li><strong>Governance</strong> — $REC holders vote on protocol parameters, new IP admissions, and score model updates</li>
+        <li><strong>Fan benefits</strong> — gating exclusive experiences, early access, and merchandise perks in partner apps</li>
+        <li><strong>Developer incentives</strong> — granted to builders deploying approved integrations on the protocol</li>
+      </ul>
+
+      <h3>Token Details</h3>
+      <table class="doc-table">
+        <thead>
+          <tr><th>Parameter</th><th>Value</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Symbol</td><td>$REC</td></tr>
+          <tr><td>Total Supply</td><td>1,000,000,000 $REC</td></tr>
+          <tr><td>Standard</td><td>ERC-20</td></tr>
+          <tr><td>Networks</td><td>Ethereum, Base, Arbitrum (TBC)</td></tr>
+          <tr><td>Decimals</td><td>18</td></tr>
+          <tr><td>Emission Model</td><td>Epoch-based, decreasing inflation</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- NETWORKS -->
+    <div class="doc-section" id="networks">
+      <div class="doc-section-label">Infrastructure</div>
+      <h2>SUPPORTED <em>NETWORKS</em></h2>
+      <p class="doc-p">LiveRecord Protocol is deployed on EVM-compatible networks. We prioritize low-cost chains so fans don't pay high gas fees when claiming rewards.</p>
+      <table class="doc-table">
+        <thead>
+          <tr><th>Network</th><th>Status</th><th>Chain ID</th><th>Notes</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Ethereum Mainnet</td><td style="color:var(--g)">Live</td><td>1</td><td>Governance, staking</td></tr>
+          <tr><td>Base</td><td style="color:var(--g)">Live</td><td>8453</td><td>Primary rewards chain, gasless claims</td></tr>
+          <tr><td>Arbitrum One</td><td style="color:var(--body)">Coming Soon</td><td>42161</td><td>Planned Q3 2025</td></tr>
+          <tr><td>Polygon PoS</td><td style="color:var(--body)">Coming Soon</td><td>137</td><td>Planned Q3 2025</td></tr>
+          <tr><td>Optimism</td><td style="color:var(--sub)">Evaluating</td><td>10</td><td>TBD</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- SMART CONTRACTS -->
+    <div class="doc-section" id="smart-contracts">
+      <div class="doc-section-label">Contracts</div>
+      <h2>SMART <em>CONTRACTS</em></h2>
+      <div class="doc-info">
+        <p><strong>Audit status:</strong> All LiveRecord Protocol smart contracts have been audited. Audit reports will be published at launch.</p>
+      </div>
+      <h3>Core Contracts</h3>
+      <table class="doc-table">
+        <thead>
+          <tr><th>Contract</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>LiveRecordRegistry</td><td>Registers fans, IPs, and links wallet addresses to R.E.C. profiles</td></tr>
+          <tr><td>RECScoreOracle</td><td>Publishes epoch Merkle roots for R.E.C. scores onchain</td></tr>
+          <tr><td>RewardDistributor</td><td>Handles $REC epoch claims with Merkle proof verification</td></tr>
+          <tr><td>RECToken</td><td>ERC-20 contract for the $REC token</td></tr>
+          <tr><td>FandomPool</td><td>Per-IP reward pools and staking contracts</td></tr>
+          <tr><td>Governance</td><td>Governor + Timelock for protocol governance</td></tr>
+        </tbody>
+      </table>
+      <h3>Claiming Rewards (Full Interface)</h3>
+      <div class="code-block">
+        <div class="cb-lang">Solidity</div>
+        <pre>interface IRewardDistributor {
+  // Claim $REC for a specific epoch
+  function claim(
+    uint256 epoch,
+    address recipient,
+    uint256 amount,
+    bytes32[] calldata merkleProof
+  ) external;
+
+  // Check if already claimed
+  function isClaimed(
+    uint256 epoch,
+    address recipient
+  ) external view returns (bool);
+
+  // Get Merkle root for epoch
+  function epochRoot(uint256 epoch) external view returns (bytes32);
+}</pre>
+        <button class="code-copy" onclick="copyCode(this)">Copy</button>
+      </div>
+    </div>
+
+    <!-- DEVELOPER GUIDE -->
+    <div class="doc-section" id="developers">
+      <div class="doc-section-label">Build</div>
+      <h2>DEVELOPER <em>GUIDE</em></h2>
+      <p class="doc-p">LiveRecord is permissionless — any developer can build fan apps, reward integrations, or IP dashboards on top of the protocol. No whitelisting required.</p>
+
+      <h3>Integration Options</h3>
+      <ul class="doc-ul">
+        <li><strong>Direct contract integration</strong> — call LiveRecord smart contracts from your dApp</li>
+        <li><strong>REST API</strong> — query fan scores, epoch data, and IP statistics via our API</li>
+        <li><strong>JavaScript SDK</strong> — high-level abstractions for common integration patterns</li>
+        <li><strong>Webhooks</strong> — receive real-time events when scores update or epochs close</li>
+      </ul>
+
+      <h3>Common Use Cases for Builders</h3>
+      <ul class="doc-ul">
+        <li><strong>Fan loyalty apps</strong> — gate perks and experiences by R.E.C. score threshold</li>
+        <li><strong>Voting systems</strong> — weight fan votes by $REC balance or R.E.C. score</li>
+        <li><strong>Leaderboards</strong> — build real-time fandom leaderboards per IP</li>
+        <li><strong>NFT gating</strong> — let fans mint exclusive NFTs based on their fandom record</li>
+        <li><strong>IP dashboards</strong> — analytics for IP owners to understand their global fandom</li>
+      </ul>
+    </div>
+
+    <!-- API REFERENCE -->
+    <div class="doc-section" id="api-reference">
+      <div class="doc-section-label">API</div>
+      <h2>API <em>REFERENCE</em></h2>
+      <p class="doc-p">Base URL: <code style="font-family:var(--ff-mono);color:var(--g);font-size:12px;">https://api.liverecord.fun/v1</code></p>
+      <div class="doc-info">
+        <p><strong>Authentication:</strong> Include your API key in the <code style="font-family:var(--ff-mono);font-size:11px;color:var(--g);">X-API-Key</code> header. Get your key at <a href="https://kickstart.easya.io/" target="_blank" rel="noopener">kickstart.easya.io</a>.</p>
+      </div>
+
+      <h3>GET /fan/:address</h3>
+      <p class="doc-p">Retrieve a fan's current R.E.C. Score and profile.</p>
+      <div class="code-block">
+        <div class="cb-lang">HTTP</div>
+        <pre>GET /v1/fan/0x1234...abcd
+X-API-Key: your_api_key
+
+Response 200:
+{
+  "address": "0x1234...abcd",
+  "rec_score": 4821,
+  "rec_score_rank": 1204,
+  "epoch": 142,
+  "unclaimed_rec": "1240000000000000000",
+  "fandoms": [
+    { "ip_id": "jpop-stars-001", "score": 2840, "rank": 88 },
+    { "ip_id": "anime-xyz-002",  "score": 1981, "rank": 330 }
+  ],
+  "last_updated": "2025-04-30T00:00:00Z"
+}</pre>
+        <button class="code-copy" onclick="copyCode(this)">Copy</button>
+      </div>
+
+      <h3>GET /epoch/:id</h3>
+      <p class="doc-p">Get details about a specific epoch including Merkle root and distribution stats.</p>
+      <div class="code-block">
+        <div class="cb-lang">HTTP</div>
+        <pre>GET /v1/epoch/142
+X-API-Key: your_api_key
+
+Response 200:
+{
+  "epoch": 142,
+  "start_time": "2025-04-29T00:00:00Z",
+  "end_time":   "2025-04-30T00:00:00Z",
+  "merkle_root": "0xabc123...",
+  "total_rec_distributed": "500000000000000000000000",
+  "total_fans_scored": 28471,
+  "claim_window_closes": "2025-05-07T00:00:00Z"
+}</pre>
+        <button class="code-copy" onclick="copyCode(this)">Copy</button>
+      </div>
+
+      <h3>GET /fan/:address/proof/:epoch</h3>
+      <p class="doc-p">Retrieve the Merkle proof for a fan's claim for a specific epoch.</p>
+      <div class="code-block">
+        <div class="cb-lang">HTTP</div>
+        <pre>GET /v1/fan/0x1234...abcd/proof/142
+X-API-Key: your_api_key
+
+Response 200:
+{
+  "address": "0x1234...abcd",
+  "epoch": 142,
+  "amount": "1240000000000000000",
+  "proof": [
+    "0xdeadbeef...",
+    "0xcafebabe...",
+    "0x12345678..."
+  ]
+}</pre>
+        <button class="code-copy" onclick="copyCode(this)">Copy</button>
+      </div>
+
+      <h3>GET /ip/:ip_id</h3>
+      <p class="doc-p">Get data about a registered IP Fandom — stats, top fans, activity.</p>
+      <div class="code-block">
+        <div class="cb-lang">HTTP</div>
+        <pre>GET /v1/ip/jpop-stars-001
+X-API-Key: your_api_key
+
+Response 200:
+{
+  "ip_id": "jpop-stars-001",
+  "name": "J-Pop Stars",
+  "category": "music",
+  "total_fans": 14820,
+  "active_fans_7d": 4231,
+  "total_rec_allocated": "10000000000000000000000",
+  "score_multiplier": 1.5,
+  "top_fans": [
+    { "address": "0xabcd...1234", "score": 9821, "rank": 1 }
+  ]
+}</pre>
+        <button class="code-copy" onclick="copyCode(this)">Copy</button>
+      </div>
+    </div>
+
+    <!-- SDK -->
+    <div class="doc-section" id="sdk">
+      <div class="doc-section-label">SDK</div>
+      <h2>JAVASCRIPT <em>SDK</em></h2>
+      <p class="doc-p">The LiveRecord JS SDK provides high-level abstractions for interacting with the protocol. Works in Node.js and browser environments.</p>
+
+      <h3>Installation</h3>
+      <div class="code-block">
+        <div class="cb-lang">Shell</div>
+        <pre>npm install @liverecord/sdk
+# or
+yarn add @liverecord/sdk</pre>
+        <button class="code-copy" onclick="copyCode(this)">Copy</button>
+      </div>
+
+      <h3>Initialize</h3>
+      <div class="code-block">
+        <div class="cb-lang">JavaScript</div>
+        <pre>import { LiveRecord } from '@liverecord/sdk';
+
+const lr = new LiveRecord({
+  apiKey: 'your_api_key',
+  network: 'base', // 'ethereum' | 'base' | 'arbitrum'
+});
+
+// Connect user wallet
+await lr.connect(provider); // ethers.js or viem provider</pre>
+        <button class="code-copy" onclick="copyCode(this)">Copy</button>
+      </div>
+
+      <h3>Get Fan Score</h3>
+      <div class="code-block">
+        <div class="cb-lang">JavaScript</div>
+        <pre>const fan = await lr.getFan('0x1234...abcd');
+console.log(fan.recScore);    // 4821
+console.log(fan.fandoms);     // [{ ipId, score, rank }, ...]
+console.log(fan.unclaimedRec); // BigNumber</pre>
+        <button class="code-copy" onclick="copyCode(this)">Copy</button>
+      </div>
+
+      <h3>Claim Rewards</h3>
+      <div class="code-block">
+        <div class="cb-lang">JavaScript</div>
+        <pre>// Get claimable epochs
+const epochs = await lr.getClaimableEpochs(userAddress);
+
+// Claim all pending rewards
+for (const epoch of epochs) {
+  const tx = await lr.claimRewards(epoch.id);
+  await tx.wait();
+  console.log(`Claimed ${epoch.amount} $REC for epoch ${epoch.id}`);
+}</pre>
+        <button class="code-copy" onclick="copyCode(this)">Copy</button>
+      </div>
+    </div>
+
+    <!-- WEBHOOKS -->
+    <div class="doc-section" id="webhooks">
+      <div class="doc-section-label">Events</div>
+      <h2><em>WEBHOOKS</em></h2>
+      <p class="doc-p">Register a webhook endpoint to receive real-time events from LiveRecord Protocol. Configure webhooks in your developer dashboard.</p>
+
+      <h3>Available Events</h3>
+      <table class="doc-table">
+        <thead><tr><th>Event</th><th>Trigger</th></tr></thead>
+        <tbody>
+          <tr><td>epoch.finalized</td><td>Fired when an epoch closes and scores are published</td></tr>
+          <tr><td>fan.score_updated</td><td>Fired when a fan's R.E.C. score changes significantly</td></tr>
+          <tr><td>fan.reward_claimed</td><td>Fired when a fan claims $REC rewards</td></tr>
+          <tr><td>ip.registered</td><td>Fired when a new IP joins the protocol</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Webhook Payload Example</h3>
+      <div class="code-block">
+        <div class="cb-lang">JSON</div>
+        <pre>{
+  "event": "epoch.finalized",
+  "timestamp": "2025-04-30T00:00:00Z",
+  "data": {
+    "epoch": 142,
+    "merkle_root": "0xabc123...",
+    "total_fans": 28471,
+    "total_rec_distributed": "500000000000000000000000"
+  },
+  "signature": "0xsig..."
+}</pre>
+        <button class="code-copy" onclick="copyCode(this)">Copy</button>
+      </div>
+    </div>
+
+    <!-- TOKENOMICS -->
+    <div class="doc-section" id="tokenomics">
+      <div class="doc-section-label">Economics</div>
+      <h2>TOKEN <em>DISTRIBUTION</em></h2>
+      <p class="doc-p">Total supply: <strong>1,000,000,000 $REC</strong>. Distribution is designed to reward fans first, with long vesting schedules for team and investors to align long-term incentives.</p>
+      <table class="doc-table">
+        <thead><tr><th>Allocation</th><th>%</th><th>Tokens</th><th>Vesting</th></tr></thead>
+        <tbody>
+          <tr><td>Fan Rewards (Epoch Emissions)</td><td style="color:var(--g)">40%</td><td>400,000,000</td><td>Released over 10 years via epoch distributions</td></tr>
+          <tr><td>Ecosystem & Partnerships</td><td style="color:var(--g)">20%</td><td>200,000,000</td><td>36 months linear, 6-month cliff</td></tr>
+          <tr><td>Team & Contributors</td><td style="color:var(--body)">15%</td><td>150,000,000</td><td>48 months linear, 12-month cliff</td></tr>
+          <tr><td>Investors</td><td style="color:var(--body)">15%</td><td>150,000,000</td><td>24 months linear, 6-month cliff</td></tr>
+          <tr><td>Treasury / DAO</td><td style="color:var(--body)">7%</td><td>70,000,000</td><td>Governed by DAO vote</td></tr>
+          <tr><td>Public Launch / Kickstart</td><td style="color:var(--body)">3%</td><td>30,000,000</td><td>Immediate at TGE</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- EARNING -->
+    <div class="doc-section" id="earning">
+      <div class="doc-section-label">Rewards</div>
+      <h2>EARNING <em>$REC</em></h2>
+      <p class="doc-p">Fans earn $REC based on their R.E.C. Score at the end of each 24-hour epoch. The more genuine your fandom engagement, the higher your score, the larger your share of that epoch's $REC distribution.</p>
+
+      <h3>Epoch Distribution Formula</h3>
+      <div class="code-block">
+        <div class="cb-lang">Pseudocode</div>
+        <pre>fan_share = (fan_rec_score / total_epoch_rec_score) × epoch_allocation
+
+Where:
+  fan_rec_score      = your R.E.C. score at epoch close
+  total_epoch_rec_score = sum of all scored fans in epoch
+  epoch_allocation   = total $REC allocated for that epoch</pre>
+        <button class="code-copy" onclick="copyCode(this)">Copy</button>
+      </div>
+
+      <h3>Score Multipliers</h3>
+      <p class="doc-p">Certain actions carry multipliers that boost your score beyond the base rate:</p>
+      <ul class="doc-ul">
+        <li><strong>Long-term fan bonus</strong> — 1.25x for fans with 6+ months of history</li>
+        <li><strong>Multi-IP fan bonus</strong> — 1.1x for fans active across 3+ IPs</li>
+        <li><strong>Early adopter bonus</strong> — 1.5x during the first 3 months of protocol launch</li>
+        <li><strong>Event attendance</strong> — up to 10x multiplier for verified live event attendance</li>
+      </ul>
+
+      <div class="doc-info">
+        <p><strong>Anti-gaming:</strong> The R.E.C. Engine updates its sybil detection model continuously. Attempts to game the system via bot activity or coordinated inauthentic behavior result in score penalties and wallet flags.</p>
+      </div>
+    </div>
+
+    <!-- GOVERNANCE -->
+    <div class="doc-section" id="governance">
+      <div class="doc-section-label">Protocol</div>
+      <h2><em>GOVERNANCE</em></h2>
+      <p class="doc-p">LiveRecord Protocol is governed by $REC token holders. Major protocol decisions — score model parameters, new IP admissions, reward allocations, smart contract upgrades — require a governance vote.</p>
+      <h3>Voting Power</h3>
+      <p class="doc-p">1 $REC = 1 vote. Votes can be delegated. A minimum of 100,000 $REC is required to submit a proposal.</p>
+      <h3>Governance Process</h3>
+      <ul class="doc-ul">
+        <li><strong>Proposal</strong> — posted on governance forum for community discussion (3 days)</li>
+        <li><strong>On-chain vote</strong> — 7-day voting window; quorum 4% of circulating supply</li>
+        <li><strong>Timelock</strong> — 48-hour delay before execution for security</li>
+        <li><strong>Execution</strong> — auto-executed by Governor contract if vote passes</li>
+      </ul>
+    </div>
+
+    <!-- ROADMAP -->
+    <div class="doc-section" id="roadmap">
+      <div class="doc-section-label">Timeline</div>
+      <h2>DEVELOPMENT <em>ROADMAP</em></h2>
+      <p class="doc-p">LiveRecord is building toward a fully permissionless, community-governed fandom economy. Here's the phased roadmap.</p>
+      <div class="roadmap">
+        <div class="rm-phase">
+          <div class="rm-phase-label">
+            <span class="phase-num">01</span>
+            <span class="phase-status live">▶ LIVE</span>
+          </div>
+          <div class="rm-phase-content">
+            <h4>Genesis — Protocol Launch</h4>
+            <p>Initial launch of LiveRecord Protocol on Base. Core infrastructure live, first IP integrations, $REC token launch.</p>
+            <ul>
+              <li>LiveRecord Protocol v1 deployed on Base</li>
+              <li>R.E.C. Engine — first model version live</li>
+              <li>$REC token launch via EasyA Kickstart</li>
+              <li>IRC App — first fandom integration (J-Pop)</li>
+              <li>Developer API v1 public access</li>
+            </ul>
+          </div>
+        </div>
+        <div class="rm-phase">
+          <div class="rm-phase-label">
+            <span class="phase-num">02</span>
+            <span class="phase-status">Q3 2025</span>
+          </div>
+          <div class="rm-phase-content">
+            <h4>Expansion — More IPs & Chains</h4>
+            <p>Expand to more IP categories, add new EVM chains, launch SDK, and open IP registration to all.</p>
+            <ul>
+              <li>Anime fandom integrations (3+ major series)</li>
+              <li>Multi-chain: Arbitrum + Polygon deployment</li>
+              <li>@liverecord/sdk v1 public release</li>
+              <li>Permissionless IP registration open</li>
+              <li>R.E.C. Engine v2 with enhanced signal coverage</li>
+            </ul>
+          </div>
+        </div>
+        <div class="rm-phase">
+          <div class="rm-phase-label">
+            <span class="phase-num">03</span>
+            <span class="phase-status">Q4 2025</span>
+          </div>
+          <div class="rm-phase-content">
+            <h4>Governance — DAO Transition</h4>
+            <p>Transfer protocol governance to $REC token holders. Launch DAO, introduce community score model updates.</p>
+            <ul>
+              <li>LiveRecord DAO launch</li>
+              <li>Governance v1: on-chain voting live</li>
+              <li>First community-proposed IP additions</li>
+              <li>Score model open-source components released</li>
+              <li>Treasury funded via protocol revenue share</li>
+            </ul>
+          </div>
+        </div>
+        <div class="rm-phase">
+          <div class="rm-phase-label">
+            <span class="phase-num">04</span>
+            <span class="phase-status">2026</span>
+          </div>
+          <div class="rm-phase-content">
+            <h4>Scale — Global Fandom Economy</h4>
+            <p>Full protocol maturity. Cross-chain interoperability, institutional IP partnerships, global fandom economy infrastructure.</p>
+            <ul>
+              <li>100+ IPs tracked across all entertainment categories</li>
+              <li>Real-world event integration (concerts, conventions)</li>
+              <li>Cross-chain $REC bridging</li>
+              <li>Institutional IP partnership program</li>
+              <li>LiveRecord Protocol v2 — full decentralization</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<footer>
+  <div class="footer-bottom">
+    <p>© 2025 <a href="/">liverecord.fun</a> — All rights reserved</p>
+    <p><a href="privacy.html" style="color:var(--sub)">Privacy</a> · <a href="cookies.html" style="color:var(--sub)">Cookies</a> · <a href="team.html" style="color:var(--sub)">Team</a></p>
+  </div>
+</footer>
+
+<script>
+/* hamburger */
+const hbg=document.getElementById('hamburger');
+if(hbg) hbg.addEventListener('click',()=>{const o=document.querySelector('.mobile-menu')?.classList.toggle('open');hbg.classList.toggle('open',o);});
+
+/* mobile docs nav */
+function toggleMobileNav(){
+  const list=document.getElementById('mobileNavList');
+  const icon=document.getElementById('mobileNavIcon');
+  const open=list.classList.toggle('open');
+  icon.textContent=open?'▴':'▾';
+}
+document.querySelectorAll('.docs-mobile-nav-list a').forEach(a=>a.addEventListener('click',()=>{
+  document.getElementById('mobileNavList').classList.remove('open');
+  document.getElementById('mobileNavIcon').textContent='▾';
+}));
+
+/* active sidebar link */
+const sections=['introduction','quickstart','concepts','rec-scoring','rec-token','networks','smart-contracts','developers','api-reference','sdk','webhooks','tokenomics','earning','governance','roadmap'];
+const io=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      document.querySelectorAll('.sidebar-link').forEach(l=>l.classList.remove('active'));
+      const link=document.querySelector(`.sidebar-link[href="#${e.target.id}"]`);
+      if(link) link.classList.add('active');
+    }
+  });
+},{threshold:0.2,rootMargin:'-56px 0px -60% 0px'});
+sections.forEach(id=>{const el=document.getElementById(id);if(el) io.observe(el);});
+
+/* copy code */
+function copyCode(btn){
+  const code=btn.previousElementSibling.textContent;
+  navigator.clipboard.writeText(code).then(()=>{
+    btn.textContent='Copied!';
+    btn.classList.add('copied');
+    setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('copied');},2000);
+  });
+}
+</script>
+</body>
+</html>
