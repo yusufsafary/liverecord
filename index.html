@@ -4,6 +4,13 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>LIVERECORD — Recording the Fandom Economy, Onchain</title>
+<meta name="description" content="LiveRecord turns invisible fandom activity into visible, lasting value — captured by AI, preserved forever on blockchain. $REC is the global fan engagement index."/>
+<meta property="og:title" content="LIVERECORD — Recording the Fandom Economy, Onchain"/>
+<meta property="og:description" content="LiveRecord Protocol addresses the invisible fandom economy. $REC is the global engagement index for entertainment."/>
+<meta property="og:url" content="https://liverecord.fun"/>
+<meta property="og:type" content="website"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:site" content="@liverecordfun"/>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@300;400;500;700&family=Barlow+Condensed:wght@300;400;600;700;900&display=swap" rel="stylesheet">
@@ -42,6 +49,11 @@ body {
   cursor: none;
 }
 
+@media (max-width: 900px) {
+  body { cursor: auto; }
+  #cursor, #cursor-ring { display: none; }
+}
+
 /* Custom cursor */
 #cursor {
   position: fixed;
@@ -66,6 +78,40 @@ body {
 }
 
 /* ══════════════════════════════════
+   ANNOUNCEMENT BANNER
+══════════════════════════════════ */
+.announcement-bar {
+  background: var(--g);
+  color: #000;
+  text-align: center;
+  padding: 9px 20px;
+  font-family: var(--ff-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  position: relative;
+  z-index: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.announcement-bar a {
+  color: #000;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.announcement-bar .ab-dot {
+  width: 6px; height: 6px;
+  background: #000;
+  border-radius: 50%;
+  display: inline-block;
+  opacity: 0.5;
+}
+
+/* ══════════════════════════════════
    GRID LINES (decorative vertical)
 ══════════════════════════════════ */
 .grid-lines {
@@ -87,7 +133,7 @@ body {
    NAV
 ══════════════════════════════════ */
 nav {
-  position: fixed;
+  position: sticky;
   top: 0; left: 0; right: 0;
   z-index: 500;
   display: flex;
@@ -96,7 +142,7 @@ nav {
   padding: 0 40px;
   height: 60px;
   border-bottom: 1px solid var(--line);
-  background: rgba(6,7,4,0.85);
+  background: rgba(6,7,4,0.92);
   backdrop-filter: blur(16px);
 }
 
@@ -109,6 +155,7 @@ nav {
   display: flex;
   align-items: center;
   gap: 2px;
+  flex-shrink: 0;
 }
 .nav-logo em {
   font-style: normal;
@@ -126,7 +173,7 @@ nav {
 .nav-right {
   display: flex;
   align-items: center;
-  gap: 32px;
+  gap: 28px;
 }
 .nav-right a {
   text-decoration: none;
@@ -170,6 +217,52 @@ nav {
   50% { opacity: 0.2; }
 }
 
+/* Hamburger */
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 8px;
+  background: none;
+  border: none;
+}
+.nav-hamburger span {
+  display: block;
+  width: 22px; height: 1px;
+  background: var(--ink);
+  transition: transform 0.2s, opacity 0.2s;
+}
+.nav-hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.nav-hamburger.open span:nth-child(2) { opacity: 0; }
+.nav-hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+.mobile-menu {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  background: rgba(6,7,4,0.98);
+  backdrop-filter: blur(20px);
+  z-index: 490;
+  flex-direction: column;
+  padding: 80px 32px 40px;
+  gap: 0;
+  border-bottom: 1px solid var(--line);
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu a {
+  text-decoration: none;
+  font-size: 13px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 18px 0;
+  border-bottom: 1px solid var(--line);
+  transition: color 0.15s;
+  display: block;
+}
+.mobile-menu a:hover, .mobile-menu a:active { color: var(--g); }
+
 /* ══════════════════════════════════
    HERO
 ══════════════════════════════════ */
@@ -178,7 +271,6 @@ nav {
   display: grid;
   grid-template-columns: 1fr 380px;
   grid-template-rows: 1fr auto;
-  padding: 60px 0 0;
   position: relative;
   border-bottom: 1px solid var(--line);
 }
@@ -268,6 +360,7 @@ nav {
   display: flex;
   gap: 16px;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .btn-primary {
@@ -372,6 +465,98 @@ nav {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
 }
+
+/* ══════════════════════════════════
+   NEWS SECTION
+══════════════════════════════════ */
+.news-section {
+  border-bottom: 1px solid var(--line);
+  background: var(--paper);
+}
+.news-header {
+  padding: 48px 80px 32px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.news-title {
+  font-family: var(--ff-head);
+  font-size: clamp(40px, 5vw, 72px);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--ink);
+  line-height: 0.92;
+}
+.news-title em { font-style: normal; color: var(--g); }
+.news-count {
+  font-family: var(--ff-mono);
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--muted);
+  text-transform: uppercase;
+  padding-bottom: 6px;
+}
+.news-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+.news-card {
+  padding: 48px 48px;
+  border-right: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  transition: background 0.2s;
+  text-decoration: none;
+  color: inherit;
+}
+.news-card:last-child { border-right: none; }
+.news-card:hover { background: var(--g4); }
+.news-card-date {
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--g);
+}
+.news-card-tag {
+  display: inline-block;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  align-self: flex-start;
+}
+.news-card-headline {
+  font-family: var(--ff-cond);
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--ink);
+  line-height: 1.2;
+}
+.news-card-body {
+  font-size: 12px;
+  line-height: 1.9;
+  color: var(--muted);
+}
+.news-card-link {
+  margin-top: auto;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--g);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: gap 0.2s;
+}
+.news-card:hover .news-card-link { gap: 14px; }
 
 /* ══════════════════════════════════
    SECTION COMMONS
@@ -879,6 +1064,105 @@ section { position: relative; z-index: 1; }
 }
 
 /* ══════════════════════════════════
+   PARTNERSHIP SECTION
+══════════════════════════════════ */
+.partnership {
+  border-bottom: 1px solid var(--line);
+  background: var(--paper);
+}
+.partnership-header {
+  padding: 60px 80px 40px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.partnership-title {
+  font-family: var(--ff-head);
+  font-size: clamp(40px, 5vw, 72px);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--ink);
+  line-height: 0.92;
+}
+.partnership-title em { font-style: normal; color: var(--g); }
+.partnership-sub {
+  font-size: 12px;
+  color: var(--muted);
+  max-width: 380px;
+  line-height: 1.8;
+  padding-bottom: 6px;
+}
+.partnership-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+.partner-card {
+  padding: 48px 48px;
+  border-right: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: background 0.2s;
+}
+.partner-card:last-child { border-right: none; }
+.partner-card:hover { background: var(--g4); }
+.partner-icon {
+  font-family: var(--ff-head);
+  font-size: 36px;
+  color: var(--g);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.partner-name {
+  font-family: var(--ff-head);
+  font-size: 24px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.partner-desc {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.9;
+}
+.partner-cta {
+  margin-top: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--g);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(102,200,0,0.3);
+  padding-bottom: 2px;
+  transition: gap 0.2s, border-color 0.2s;
+  align-self: flex-start;
+}
+.partner-cta:hover { gap: 14px; border-color: var(--g); }
+.partnership-cta-row {
+  padding: 40px 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  border-top: 1px solid var(--line);
+}
+.partnership-cta-text {
+  font-family: var(--ff-cond);
+  font-size: clamp(18px, 2.5vw, 28px);
+  font-weight: 300;
+  letter-spacing: 2px;
+  color: var(--muted);
+}
+.partnership-cta-text strong { color: var(--ink); font-weight: 600; }
+
+/* ══════════════════════════════════
    CTA SECTION
 ══════════════════════════════════ */
 .cta-section {
@@ -907,6 +1191,7 @@ section { position: relative; z-index: 1; }
   gap: 48px;
   position: relative;
   z-index: 1;
+  flex-wrap: wrap;
 }
 
 .cta-text .s-label { margin-bottom: 20px; }
@@ -916,12 +1201,9 @@ section { position: relative; z-index: 1; }
   text-transform: uppercase;
   letter-spacing: 2px;
   color: var(--ink);
-  line-height: 0.95;
+  line-height: 0.92;
 }
-.cta-headline em {
-  font-style: normal;
-  color: var(--g);
-}
+.cta-headline em { font-style: normal; color: var(--g); }
 
 .cta-actions {
   display: flex;
@@ -933,33 +1215,92 @@ section { position: relative; z-index: 1; }
 .social-row {
   display: flex;
   gap: 12px;
+  flex-wrap: wrap;
 }
 .social-btn {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 10px 18px;
+  gap: 10px;
+  padding: 10px 20px;
   border: 1px solid var(--line);
-  font-size: 10px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
   color: var(--muted);
   text-decoration: none;
-  transition: all 0.15s;
-  background: transparent;
+  font-size: 11px;
+  letter-spacing: 1px;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
 }
+.social-btn svg { width: 14px; height: 14px; flex-shrink: 0; }
 .social-btn:hover {
   border-color: var(--g);
   color: var(--g);
   background: var(--g4);
 }
-.social-btn svg { width: 14px; height: 14px; }
+
+/* ══════════════════════════════════
+   COOKIES BANNER
+══════════════════════════════════ */
+.cookies-banner {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  z-index: 9000;
+  background: var(--paper);
+  border-top: 1px solid var(--line);
+  padding: 20px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  transform: translateY(0);
+  transition: transform 0.4s ease;
+}
+.cookies-banner.hidden { transform: translateY(100%); }
+.cookies-text {
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.7;
+  max-width: 600px;
+}
+.cookies-text a { color: var(--g); text-decoration: none; }
+.cookies-text a:hover { text-decoration: underline; }
+.cookies-actions {
+  display: flex;
+  gap: 12px;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+.cookies-accept {
+  background: var(--g);
+  color: #000;
+  border: none;
+  padding: 9px 22px;
+  font-family: var(--ff-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.cookies-accept:hover { background: #80ef00; }
+.cookies-decline {
+  background: none;
+  color: var(--dim);
+  border: 1px solid var(--dim);
+  padding: 9px 22px;
+  font-family: var(--ff-mono);
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+.cookies-decline:hover { border-color: var(--muted); color: var(--muted); }
 
 /* ══════════════════════════════════
    FOOTER
 ══════════════════════════════════ */
 footer {
-  background: var(--paper);
   border-top: 1px solid var(--line);
 }
 
@@ -975,20 +1316,16 @@ footer {
 }
 .footer-col:last-child { border-right: none; }
 
-.fc-brand .nav-logo {
-  font-size: 20px;
-  display: inline-flex;
-  margin-bottom: 16px;
-}
 .fc-brand p {
   font-size: 12px;
-  line-height: 1.9;
-  color: var(--dim);
+  color: var(--muted);
+  line-height: 2;
+  margin-top: 20px;
   max-width: 260px;
 }
-
 .fc-title {
-  font-size: 9px;
+  font-family: var(--ff-head);
+  font-size: 14px;
   letter-spacing: 3px;
   text-transform: uppercase;
   color: var(--g);
@@ -1021,6 +1358,8 @@ footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 .footer-bottom p {
   font-size: 10px;
@@ -1055,29 +1394,61 @@ footer {
    RESPONSIVE
 ══════════════════════════════════ */
 @media (max-width: 900px) {
+  .nav-hamburger { display: flex; }
+  .nav-right { display: none; }
+
+  .announcement-bar { font-size: 10px; padding: 8px 16px; gap: 8px; }
+
   .hero { grid-template-columns: 1fr; }
   .hero-right { display: none; }
-  nav { padding: 0 20px; }
-  .nav-right a:not(.nav-launch) { display: none; }
+  .hero-left { padding: 48px 24px; }
+  .hero h1 { font-size: clamp(64px, 18vw, 120px); }
+
   .problem { grid-template-columns: 1fr; }
   .problem-index { display: none; }
-  .problem-left, .problem-right { padding: 48px 24px; }
+  .problem-left, .problem-right { padding: 48px 24px; border-right: none; }
+  .problem-left { border-bottom: 1px solid var(--line); }
+
   .flywheel-top { grid-template-columns: 1fr; }
-  .flywheel-node { border-right: none; border-bottom: 1px solid var(--line); }
+  .flywheel-node { border-right: none; border-bottom: 1px solid var(--line); padding: 40px 24px; }
   .flywheel-bottom { padding: 40px 24px; flex-direction: column; }
+
   .protocol-inner { grid-template-columns: 1fr; }
-  .protocol-content { padding: 48px 24px; }
+  .protocol-content { padding: 48px 24px; border-right: none; border-bottom: 1px solid var(--line); }
   .protocol-sidebar { padding: 48px 24px; }
+
   .uc-header { padding: 40px 24px 28px; flex-direction: column; align-items: flex-start; gap: 12px; }
   .uc-body { grid-template-columns: 1fr; }
   .uc-card { padding: 48px 24px; border-right: none; border-bottom: 1px solid var(--line); }
+
+  .news-header { padding: 40px 24px 24px; flex-direction: column; align-items: flex-start; gap: 10px; }
+  .news-grid { grid-template-columns: 1fr; }
+  .news-card { padding: 32px 24px; border-right: none; border-bottom: 1px solid var(--line); }
+
+  .partnership-header { padding: 40px 24px 28px; flex-direction: column; align-items: flex-start; }
+  .partnership-grid { grid-template-columns: 1fr; }
+  .partner-card { padding: 32px 24px; border-right: none; border-bottom: 1px solid var(--line); }
+  .partnership-cta-row { padding: 32px 24px; flex-direction: column; align-items: flex-start; }
+
   .cta-section { padding: 60px 24px; }
   .cta-inner { flex-direction: column; align-items: flex-start; }
   .cta-actions { align-items: flex-start; }
+
   .footer-top { grid-template-columns: 1fr 1fr; }
   .footer-col { padding: 32px 24px; }
-  .footer-bottom { padding: 20px 24px; flex-direction: column; gap: 8px; }
-  .hero-left { padding: 48px 24px; }
+  .footer-bottom { padding: 20px 24px; flex-direction: column; }
+
+  .cookies-banner { padding: 16px 20px; }
+  .cookies-actions { width: 100%; }
+  .cookies-accept, .cookies-decline { flex: 1; text-align: center; }
+}
+
+@media (max-width: 480px) {
+  .footer-top { grid-template-columns: 1fr; }
+  .footer-col { border-right: none; border-bottom: 1px solid var(--line); }
+  .hero-ctas { flex-direction: column; align-items: flex-start; }
+  .social-row { flex-direction: column; }
+  .cta-actions { width: 100%; }
 }
 </style>
 </head>
@@ -1092,6 +1463,15 @@ footer {
   <span></span><span></span><span></span><span></span>
 </div>
 
+<!-- ANNOUNCEMENT BANNER -->
+<div class="announcement-bar">
+  <span>LiveRecord is live on</span>
+  <span class="ab-dot"></span>
+  <a href="https://kickstart.easya.io/" target="_blank" rel="noopener">kickstart.easya.io</a>
+  <span class="ab-dot"></span>
+  <span>Official launch today — join the movement</span>
+</div>
+
 <!-- NAV -->
 <nav>
   <a href="/" class="nav-logo">LIVE<em>RECORD</em><sup>.FUN</sup></a>
@@ -1099,10 +1479,28 @@ footer {
     <div class="nav-status"><div class="nav-status-dot"></div>MAINNET LIVE</div>
     <a href="#protocol">Protocol</a>
     <a href="#usecase">Apps</a>
-    <a href="https://docs.liverecord.fun" target="_blank">Docs</a>
+    <a href="#partnership">Partners</a>
+    <a href="team.html">Team</a>
+    <a href="https://docs.liverecord.fun" target="_blank" rel="noopener">Docs</a>
     <a href="#" class="nav-launch">Launch App</a>
   </div>
+  <button class="nav-hamburger" id="hamburger" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobile-menu">
+  <div class="nav-status" style="margin-bottom:12px"><div class="nav-status-dot"></div>MAINNET LIVE</div>
+  <a href="#protocol" onclick="closeMobile()">Protocol</a>
+  <a href="#usecase" onclick="closeMobile()">Apps</a>
+  <a href="#partnership" onclick="closeMobile()">Partners</a>
+  <a href="team.html">Team</a>
+  <a href="https://docs.liverecord.fun" target="_blank" rel="noopener">Docs</a>
+  <a href="privacy.html">Privacy Policy</a>
+  <a href="cookies.html">Cookie Policy</a>
+  <a href="#" style="color:var(--g);border-color:var(--g)" onclick="closeMobile()">Launch App →</a>
+</div>
 
 <!-- HERO -->
 <section class="hero">
@@ -1122,7 +1520,7 @@ footer {
       LiveRecord turns invisible fandom activity into visible, lasting value — captured by AI, preserved forever on blockchain.
     </p>
     <div class="hero-ctas reveal" style="transition-delay:0.22s">
-      <a href="https://docs.liverecord.fun" target="_blank" class="btn-primary">Read Docs</a>
+      <a href="https://docs.liverecord.fun" target="_blank" rel="noopener" class="btn-primary">Read Docs</a>
       <a href="#protocol" class="btn-ghost">How it works →</a>
     </div>
   </div>
@@ -1136,7 +1534,7 @@ footer {
       <span class="hero-stat-label">R.E.C. Scoring Engine</span>
     </div>
     <div class="hero-stat reveal" style="transition-delay:0.40s">
-      <span class="hero-stat-num">$LRC</span>
+      <span class="hero-stat-num">$REC</span>
       <span class="hero-stat-label">Global Engagement Index</span>
     </div>
     <div class="hero-stat reveal" style="transition-delay:0.46s">
@@ -1149,18 +1547,49 @@ footer {
     <div class="hero-ticker">
       <div class="hero-ticker-item">LIVERECORD <em>·</em> FANDOM ECONOMY</div>
       <div class="hero-ticker-item">R.E.C. PROTOCOL <em>·</em> AI POWERED</div>
-      <div class="hero-ticker-item">$LRC TOKEN <em>·</em> ONCHAIN</div>
+      <div class="hero-ticker-item">$REC TOKEN <em>·</em> ONCHAIN</div>
       <div class="hero-ticker-item">GLOBAL FAN INDEX <em>·</em> LIVE</div>
       <div class="hero-ticker-item">PERMISSIONLESS <em>·</em> TRUSTLESS</div>
       <div class="hero-ticker-item">IDOLS <em>·</em> ANIME <em>·</em> GAMES <em>·</em> MUSIC</div>
       <div class="hero-ticker-item">LIVERECORD.FUN <em>·</em> EST. 2025</div>
       <div class="hero-ticker-item">LIVERECORD <em>·</em> FANDOM ECONOMY</div>
       <div class="hero-ticker-item">R.E.C. PROTOCOL <em>·</em> AI POWERED</div>
-      <div class="hero-ticker-item">$LRC TOKEN <em>·</em> ONCHAIN</div>
+      <div class="hero-ticker-item">$REC TOKEN <em>·</em> ONCHAIN</div>
       <div class="hero-ticker-item">GLOBAL FAN INDEX <em>·</em> LIVE</div>
       <div class="hero-ticker-item">PERMISSIONLESS <em>·</em> TRUSTLESS</div>
       <div class="hero-ticker-item">IDOLS <em>·</em> ANIME <em>·</em> GAMES <em>·</em> MUSIC</div>
       <div class="hero-ticker-item">LIVERECORD.FUN <em>·</em> EST. 2025</div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWS -->
+<section class="news-section" id="news">
+  <div class="news-header">
+    <h2 class="news-title reveal">LATEST<br><em>NEWS</em></h2>
+    <div class="news-count reveal" style="transition-delay:0.1s">03 Updates</div>
+  </div>
+  <div class="news-grid">
+    <a href="https://kickstart.easya.io/" target="_blank" rel="noopener" class="news-card reveal">
+      <div class="news-card-date">Apr 30, 2025</div>
+      <div class="news-card-tag">Launch</div>
+      <div class="news-card-headline">LiveRecord Goes Live on EasyA Kickstart</div>
+      <p class="news-card-body">LiveRecord officially launches today on kickstart.easya.io — join the first wave of builders and fans shaping the onchain fandom economy.</p>
+      <div class="news-card-link">Read more →</div>
+    </a>
+    <div class="news-card reveal" style="transition-delay:0.1s">
+      <div class="news-card-date">Apr 28, 2025</div>
+      <div class="news-card-tag">Protocol</div>
+      <div class="news-card-headline">$REC Token: The Global Fan Engagement Index</div>
+      <p class="news-card-body">$REC is the benchmark token for measuring and rewarding genuine fan participation across the entertainment ecosystem — onchain, always on.</p>
+      <div class="news-card-link">Coming soon →</div>
+    </div>
+    <div class="news-card reveal" style="transition-delay:0.2s">
+      <div class="news-card-date">Apr 25, 2025</div>
+      <div class="news-card-tag">Partnership</div>
+      <div class="news-card-headline">IRC App: First Use Case for J-Pop Fandom</div>
+      <p class="news-card-body">The IRC App — powered by R.E.C. scoring — brings loyalty membership, fan voting, and exclusive perks to the global J-Pop community.</p>
+      <div class="news-card-link">Coming soon →</div>
     </div>
   </div>
 </section>
@@ -1215,13 +1644,13 @@ footer {
     </div>
     <div class="flywheel-node reveal" style="transition-delay:0.2s">
       <span class="fn-num">03</span>
-      <span class="fn-title">$LRC</span>
+      <span class="fn-title">$REC</span>
       <p class="fn-desc">The global fan engagement index for entertainment — connecting fandom passion to real economic value, onchain</p>
     </div>
   </div>
   <div class="flywheel-bottom">
     <p class="flywheel-tagline reveal">
-      LiveRecord is driven by <strong>IPs that inspire</strong>, fandoms that amplify, and <strong>$LRC that connects them</strong> onchain.
+      LiveRecord is driven by <strong>IPs that inspire</strong>, fandoms that amplify, and <strong>$REC that connects them</strong> onchain.
     </p>
     <div class="flywheel-arrow-big reveal" style="transition-delay:0.1s">↻</div>
   </div>
@@ -1241,9 +1670,9 @@ footer {
         <p class="protocol-body reveal" style="transition-delay:0.14s">
           LiveRecord Protocol addresses a fundamental problem: fandom powers the entertainment economy, yet fan contributions remain <b>invisible and unrewarded</b>.<br><br>
           Through <span class="rec-tag">R.E.C.</span> — Record of Emotional Contribution — the protocol establishes the global engagement index for entertainment. It uses <b>AI to quantify genuine fandom activity</b> across the internet and preserves it permanently on blockchain.<br><br>
-          <span style="color:var(--g);font-family:var(--ff-mono);font-size:13px;">$LRC</span> transforms this into economic value, enabling fans to earn rewards for their devotion while creating permissionless infrastructure for the fandom economy.
+          <span style="color:var(--g);font-family:var(--ff-mono);font-size:13px;">$REC</span> transforms this into economic value, enabling fans to earn rewards for their devotion while creating permissionless infrastructure for the fandom economy.
         </p>
-        <a href="https://docs.liverecord.fun" target="_blank" class="learn-more-link reveal" style="transition-delay:0.2s">Learn more ↗</a>
+        <a href="https://docs.liverecord.fun" target="_blank" rel="noopener" class="learn-more-link reveal" style="transition-delay:0.2s">Learn more ↗</a>
       </div>
       <div class="protocol-points reveal" style="transition-delay:0.26s">
         <div class="protocol-point">
@@ -1267,7 +1696,7 @@ footer {
         <p class="ps-note">Fan contributions tracked and scored by the R.E.C. engine — growing every second</p>
       </div>
       <div class="ps-box reveal" style="transition-delay:0.1s">
-        <div class="ps-title">$LRC Token</div>
+        <div class="ps-title">$REC Token</div>
         <div class="ps-val"><span>#</span>1</div>
         <p class="ps-note">Global engagement index for entertainment — the benchmark for fandom value</p>
       </div>
@@ -1297,6 +1726,7 @@ footer {
         <li class="uc-feature">IRC Score powered by R.E.C.</li>
         <li class="uc-feature">Loyalty membership &amp; fan vote</li>
         <li class="uc-feature">Exclusive perks for J-Pop global fandom</li>
+        <li class="uc-feature">$REC rewards for genuine fan activity</li>
       </ul>
       <a href="#" class="btn-primary">Launch App</a>
     </div>
@@ -1304,6 +1734,45 @@ footer {
       <div class="more-cross">+</div>
       <div class="more-label">More use cases,<br>more fandoms<br>coming soon…</div>
     </div>
+  </div>
+</section>
+
+<!-- PARTNERSHIP -->
+<section class="partnership" id="partnership">
+  <div class="partnership-header">
+    <div>
+      <div class="s-label reveal">Build Together</div>
+      <h2 class="partnership-title reveal" style="transition-delay:0.08s">
+        STRATEGIC<br><em>PARTNERS</em>
+      </h2>
+    </div>
+    <p class="partnership-sub reveal" style="transition-delay:0.14s">
+      LiveRecord is open to collaborations with IP owners, fandom communities, blockchain platforms, and entertainment brands who believe fan passion deserves recognition.
+    </p>
+  </div>
+  <div class="partnership-grid">
+    <div class="partner-card reveal">
+      <div class="partner-icon">IP</div>
+      <div class="partner-name">IP Owners</div>
+      <p class="partner-desc">Idol agencies, music labels, anime studios, and game publishers — integrate R.E.C. scoring to measure and reward your global fandom's loyalty.</p>
+      <a href="mailto:partnership@liverecord.fun" class="partner-cta">Get in touch →</a>
+    </div>
+    <div class="partner-card reveal" style="transition-delay:0.1s">
+      <div class="partner-icon">⛓</div>
+      <div class="partner-name">Blockchain</div>
+      <p class="partner-desc">EVM-compatible networks, L2 solutions, and Web3 infrastructure providers — expand the reach of the fandom economy to your ecosystem.</p>
+      <a href="mailto:partnership@liverecord.fun" class="partner-cta">Get in touch →</a>
+    </div>
+    <div class="partner-card reveal" style="transition-delay:0.2s">
+      <div class="partner-icon">◈</div>
+      <div class="partner-name">Builders</div>
+      <p class="partner-desc">Developers, DAOs, and fan communities — build permissionlessly on LiveRecord Protocol. Create fan apps, scoring integrations, and reward systems.</p>
+      <a href="https://docs.liverecord.fun" target="_blank" rel="noopener" class="partner-cta">Read docs →</a>
+    </div>
+  </div>
+  <div class="partnership-cta-row">
+    <p class="partnership-cta-text"><strong>Interested in partnering?</strong> We're looking for long-term collaborators who believe fandom deserves recognition.</p>
+    <a href="mailto:partnership@liverecord.fun" class="btn-primary">Start a Conversation</a>
   </div>
 </section>
 
@@ -1319,13 +1788,17 @@ footer {
     </div>
     <div class="cta-actions reveal" style="transition-delay:0.18s">
       <div class="social-row">
-        <a href="https://x.com/liverecord_fun" target="_blank" class="social-btn">
+        <a href="https://x.com/liverecordfun" target="_blank" rel="noopener" class="social-btn">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-          @liverecord_fun
+          @liverecordfun
         </a>
-        <a href="https://docs.liverecord.fun" target="_blank" class="social-btn">
+        <a href="https://docs.liverecord.fun" target="_blank" rel="noopener" class="social-btn">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
           Docs
+        </a>
+        <a href="https://kickstart.easya.io/" target="_blank" rel="noopener" class="social-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          Kickstart
         </a>
       </div>
       <a href="#" class="btn-primary" style="align-self:flex-start">Launch App →</a>
@@ -1343,31 +1816,31 @@ footer {
     <div class="footer-col">
       <div class="fc-title">Protocol</div>
       <ul class="fc-links">
-        <li><a href="#">About</a></li>
-        <li><a href="#">R.E.C.</a></li>
-        <li><a href="#">$LRC Token</a></li>
+        <li><a href="#problem">About</a></li>
+        <li><a href="#protocol">R.E.C.</a></li>
+        <li><a href="#protocol">$REC Token</a></li>
         <li><a href="#">Roadmap</a></li>
-        <li><a href="#">Whitepaper</a></li>
+        <li><a href="https://docs.liverecord.fun" target="_blank" rel="noopener">Whitepaper</a></li>
       </ul>
     </div>
     <div class="footer-col">
-      <div class="fc-title">Developers</div>
+      <div class="fc-title">Company</div>
       <ul class="fc-links">
-        <li><a href="https://docs.liverecord.fun" target="_blank">Documentation</a></li>
-        <li><a href="#">API Reference</a></li>
-        <li><a href="#">GitHub</a></li>
-        <li><a href="#">SDK</a></li>
-        <li><a href="#">Bug Bounty</a></li>
+        <li><a href="team.html">Team</a></li>
+        <li><a href="#news">News</a></li>
+        <li><a href="#partnership">Partners</a></li>
+        <li><a href="privacy.html">Privacy Policy</a></li>
+        <li><a href="cookies.html">Cookie Policy</a></li>
       </ul>
     </div>
     <div class="footer-col">
       <div class="fc-title">Community</div>
       <ul class="fc-links">
-        <li><a href="#">X / Twitter</a></li>
+        <li><a href="https://x.com/liverecordfun" target="_blank" rel="noopener">X / Twitter</a></li>
+        <li><a href="https://docs.liverecord.fun" target="_blank" rel="noopener">Documentation</a></li>
+        <li><a href="https://kickstart.easya.io/" target="_blank" rel="noopener">EasyA Kickstart</a></li>
         <li><a href="#">Discord</a></li>
         <li><a href="#">Telegram</a></li>
-        <li><a href="#">Blog</a></li>
-        <li><a href="#">Newsletter</a></li>
       </ul>
     </div>
   </div>
@@ -1376,6 +1849,17 @@ footer {
     <p style="color:var(--dim)">Built for fans, by fans.</p>
   </div>
 </footer>
+
+<!-- COOKIES BANNER -->
+<div class="cookies-banner" id="cookiesBanner">
+  <p class="cookies-text">
+    We use cookies to improve your experience on liverecord.fun. By continuing, you agree to our <a href="cookies.html">Cookie Policy</a> and <a href="privacy.html">Privacy Policy</a>.
+  </p>
+  <div class="cookies-actions">
+    <button class="cookies-decline" onclick="dismissCookies(false)">Decline</button>
+    <button class="cookies-accept" onclick="dismissCookies(true)">Accept All</button>
+  </div>
+</div>
 
 <script>
 /* CURSOR */
@@ -1409,6 +1893,20 @@ document.querySelectorAll('a,button').forEach(el => {
   });
 });
 
+/* HAMBURGER */
+const hbg = document.getElementById('hamburger');
+const mob = document.getElementById('mobile-menu');
+hbg.addEventListener('click', () => {
+  const open = mob.classList.toggle('open');
+  hbg.classList.toggle('open', open);
+  document.body.style.overflow = open ? 'hidden' : '';
+});
+function closeMobile() {
+  mob.classList.remove('open');
+  hbg.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
 /* SCROLL REVEAL */
 const io = new IntersectionObserver(entries => {
   entries.forEach(e => {
@@ -1425,6 +1923,15 @@ window.addEventListener('scroll', () => {
   document.querySelector('nav').style.borderBottomColor =
     window.scrollY > 40 ? 'rgba(102,200,0,0.2)' : 'rgba(102,200,0,0.13)';
 });
+
+/* COOKIES */
+function dismissCookies(accepted) {
+  localStorage.setItem('lr_cookies', accepted ? 'accepted' : 'declined');
+  document.getElementById('cookiesBanner').classList.add('hidden');
+}
+if (localStorage.getItem('lr_cookies')) {
+  document.getElementById('cookiesBanner').classList.add('hidden');
+}
 </script>
 </body>
 </html>
