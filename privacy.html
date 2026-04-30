@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Privacy Policy — LIVERECORD</title>
+<meta name="description" content="LiveRecord Privacy Policy — how we collect, use, and protect your data."/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@300;400;500;700&family=Barlow+Condensed:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+:root {
+  --g: #66c800; --black: #060704; --paper: #0a0d07; --ink: #e6f0d0;
+  --muted: #5a7040; --dim: #2e3d1e; --line: rgba(102,200,0,0.13);
+  --ff-head: 'Bebas Neue', sans-serif;
+  --ff-cond: 'Barlow Condensed', sans-serif;
+  --ff-mono: 'IBM Plex Mono', monospace;
+}
+body { background: var(--black); color: var(--ink); font-family: var(--ff-mono); font-weight: 300; overflow-x: hidden; }
+nav { position: sticky; top: 0; z-index: 500; display: flex; align-items: center; justify-content: space-between; padding: 0 40px; height: 60px; border-bottom: 1px solid var(--line); background: rgba(6,7,4,0.92); backdrop-filter: blur(16px); }
+.nav-logo { font-family: var(--ff-head); font-size: 24px; letter-spacing: 2px; color: var(--ink); text-decoration: none; display: flex; align-items: center; gap: 2px; }
+.nav-logo em { font-style: normal; color: var(--g); }
+.nav-logo sup { font-family: var(--ff-mono); font-size: 8px; letter-spacing: 1px; color: var(--muted); margin-top: -8px; font-weight: 400; }
+.nav-back { text-decoration: none; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); transition: color 0.15s; display: flex; align-items: center; gap: 8px; }
+.nav-back:hover { color: var(--g); }
+
+.page-hero { padding: 80px 80px 60px; border-bottom: 1px solid var(--line); }
+.page-label { font-size: 9px; letter-spacing: 4px; text-transform: uppercase; color: var(--g); margin-bottom: 20px; }
+.page-title { font-family: var(--ff-head); font-size: clamp(52px, 8vw, 112px); line-height: 0.92; text-transform: uppercase; letter-spacing: 2px; color: var(--ink); }
+.page-title em { font-style: normal; color: var(--g); }
+.page-meta { margin-top: 24px; font-size: 11px; color: var(--muted); letter-spacing: 1px; }
+
+.content-wrap { max-width: 800px; padding: 80px; margin: 0 auto; }
+.content-section { margin-bottom: 60px; padding-bottom: 60px; border-bottom: 1px solid var(--line); }
+.content-section:last-child { border-bottom: none; }
+.sec-num { font-size: 9px; letter-spacing: 3px; color: var(--g); text-transform: uppercase; margin-bottom: 12px; opacity: 0.7; }
+.sec-title { font-family: var(--ff-cond); font-size: 28px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--ink); margin-bottom: 24px; }
+.sec-body { font-size: 13px; line-height: 2; color: var(--muted); }
+.sec-body p { margin-bottom: 16px; }
+.sec-body p:last-child { margin-bottom: 0; }
+.sec-body strong { color: var(--ink); font-weight: 500; }
+.sec-body ul { list-style: none; padding-left: 0; margin: 16px 0; display: flex; flex-direction: column; gap: 8px; }
+.sec-body ul li { padding-left: 20px; position: relative; }
+.sec-body ul li::before { content: '→'; position: absolute; left: 0; color: var(--g); font-size: 11px; }
+.sec-body a { color: var(--g); text-decoration: none; }
+.sec-body a:hover { text-decoration: underline; }
+.highlight-box { border: 1px solid var(--line); padding: 24px 28px; background: rgba(102,200,0,0.03); border-left: 3px solid var(--g); margin: 24px 0; }
+.highlight-box p { font-size: 12px; color: var(--muted); line-height: 1.9; }
+.highlight-box strong { color: var(--ink); }
+
+footer { border-top: 1px solid var(--line); }
+.footer-bottom { padding: 20px 40px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+.footer-bottom p { font-size: 10px; letter-spacing: 1px; color: var(--dim); }
+.footer-bottom a { color: var(--g); text-decoration: none; }
+
+@media (max-width: 900px) {
+  nav { padding: 0 20px; }
+  .page-hero { padding: 48px 24px 40px; }
+  .content-wrap { padding: 48px 24px; }
+  .footer-bottom { padding: 20px 24px; flex-direction: column; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">LIVE<em>RECORD</em><sup>.FUN</sup></a>
+  <a href="/" class="nav-back">← Back to home</a>
+</nav>
+
+<div class="page-hero">
+  <div class="page-label">Legal</div>
+  <h1 class="page-title">PRIVACY<br><em>POLICY</em></h1>
+  <p class="page-meta">Last updated: April 30, 2025 &nbsp;·&nbsp; Effective: April 30, 2025</p>
+</div>
+
+<div class="content-wrap">
+
+  <div class="highlight-box">
+    <p><strong>Summary:</strong> LiveRecord collects limited data necessary to operate the protocol and improve your experience. We do not sell your personal data to third parties. Your onchain activity is public by design — that's the nature of blockchain. This policy explains everything in plain language.</p>
+  </div>
+
+  <div class="content-section">
+    <div class="sec-num">01</div>
+    <h2 class="sec-title">Who We Are</h2>
+    <div class="sec-body">
+      <p>LiveRecord ("<strong>LiveRecord</strong>", "we", "us", or "our") operates the website located at <a href="https://liverecord.fun">liverecord.fun</a>, the LiveRecord Protocol, and related services (collectively, the "<strong>Service</strong>").</p>
+      <p>LiveRecord is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website or use our protocol.</p>
+      <p>If you have questions about this policy, contact us at: <a href="mailto:privacy@liverecord.fun">privacy@liverecord.fun</a></p>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <div class="sec-num">02</div>
+    <h2 class="sec-title">Information We Collect</h2>
+    <div class="sec-body">
+      <p><strong>Information you provide directly:</strong></p>
+      <ul>
+        <li>Wallet addresses when you connect to the protocol</li>
+        <li>Email address if you subscribe to our newsletter or waitlist</li>
+        <li>Communications you send us via email or social media</li>
+      </ul>
+      <p><strong>Information collected automatically:</strong></p>
+      <ul>
+        <li>Browser type, operating system, and device information</li>
+        <li>IP address and general geographic location (country/region level)</li>
+        <li>Pages visited and time spent on each page</li>
+        <li>Referring URLs and exit pages</li>
+        <li>Cookie and tracking data (see our <a href="cookies.html">Cookie Policy</a>)</li>
+      </ul>
+      <p><strong>Onchain data:</strong></p>
+      <p>All blockchain transactions are public by nature. Wallet addresses, transaction histories, and on-chain activity associated with your use of LiveRecord Protocol are visible on public blockchains. This is inherent to how blockchain technology works and is not within our control to make private.</p>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <div class="sec-num">03</div>
+    <h2 class="sec-title">How We Use Your Information</h2>
+    <div class="sec-body">
+      <p>We use the information we collect to:</p>
+      <ul>
+        <li>Operate and maintain the LiveRecord Protocol and website</li>
+        <li>Process your transactions and manage your R.E.C. score</li>
+        <li>Send you protocol updates, newsletters, and announcements (only if you opted in)</li>
+        <li>Improve our services, detect bugs, and analyze usage patterns</li>
+        <li>Comply with legal obligations and enforce our terms</li>
+        <li>Prevent fraud, abuse, and unauthorized access</li>
+        <li>Respond to your inquiries and provide support</li>
+      </ul>
+      <p>We do <strong>not</strong> use your data for targeted advertising, nor do we sell or rent your personal information to third parties.</p>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <div class="sec-num">04</div>
+    <h2 class="sec-title">Sharing Your Information</h2>
+    <div class="sec-body">
+      <p>We may share your information only in the following limited circumstances:</p>
+      <ul>
+        <li><strong>Service providers:</strong> Third-party vendors who help us operate the service (hosting, analytics, email delivery) under confidentiality agreements</li>
+        <li><strong>Legal requirements:</strong> When required by law, court order, or governmental authority</li>
+        <li><strong>Protection of rights:</strong> To protect the rights, property, or safety of LiveRecord, our users, or the public</li>
+        <li><strong>Business transfers:</strong> In connection with a merger, acquisition, or sale of assets, with advance notice to affected users</li>
+      </ul>
+      <p>We never sell your personal data. Period.</p>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <div class="sec-num">05</div>
+    <h2 class="sec-title">Data Retention</h2>
+    <div class="sec-body">
+      <p>We retain your personal information for as long as necessary to fulfil the purposes described in this policy, unless a longer retention period is required by law.</p>
+      <p>Newsletter subscription data is retained until you unsubscribe. Analytics data is retained in aggregated, anonymized form for up to 24 months. Onchain data is permanent by design and cannot be deleted — this is a fundamental property of blockchain technology.</p>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <div class="sec-num">06</div>
+    <h2 class="sec-title">Your Rights</h2>
+    <div class="sec-body">
+      <p>Depending on your location, you may have the following rights regarding your personal data:</p>
+      <ul>
+        <li><strong>Access:</strong> Request a copy of the personal data we hold about you</li>
+        <li><strong>Correction:</strong> Request correction of inaccurate or incomplete data</li>
+        <li><strong>Deletion:</strong> Request deletion of your personal data (subject to legal obligations)</li>
+        <li><strong>Objection:</strong> Object to processing of your data for direct marketing purposes</li>
+        <li><strong>Portability:</strong> Request transfer of your data in a machine-readable format</li>
+        <li><strong>Withdrawal of consent:</strong> Where processing is based on consent, you may withdraw at any time</li>
+      </ul>
+      <p>To exercise any of these rights, email us at <a href="mailto:privacy@liverecord.fun">privacy@liverecord.fun</a>. We will respond within 30 days.</p>
+      <p>Note: Onchain data cannot be modified or deleted due to the immutable nature of blockchain. These rights apply only to off-chain data we control.</p>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <div class="sec-num">07</div>
+    <h2 class="sec-title">Security</h2>
+    <div class="sec-body">
+      <p>We implement appropriate technical and organizational measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction. These include encryption in transit, access controls, and regular security reviews.</p>
+      <p>However, no method of transmission over the internet or electronic storage is 100% secure. We cannot guarantee absolute security and encourage you to use strong passwords and secure your wallet private keys independently.</p>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <div class="sec-num">08</div>
+    <h2 class="sec-title">Children's Privacy</h2>
+    <div class="sec-body">
+      <p>LiveRecord is not directed at children under the age of 13. We do not knowingly collect personal information from children. If you believe a child has provided us with personal data, please contact us at <a href="mailto:privacy@liverecord.fun">privacy@liverecord.fun</a> and we will take steps to delete such information.</p>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <div class="sec-num">09</div>
+    <h2 class="sec-title">Third-Party Links</h2>
+    <div class="sec-body">
+      <p>Our website may contain links to third-party websites, including blockchain explorers, partner sites, and social media platforms. We are not responsible for the privacy practices of those sites. We encourage you to review the privacy policies of any third-party sites you visit.</p>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <div class="sec-num">10</div>
+    <h2 class="sec-title">Changes to This Policy</h2>
+    <div class="sec-body">
+      <p>We may update this Privacy Policy from time to time. When we make material changes, we will notify you by updating the "Last updated" date at the top of this page and, where appropriate, by posting a notice on our website or sending you an email.</p>
+      <p>Your continued use of the Service after changes become effective constitutes your acceptance of the revised policy.</p>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <div class="sec-num">11</div>
+    <h2 class="sec-title">Contact Us</h2>
+    <div class="sec-body">
+      <p>If you have any questions about this Privacy Policy or our data practices, please contact us:</p>
+      <ul>
+        <li><strong>Email:</strong> <a href="mailto:privacy@liverecord.fun">privacy@liverecord.fun</a></li>
+        <li><strong>X (Twitter):</strong> <a href="https://x.com/liverecordfun" target="_blank" rel="noopener">@liverecordfun</a></li>
+        <li><strong>Website:</strong> <a href="https://liverecord.fun">liverecord.fun</a></li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-bottom">
+    <p>© 2025 <a href="/">liverecord.fun</a> — All rights reserved</p>
+    <p style="color:var(--dim)"><a href="cookies.html" style="color:var(--dim)">Cookie Policy</a> · <a href="team.html" style="color:var(--dim)">Team</a></p>
+  </div>
+</footer>
+
+</body>
+</html>
