@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Roadmap — LiveRecord Protocol</title>
+<meta name="description" content="LiveRecord development roadmap — from protocol launch to full DAO governance and the global fandom economy."/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@300;400;500;700&family=Barlow+Condensed:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+:root{
+  --g:#66c800;--g2:#4fa000;--g4:rgba(102,200,0,0.06);
+  --black:#060704;--paper:#0c1008;--ink:#e8f2d2;
+  --body:#a8c878;--sub:#7a9e52;--foot:#6b8f46;--dim:#3d5228;
+  --line:rgba(102,200,0,0.15);
+  --ff-head:'Bebas Neue',sans-serif;--ff-serif:'Instrument Serif',serif;
+  --ff-cond:'Barlow Condensed',sans-serif;--ff-mono:'IBM Plex Mono',monospace;
+}
+body{background:var(--black);color:var(--ink);font-family:var(--ff-mono);font-weight:300;overflow-x:hidden;}
+nav{position:sticky;top:0;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:56px;border-bottom:1px solid var(--line);background:rgba(6,7,4,0.96);backdrop-filter:blur(20px);}
+.nav-logo{font-family:var(--ff-head);font-size:22px;letter-spacing:2px;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:2px;}
+.nav-logo em{font-style:normal;color:var(--g);}
+.nav-logo sup{font-family:var(--ff-mono);font-size:8px;letter-spacing:1px;color:var(--sub);margin-top:-8px;font-weight:400;}
+.nav-right{display:flex;align-items:center;gap:24px;}
+.nav-right a{text-decoration:none;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--sub);transition:color 0.15s;}
+.nav-right a:hover,.nav-right a.active{color:var(--g);}
+.nav-launch{border:1px solid var(--g)!important;color:var(--g)!important;padding:6px 16px;}
+.nav-launch:hover{background:var(--g)!important;color:#000!important;}
+.nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;background:none;border:none;}
+.nav-hamburger span{display:block;width:20px;height:1px;background:var(--ink);transition:transform 0.2s,opacity 0.2s;}
+.nav-hamburger.open span:nth-child(1){transform:translateY(6px) rotate(45deg);}
+.nav-hamburger.open span:nth-child(2){opacity:0;}
+.nav-hamburger.open span:nth-child(3){transform:translateY(-6px) rotate(-45deg);}
+.mobile-menu{display:none;position:fixed;top:0;left:0;right:0;background:rgba(6,7,4,0.98);backdrop-filter:blur(24px);z-index:490;flex-direction:column;padding:80px 32px 40px;border-bottom:1px solid var(--line);}
+.mobile-menu.open{display:flex;}
+.mobile-menu a{text-decoration:none;font-size:13px;letter-spacing:3px;text-transform:uppercase;color:var(--sub);padding:18px 0;border-bottom:1px solid var(--line);transition:color 0.15s;display:block;}
+.mobile-menu a:hover{color:var(--g);}
+/* ── HERO ── */
+.rm-hero{padding:80px;border-bottom:1px solid var(--line);position:relative;overflow:hidden;}
+.rm-hero::before{content:'ROAD\AMAP';white-space:pre;position:absolute;font-family:var(--ff-head);font-size:clamp(120px,18vw,280px);color:transparent;-webkit-text-stroke:1px rgba(102,200,0,0.04);right:-20px;top:50%;transform:translateY(-50%);line-height:0.85;pointer-events:none;user-select:none;}
+.rm-hero-label{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--g);margin-bottom:20px;display:flex;align-items:center;gap:10px;}
+.rm-hero-label::after{content:'';width:32px;height:1px;background:var(--g);opacity:0.5;}
+.rm-hero-title{font-family:var(--ff-head);font-size:clamp(64px,9vw,136px);line-height:0.9;letter-spacing:2px;text-transform:uppercase;color:var(--ink);margin-bottom:28px;}
+.rm-hero-title em{font-style:normal;color:var(--g);}
+.rm-hero-desc{font-size:14px;line-height:2;color:var(--body);max-width:560px;}
+.rm-hero-status{display:flex;gap:16px;flex-wrap:wrap;margin-top:40px;}
+.rm-status-pill{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border:1px solid var(--line);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--body);}
+.rm-status-pill .dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.rm-status-pill.live .dot{background:var(--g);animation:blink 1.8s infinite;}
+.rm-status-pill.soon .dot{background:#ffb400;}
+.rm-status-pill.planned .dot{background:var(--sub);}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0.2;}}
+/* ── PHASES GRID ── */
+.phases-intro{padding:64px 80px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:24px;}
+.phases-intro h2{font-family:var(--ff-head);font-size:clamp(40px,5vw,72px);line-height:0.92;text-transform:uppercase;letter-spacing:2px;color:var(--ink);}
+.phases-intro h2 em{font-style:normal;color:var(--g);}
+.phases-intro p{font-size:13px;color:var(--body);max-width:380px;line-height:1.9;}
+/* ── PHASE CARDS ── */
+.phases{display:flex;flex-direction:column;}
+.phase{display:grid;grid-template-columns:180px 1fr;border-bottom:1px solid var(--line);min-height:200px;cursor:pointer;transition:background 0.2s;}
+.phase:last-child{border-bottom:none;}
+.phase:hover{background:var(--g4);}
+.phase.current{background:rgba(102,200,0,0.04);border-left:3px solid var(--g);}
+.phase-meta{padding:48px 40px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:8px;position:relative;}
+.phase-num{font-family:var(--ff-head);font-size:80px;line-height:0.9;color:transparent;-webkit-text-stroke:1px var(--dim);transition:color 0.3s,-webkit-text-stroke-color 0.3s;}
+.phase.current .phase-num{color:rgba(102,200,0,0.12);-webkit-text-stroke-color:var(--g);}
+.phase:hover .phase-num{color:rgba(102,200,0,0.08);-webkit-text-stroke-color:rgba(102,200,0,0.6);}
+.phase-period{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--sub);margin-top:4px;}
+.phase-badge{display:inline-flex;align-items:center;gap:6px;font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:4px 8px;border:1px solid;}
+.phase-badge.live{color:var(--g);border-color:rgba(102,200,0,0.4);background:rgba(102,200,0,0.06);}
+.phase-badge.upcoming{color:#ffb400;border-color:rgba(255,180,0,0.3);}
+.phase-badge.planned{color:var(--sub);border-color:var(--line);}
+.phase-badge .badge-dot{width:5px;height:5px;border-radius:50%;}
+.phase-badge.live .badge-dot{background:var(--g);animation:blink 1.8s infinite;}
+.phase-badge.upcoming .badge-dot{background:#ffb400;}
+.phase-badge.planned .badge-dot{background:var(--sub);}
+.phase-content{padding:48px 64px;display:flex;flex-direction:column;gap:16px;}
+.phase-title{font-family:var(--ff-cond);font-size:28px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--g);}
+.phase-subtitle{font-family:var(--ff-head);font-size:20px;letter-spacing:2px;text-transform:uppercase;color:var(--ink);margin-bottom:4px;}
+.phase-body{font-size:13px;line-height:2;color:var(--body);max-width:560px;}
+.phase-items{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:16px;border-top:1px solid var(--line);}
+.phase-item{display:flex;align-items:flex-start;gap:12px;padding:12px 0 12px 0;border-bottom:1px solid rgba(102,200,0,0.06);font-size:12px;color:var(--body);line-height:1.7;}
+.phase-item::before{content:'·';color:var(--g);font-size:18px;line-height:1.4;flex-shrink:0;}
+.phase-item.done{color:var(--ink);}
+.phase-item.done::before{content:'✓';color:var(--g);font-size:12px;line-height:1.7;}
+/* ── MILESTONES ── */
+.milestones{border-top:1px solid var(--line);background:var(--paper);}
+.mil-header{padding:64px 80px 48px;border-bottom:1px solid var(--line);}
+.mil-title{font-family:var(--ff-head);font-size:clamp(40px,5vw,72px);line-height:0.92;text-transform:uppercase;letter-spacing:2px;color:var(--ink);}
+.mil-title em{font-style:normal;color:var(--g);}
+.mil-timeline{padding:48px 80px;display:flex;flex-direction:column;gap:0;position:relative;}
+.mil-timeline::before{content:'';position:absolute;left:calc(80px + 20px);top:0;bottom:0;width:1px;background:var(--line);}
+.mil-event{display:flex;gap:40px;padding:28px 0;position:relative;}
+.mil-event::before{content:'';position:absolute;left:20px;top:35px;width:9px;height:9px;border-radius:50%;background:var(--dim);border:1px solid var(--dim);z-index:1;}
+.mil-event.done::before{background:var(--g);border-color:var(--g);}
+.mil-event.current::before{background:var(--g);border-color:var(--g);box-shadow:0 0 0 4px rgba(102,200,0,0.15);animation:mipulse 2s infinite;}
+@keyframes mipulse{0%,100%{box-shadow:0 0 0 4px rgba(102,200,0,0.15);}50%{box-shadow:0 0 0 8px rgba(102,200,0,0.05);}}
+.mil-date{font-family:var(--ff-mono);font-size:10px;letter-spacing:1px;color:var(--sub);white-space:nowrap;width:80px;flex-shrink:0;padding-top:4px;}
+.mil-content{flex:1;}
+.mil-content h4{font-family:var(--ff-cond);font-size:18px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--ink);margin-bottom:4px;}
+.mil-content p{font-size:12px;color:var(--body);line-height:1.8;}
+/* ── CTA ── */
+.rm-cta{padding:80px;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:40px;flex-wrap:wrap;}
+.rm-cta-text h2{font-family:var(--ff-head);font-size:clamp(40px,5vw,72px);line-height:0.92;text-transform:uppercase;letter-spacing:2px;color:var(--ink);}
+.rm-cta-text h2 em{font-style:normal;color:var(--g);}
+.rm-cta-text p{font-size:13px;color:var(--body);margin-top:12px;max-width:400px;line-height:1.9;}
+.cta-btns{display:flex;gap:16px;flex-wrap:wrap;}
+.btn-primary{background:var(--g);color:#000;padding:13px 30px;font-family:var(--ff-mono);font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;text-decoration:none;display:inline-block;transition:background 0.15s,transform 0.12s;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,0 100%);}
+.btn-primary:hover{background:#7ddf00;transform:translate(-2px,-2px);}
+.btn-ghost{color:var(--sub);font-size:11px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:color 0.15s;border-bottom:1px solid var(--dim);padding-bottom:2px;}
+.btn-ghost:hover{color:var(--g);border-color:var(--g);}
+footer{border-top:1px solid var(--line);}
+.footer-bottom{padding:20px 40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.footer-bottom p{font-size:11px;letter-spacing:1px;color:var(--sub);}
+.footer-bottom a{color:var(--g);text-decoration:none;}
+.reveal{opacity:0;transform:translateY(20px);transition:opacity 0.8s cubic-bezier(0.16,1,0.3,1),transform 0.8s cubic-bezier(0.16,1,0.3,1);}
+.reveal.on{opacity:1;transform:translateY(0);}
+@media(max-width:900px){
+  .nav-right{display:none;}.nav-hamburger{display:flex;}
+  .rm-hero{padding:48px 24px;}
+  .rm-hero::before{display:none;}
+  .phases-intro{padding:40px 24px;}
+  .phase{grid-template-columns:1fr;}
+  .phase-meta{border-right:none;border-bottom:1px solid var(--line);padding:28px 24px;flex-direction:row;align-items:center;gap:16px;}
+  .phase-num{font-size:48px;}
+  .phase-content{padding:28px 24px;}
+  .phase-items{grid-template-columns:1fr;}
+  .milestones .mil-header{padding:40px 24px 28px;}
+  .mil-timeline{padding:32px 24px 32px 40px;}
+  .mil-timeline::before{left:24px;}
+  .mil-event::before{left:0;}
+  .mil-date{width:60px;font-size:9px;}
+  .rm-cta{padding:48px 24px;flex-direction:column;align-items:flex-start;}
+  .footer-bottom{padding:20px 24px;flex-direction:column;}
+}
+</style>
+</head>
+<body>
+<nav>
+  <a href="/" class="nav-logo">LIVE<em>RECORD</em><sup>.FUN</sup></a>
+  <div class="nav-right">
+    <a href="/">Home</a>
+    <a href="token.html">$REC</a>
+    <a href="roadmap.html" class="active">Roadmap</a>
+    <a href="community.html">Community</a>
+    <a href="docs.html">Docs</a>
+    <a href="https://x.com/liverecordfun" target="_blank" rel="noopener" class="nav-launch">Follow X</a>
+  </div>
+  <button class="nav-hamburger" id="hamburger" aria-label="Open menu"><span></span><span></span><span></span></button>
+</nav>
+<div class="mobile-menu" id="mobile-menu">
+  <a href="/">Home</a>
+  <a href="token.html">$REC Token</a>
+  <a href="roadmap.html">Roadmap</a>
+  <a href="community.html">Community</a>
+  <a href="docs.html">Documentation</a>
+  <a href="team.html">Team</a>
+  <a href="https://x.com/liverecordfun" target="_blank" rel="noopener" style="color:var(--g)">Follow @liverecordfun on X →</a>
+</div>
+
+<!-- HERO -->
+<div class="rm-hero">
+  <div class="rm-hero-label">LiveRecord Protocol</div>
+  <h1 class="rm-hero-title reveal">DEVELOPMENT<br><em>ROADMAP</em></h1>
+  <p class="rm-hero-desc reveal" style="transition-delay:0.1s">
+    LiveRecord is building toward a fully permissionless, community-governed fandom economy. We're moving in phases — from protocol genesis to full DAO governance and global scale. Here's where we are and where we're going.
+  </p>
+  <div class="rm-hero-status reveal" style="transition-delay:0.18s">
+    <div class="rm-status-pill live"><div class="dot"></div>Phase 01 — Live Now</div>
+    <div class="rm-status-pill soon"><div class="dot"></div>Phase 02 — Q3 2025</div>
+    <div class="rm-status-pill planned"><div class="dot"></div>Phase 03 — Q4 2025</div>
+    <div class="rm-status-pill planned"><div class="dot"></div>Phase 04 — 2026</div>
+  </div>
+</div>
+
+<!-- PHASES INTRO -->
+<div class="phases-intro">
+  <h2 class="reveal">FOUR PHASES<br>TO <em>SCALE</em></h2>
+  <p class="reveal" style="transition-delay:0.1s">Each phase builds on the previous — starting with protocol launch, expanding IPs and chains, transitioning to DAO governance, and ultimately becoming the global infrastructure for the fandom economy.</p>
+</div>
+
+<!-- PHASES -->
+<div class="phases">
+
+  <div class="phase current reveal">
+    <div class="phase-meta">
+      <div class="phase-num">01</div>
+      <div><div class="phase-badge live"><div class="badge-dot"></div>Live Now</div></div>
+      <div class="phase-period">Q2 2025</div>
+    </div>
+    <div class="phase-content">
+      <div class="phase-title">Genesis</div>
+      <div class="phase-subtitle">Protocol Launch</div>
+      <p class="phase-body">Initial launch of LiveRecord Protocol. Core infrastructure live on Base, first IP integrations, $REC token launch via EasyA Kickstart, and the IRC App as the first real fandom use case.</p>
+      <div class="phase-items">
+        <div class="phase-item done">LiveRecord Protocol v1 deployed on Base</div>
+        <div class="phase-item done">R.E.C. Engine v1 — AI scoring live</div>
+        <div class="phase-item done">$REC token launch via EasyA Kickstart</div>
+        <div class="phase-item done">IRC App — J-Pop fandom integration</div>
+        <div class="phase-item done">Developer API v1 public access</div>
+        <div class="phase-item done">@liverecordfun account live</div>
+        <div class="phase-item">First 10,000 fans scored onchain</div>
+        <div class="phase-item">First epoch $REC distribution</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase reveal">
+    <div class="phase-meta">
+      <div class="phase-num">02</div>
+      <div><div class="phase-badge upcoming"><div class="badge-dot"></div>Q3 2025</div></div>
+      <div class="phase-period">Jul — Sep 2025</div>
+    </div>
+    <div class="phase-content">
+      <div class="phase-title">Expansion</div>
+      <div class="phase-subtitle">More IPs, More Chains</div>
+      <p class="phase-body">Expand protocol to new IP categories and new EVM chains. Launch the developer SDK, open IP registration to all, and release R.E.C. Engine v2 with broader signal coverage.</p>
+      <div class="phase-items">
+        <div class="phase-item">Anime fandom integrations (3+ series)</div>
+        <div class="phase-item">K-Pop fandom integrations</div>
+        <div class="phase-item">Multi-chain: Arbitrum + Polygon deployment</div>
+        <div class="phase-item">@liverecord/sdk v1 public release</div>
+        <div class="phase-item">Permissionless IP registration open</div>
+        <div class="phase-item">R.E.C. Engine v2 — enhanced signals</div>
+        <div class="phase-item">LiveRecord Grants Program launch</div>
+        <div class="phase-item">50,000 fans scored milestone</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase reveal">
+    <div class="phase-meta">
+      <div class="phase-num">03</div>
+      <div><div class="phase-badge planned"><div class="badge-dot"></div>Q4 2025</div></div>
+      <div class="phase-period">Oct — Dec 2025</div>
+    </div>
+    <div class="phase-content">
+      <div class="phase-title">Governance</div>
+      <div class="phase-subtitle">DAO Transition</div>
+      <p class="phase-body">Transfer protocol governance to $REC token holders. Launch the LiveRecord DAO, introduce community score model updates, and open the treasury to community allocation via on-chain voting.</p>
+      <div class="phase-items">
+        <div class="phase-item">LiveRecord DAO official launch</div>
+        <div class="phase-item">On-chain governance v1 live</div>
+        <div class="phase-item">First community IP proposal vote</div>
+        <div class="phase-item">Score model open-source components</div>
+        <div class="phase-item">Treasury funded via protocol revenue</div>
+        <div class="phase-item">Community Grants DAO allocation</div>
+        <div class="phase-item">200,000 fans scored milestone</div>
+        <div class="phase-item">DEX listings and liquidity pools</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase reveal">
+    <div class="phase-meta">
+      <div class="phase-num">04</div>
+      <div><div class="phase-badge planned"><div class="badge-dot"></div>2026</div></div>
+      <div class="phase-period">2026 +</div>
+    </div>
+    <div class="phase-content">
+      <div class="phase-title">Scale</div>
+      <div class="phase-subtitle">Global Fandom Economy</div>
+      <p class="phase-body">Full protocol maturity. Cross-chain interoperability, institutional IP partnerships, real-world event integration, and LiveRecord Protocol v2 with complete decentralization — the global infrastructure for the fandom economy.</p>
+      <div class="phase-items">
+        <div class="phase-item">100+ IPs tracked across all categories</div>
+        <div class="phase-item">Real-world event integration (concerts)</div>
+        <div class="phase-item">Cross-chain $REC bridging</div>
+        <div class="phase-item">Institutional IP partnership program</div>
+        <div class="phase-item">LiveRecord Protocol v2 launch</div>
+        <div class="phase-item">1M fans scored milestone</div>
+        <div class="phase-item">CEX listings on major exchanges</div>
+        <div class="phase-item">Full protocol decentralization</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- MILESTONES TIMELINE -->
+<div class="milestones">
+  <div class="mil-header">
+    <div style="font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--g);margin-bottom:14px;display:flex;align-items:center;gap:10px;">Key Milestones<span style="display:block;width:32px;height:1px;background:var(--g);opacity:0.5;"></span></div>
+    <h2 class="mil-title reveal">TIMELINE &amp;<br><em>MILESTONES</em></h2>
+  </div>
+  <div class="mil-timeline">
+    <div class="mil-event done reveal">
+      <div class="mil-date">Apr 2025</div>
+      <div class="mil-content"><h4>Protocol Genesis</h4><p>LiveRecord Protocol v1 deployed. $REC token created. First R.E.C. epoch begins.</p></div>
+    </div>
+    <div class="mil-event done reveal" style="transition-delay:0.06s">
+      <div class="mil-date">Apr 2025</div>
+      <div class="mil-content"><h4>EasyA Kickstart Launch</h4><p>LiveRecord officially launches on kickstart.easya.io — first public access to the fandom economy.</p></div>
+    </div>
+    <div class="mil-event current reveal" style="transition-delay:0.12s">
+      <div class="mil-date">May 2025</div>
+      <div class="mil-content"><h4>IRC App — First Use Case</h4><p>J-Pop fandom goes onchain. IRC App powered by R.E.C. scoring launches to global fans.</p></div>
+    </div>
+    <div class="mil-event reveal" style="transition-delay:0.18s">
+      <div class="mil-date">Jul 2025</div>
+      <div class="mil-content"><h4>Multi-Chain Expansion</h4><p>Arbitrum and Polygon deployments. SDK v1 public release. Permissionless IP registration opens.</p></div>
+    </div>
+    <div class="mil-event reveal" style="transition-delay:0.24s">
+      <div class="mil-date">Sep 2025</div>
+      <div class="mil-content"><h4>50,000 Fans Scored</h4><p>R.E.C. Engine v2 processes 50,000+ active fans across anime, K-Pop, J-Pop, and gaming fandoms.</p></div>
+    </div>
+    <div class="mil-event reveal" style="transition-delay:0.30s">
+      <div class="mil-date">Oct 2025</div>
+      <div class="mil-content"><h4>LiveRecord DAO Launch</h4><p>Protocol governance transferred to $REC holders. First community vote on new IP admission.</p></div>
+    </div>
+    <div class="mil-event reveal" style="transition-delay:0.36s">
+      <div class="mil-date">Q1 2026</div>
+      <div class="mil-content"><h4>1 Million Fans Milestone</h4><p>LiveRecord becomes the largest onchain fandom record system globally — 1M fans scored and rewarded.</p></div>
+    </div>
+    <div class="mil-event reveal" style="transition-delay:0.42s">
+      <div class="mil-date">2026+</div>
+      <div class="mil-content"><h4>Protocol v2 — Full Decentralization</h4><p>LiveRecord Protocol v2 launches with complete decentralization and institutional IP partnerships.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="rm-cta">
+  <div class="rm-cta-text">
+    <h2 class="reveal">JOIN THE<br><em>JOURNEY</em></h2>
+    <p class="reveal" style="transition-delay:0.1s">We're just getting started. Follow @liverecordfun to stay updated on every milestone — and be there from day one.</p>
+  </div>
+  <div class="cta-btns reveal" style="transition-delay:0.18s">
+    <a href="https://x.com/liverecordfun" target="_blank" rel="noopener" class="btn-primary">Follow on X</a>
+    <a href="docs.html#roadmap" class="btn-ghost">Technical roadmap →</a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-bottom">
+    <p>© 2025 <a href="/">liverecord.fun</a> — All rights reserved</p>
+    <p><a href="privacy.html" style="color:var(--sub)">Privacy</a> · <a href="cookies.html" style="color:var(--sub)">Cookies</a> · <a href="team.html" style="color:var(--sub)">Team</a></p>
+  </div>
+</footer>
+<script>
+const hbg=document.getElementById('hamburger'),mob=document.getElementById('mobile-menu');
+hbg.addEventListener('click',()=>{const o=mob.classList.toggle('open');hbg.classList.toggle('open',o);document.body.style.overflow=o?'hidden':'';});
+const io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target);}});},{threshold:0.08});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
