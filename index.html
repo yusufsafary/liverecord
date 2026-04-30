@@ -49,17 +49,20 @@ body{background:var(--black);color:var(--ink);font-family:var(--ff-mono);font-we
 
 /* ── ANNOUNCEMENT ── */
 .announcement-bar{
-  background:var(--g);color:#000;
-  text-align:center;padding:10px 20px;
-  font-family:var(--ff-mono);font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  background:#000;color:var(--g);
+  text-align:center;padding:12px 20px;
+  font-family:var(--ff-mono);font-size:11px;font-weight:400;letter-spacing:2px;text-transform:uppercase;
   position:relative;z-index:600;
   display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;
+  border-bottom:1px solid var(--line);
 }
-.announcement-bar a{color:#000;text-decoration:underline;text-underline-offset:2px;}
-.ab-dot{width:5px;height:5px;background:#000;border-radius:50%;opacity:0.4;}
-.ab-pulse{display:inline-flex;align-items:center;gap:6px;}
-.ab-dot-live{width:7px;height:7px;background:#000;border-radius:50%;animation:abpulse 1.4s ease infinite;}
-@keyframes abpulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.3;transform:scale(0.7);}}
+.announcement-bar a{color:var(--g);font-weight:700;text-decoration:none;border-bottom:1px solid rgba(102,200,0,0.4);padding-bottom:1px;transition:border-color 0.15s;}
+.announcement-bar a:hover{border-color:var(--g);}
+.ab-dot{width:4px;height:4px;background:var(--g);border-radius:50%;opacity:0.4;flex-shrink:0;}
+.ab-pulse{display:inline-flex;align-items:center;gap:7px;flex-shrink:0;}
+.ab-badge{background:var(--g);color:#000;font-size:9px;letter-spacing:2px;font-weight:700;padding:3px 8px;flex-shrink:0;}
+.ab-dot-live{width:6px;height:6px;background:var(--g);border-radius:50%;animation:abpulse 1.4s ease infinite;flex-shrink:0;}
+@keyframes abpulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.2;transform:scale(0.6);}}
 
 /* ── NAV ── */
 nav{
@@ -94,18 +97,29 @@ nav{
 .mobile-menu a:hover{color:var(--g);}
 
 /* ── HERO ── */
-.hero{min-height:100vh;display:grid;grid-template-columns:1fr 380px;grid-template-rows:1fr auto;position:relative;border-bottom:1px solid var(--line);}
+.hero{min-height:100dvh;display:grid;grid-template-columns:1fr 380px;grid-template-rows:1fr auto;position:relative;border-bottom:1px solid var(--line);}
 .hero-bg-num{position:absolute;bottom:-20px;right:40px;font-family:var(--ff-head);font-size:clamp(200px,28vw,420px);color:transparent;-webkit-text-stroke:1px rgba(102,200,0,0.05);line-height:1;pointer-events:none;user-select:none;z-index:0;}
+.hero-glow{position:absolute;top:50%;left:30%;transform:translate(-50%,-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(102,200,0,0.07) 0%,transparent 60%);pointer-events:none;z-index:0;animation:hglow 6s ease-in-out infinite;}
+@keyframes hglow{0%,100%{opacity:0.6;transform:translate(-50%,-50%) scale(1);}50%{opacity:1;transform:translate(-50%,-50%) scale(1.15);}}
 .hero-left{padding:60px 40px;display:flex;flex-direction:column;justify-content:center;position:relative;z-index:1;border-right:1px solid var(--line);}
-.hero-eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:40px;}
+.hero-eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:32px;}
 .hero-eyebrow-line{width:40px;height:1px;background:var(--g);}
 .hero-eyebrow span{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--g);}
-.hero h1{font-family:var(--ff-head);font-size:clamp(72px,11vw,160px);line-height:0.92;letter-spacing:2px;color:var(--ink);text-transform:uppercase;}
+.hero h1{font-family:var(--ff-head);font-size:clamp(68px,11vw,160px);line-height:0.92;letter-spacing:2px;color:var(--ink);text-transform:uppercase;}
 .hero h1 .line-green{color:var(--g);}
-.hero h1 .line-serif{font-family:var(--ff-serif);font-size:clamp(52px,8vw,120px);font-style:italic;letter-spacing:-1px;color:var(--ink);display:block;line-height:1;text-transform:none;}
-.hero-desc{margin-top:48px;max-width:460px;font-size:14px;line-height:1.9;color:var(--body);font-weight:300;position:relative;padding-left:20px;}
+.hero h1 .line-serif{font-family:var(--ff-serif);font-size:clamp(50px,8vw,120px);font-style:italic;letter-spacing:-1px;color:var(--ink);display:inline;line-height:0.92;text-transform:none;}
+.hero-desc{margin-top:36px;max-width:460px;font-size:13px;line-height:1.9;color:var(--body);font-weight:300;position:relative;padding-left:20px;}
 .hero-desc::before{content:'';position:absolute;left:0;top:4px;bottom:4px;width:2px;background:var(--g);opacity:0.5;}
-.hero-ctas{margin-top:48px;display:flex;gap:16px;align-items:center;flex-wrap:wrap;}
+.hero-ctas{margin-top:36px;display:flex;gap:16px;align-items:center;flex-wrap:wrap;}
+/* coming soon pill */
+.hero-coming-soon{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(102,200,0,0.3);padding:8px 16px;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--body);margin-bottom:32px;background:var(--g4);}
+.hero-coming-soon strong{color:var(--g);font-weight:700;}
+.hero-coming-soon a{color:var(--g);text-decoration:none;font-weight:700;border-bottom:1px solid rgba(102,200,0,0.4);padding-bottom:1px;}
+/* scroll indicator */
+.hero-scroll{position:absolute;bottom:60px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--sub);z-index:2;animation:bobup 2s ease-in-out infinite;}
+@keyframes bobup{0%,100%{transform:translateX(-50%) translateY(0);}50%{transform:translateX(-50%) translateY(-6px);}}
+.hero-scroll-line{width:1px;height:32px;background:linear-gradient(to bottom,var(--g),transparent);}
+@media(max-width:900px){.hero-scroll{display:none;}}
 
 /* typing cursor for hero */
 .typing-cursor{display:inline-block;width:3px;height:0.85em;background:var(--g);margin-left:3px;vertical-align:middle;animation:tcursor 0.9s step-end infinite;}
@@ -350,10 +364,15 @@ footer{border-top:1px solid var(--line);}
   .nav-hamburger{display:flex;}
   .nav-right{display:none;}
   .announcement-bar{font-size:10px;padding:8px 16px;gap:8px;}
-  .hero{grid-template-columns:1fr;}
+  .hero{grid-template-columns:1fr;min-height:100dvh;}
   .hero-right{display:none;}
-  .hero-left{padding:48px 24px;}
-  .hero h1{font-size:clamp(60px,18vw,110px);}
+  .hero-glow{width:320px;height:320px;top:40%;left:50%;}
+  .hero-left{padding:36px 24px 60px;}
+  .hero h1{font-size:clamp(56px,17vw,100px);}
+  .hero-eyebrow{margin-bottom:24px;}
+  .hero-desc{margin-top:28px;}
+  .hero-ctas{margin-top:28px;}
+  .hero-coming-soon{margin-bottom:24px;font-size:9px;}
   .hero-desc{font-size:13px;}
   .problem{grid-template-columns:1fr;}
   .problem-index{display:none;}
@@ -413,32 +432,33 @@ footer{border-top:1px solid var(--line);}
 
 <!-- ANNOUNCEMENT -->
 <div class="announcement-bar">
-  <span class="ab-pulse"><span class="ab-dot-live"></span>LIVE NOW</span>
+  <span class="ab-badge">LAUNCHING SOON</span>
   <span class="ab-dot"></span>
-  <span>LiveRecord officially launches on</span>
-  <a href="https://kickstart.easya.io/" target="_blank" rel="noopener">kickstart.easya.io</a>
+  <span>LiveRecord is coming — follow us for updates</span>
   <span class="ab-dot"></span>
-  <span>Join the fandom economy today</span>
+  <a href="https://x.com/liverecordfun" target="_blank" rel="noopener">@liverecordfun on X →</a>
+  <span class="ab-dot"></span>
+  <span class="ab-pulse"><span class="ab-dot-live"></span>See preview on <a href="https://kickstart.easya.io/" target="_blank" rel="noopener">kickstart.easya.io</a></span>
 </div>
 
 <!-- NAV -->
 <nav id="main-nav">
   <a href="/" class="nav-logo">LIVE<em>RECORD</em><sup>.FUN</sup></a>
   <div class="nav-right">
-    <div class="nav-status"><div class="nav-status-dot"></div>MAINNET LIVE</div>
+    <div class="nav-status"><div class="nav-status-dot"></div>COMING SOON</div>
     <a href="#protocol">Protocol</a>
     <a href="#usecase">Apps</a>
     <a href="#partnership">Partners</a>
     <a href="team.html">Team</a>
     <a href="docs.html">Docs</a>
-    <a href="#" class="nav-launch">Launch App</a>
+    <a href="https://x.com/liverecordfun" target="_blank" rel="noopener" class="nav-launch">Follow X</a>
   </div>
   <button class="nav-hamburger" id="hamburger" aria-label="Open menu"><span></span><span></span><span></span></button>
 </nav>
 
 <!-- MOBILE MENU -->
 <div class="mobile-menu" id="mobile-menu">
-  <div class="nav-status" style="margin-bottom:12px;color:var(--body)"><div class="nav-status-dot"></div>MAINNET LIVE</div>
+  <div class="nav-status" style="margin-bottom:12px;color:var(--body)"><div class="nav-status-dot"></div>COMING SOON</div>
   <a href="#protocol" onclick="closeMobile()">Protocol</a>
   <a href="#usecase" onclick="closeMobile()">Apps</a>
   <a href="#howitworks" onclick="closeMobile()">How It Works</a>
@@ -447,21 +467,27 @@ footer{border-top:1px solid var(--line);}
   <a href="docs.html">Documentation</a>
   <a href="privacy.html">Privacy Policy</a>
   <a href="cookies.html">Cookie Policy</a>
-  <a href="#" style="color:var(--g)" onclick="closeMobile()">Launch App →</a>
+  <a href="https://x.com/liverecordfun" target="_blank" rel="noopener" style="color:var(--g)">Follow @liverecordfun on X →</a>
 </div>
 
 <!-- HERO -->
 <section class="hero">
+  <div class="hero-glow"></div>
   <div class="hero-left">
     <div class="hero-eyebrow reveal">
       <div class="hero-eyebrow-line"></div>
       <span>Fandom Economy · Onchain</span>
     </div>
+    <div class="hero-coming-soon reveal" style="transition-delay:0.04s">
+      <span class="ab-dot-live" style="flex-shrink:0"></span>
+      <strong>Coming Soon</strong>
+      <span>·</span>
+      <span>Follow <a href="https://x.com/liverecordfun" target="_blank" rel="noopener">@liverecordfun</a> for updates</span>
+    </div>
     <h1 class="reveal" style="transition-delay:0.08s">
-      RECORDING<br>
-      THE<br>
+      RECORDING<br>THE<br>
       <span class="line-green">FANDOM</span><br>
-      <span class="line-serif">Economy,</span><br>
+      <span class="line-serif">Economy,</span>
       ONCHAIN
     </h1>
     <p class="hero-desc reveal" style="transition-delay:0.16s">
@@ -469,7 +495,7 @@ footer{border-top:1px solid var(--line);}
     </p>
     <div class="hero-ctas reveal" style="transition-delay:0.22s">
       <a href="docs.html" class="btn-primary">Read Docs</a>
-      <a href="#protocol" class="btn-ghost">How it works →</a>
+      <a href="https://x.com/liverecordfun" target="_blank" rel="noopener" class="btn-ghost">Follow on X →</a>
     </div>
   </div>
   <div class="hero-right">
@@ -491,6 +517,7 @@ footer{border-top:1px solid var(--line);}
     </div>
   </div>
   <div class="hero-bg-num">01</div>
+  <div class="hero-scroll"><div class="hero-scroll-line"></div>SCROLL</div>
   <div class="hero-bottom">
     <div class="hero-ticker">
       <div class="hero-ticker-item">LIVERECORD <em>·</em> FANDOM ECONOMY</div>
