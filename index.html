@@ -1,0 +1,1430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>LIVERECORD — Recording the Fandom Economy, Onchain</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@300;400;500;700&family=Barlow+Condensed:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+
+<style>
+/* ══════════════════════════════════
+   RESET & BASE
+══════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+
+:root {
+  --g: #66c800;
+  --g2: #4fa000;
+  --g3: rgba(102,200,0,0.12);
+  --g4: rgba(102,200,0,0.05);
+  --g5: rgba(102,200,0,0.25);
+  --black: #060704;
+  --paper: #0a0d07;
+  --ink: #e6f0d0;
+  --muted: #5a7040;
+  --dim: #2e3d1e;
+  --line: rgba(102,200,0,0.13);
+  --ff-head: 'Bebas Neue', sans-serif;
+  --ff-serif: 'Instrument Serif', serif;
+  --ff-cond: 'Barlow Condensed', sans-serif;
+  --ff-mono: 'IBM Plex Mono', monospace;
+}
+
+body {
+  background: var(--black);
+  color: var(--ink);
+  font-family: var(--ff-mono);
+  font-weight: 300;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* Custom cursor */
+#cursor {
+  position: fixed;
+  width: 10px; height: 10px;
+  background: var(--g);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99999;
+  transition: transform 0.08s ease;
+  mix-blend-mode: difference;
+}
+#cursor-ring {
+  position: fixed;
+  width: 36px; height: 36px;
+  border: 1px solid var(--g);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99998;
+  transition: transform 0.18s ease, width 0.2s, height 0.2s, opacity 0.2s;
+  opacity: 0.5;
+  margin-left: -13px; margin-top: -13px;
+}
+
+/* ══════════════════════════════════
+   GRID LINES (decorative vertical)
+══════════════════════════════════ */
+.grid-lines {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  padding: 0 40px;
+  opacity: 0.03;
+}
+.grid-lines span {
+  border-left: 1px solid var(--g);
+  height: 100%;
+}
+
+/* ══════════════════════════════════
+   NAV
+══════════════════════════════════ */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  height: 60px;
+  border-bottom: 1px solid var(--line);
+  background: rgba(6,7,4,0.85);
+  backdrop-filter: blur(16px);
+}
+
+.nav-logo {
+  font-family: var(--ff-head);
+  font-size: 24px;
+  letter-spacing: 2px;
+  color: var(--ink);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+.nav-logo em {
+  font-style: normal;
+  color: var(--g);
+}
+.nav-logo sup {
+  font-family: var(--ff-mono);
+  font-size: 8px;
+  letter-spacing: 1px;
+  color: var(--muted);
+  margin-top: -8px;
+  font-weight: 400;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+.nav-right a {
+  text-decoration: none;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  transition: color 0.15s;
+}
+.nav-right a:hover { color: var(--g); }
+
+.nav-launch {
+  border: 1px solid var(--g) !important;
+  color: var(--g) !important;
+  padding: 7px 18px;
+  font-size: 10px !important;
+  letter-spacing: 2px;
+  transition: background 0.15s, color 0.15s !important;
+}
+.nav-launch:hover {
+  background: var(--g) !important;
+  color: #000 !important;
+}
+
+.nav-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 9px;
+  letter-spacing: 1px;
+  color: var(--muted);
+}
+.nav-status-dot {
+  width: 5px; height: 5px;
+  background: var(--g);
+  border-radius: 50%;
+  animation: blink 1.8s infinite;
+}
+@keyframes blink {
+  0%,100% { opacity: 1; }
+  50% { opacity: 0.2; }
+}
+
+/* ══════════════════════════════════
+   HERO
+══════════════════════════════════ */
+.hero {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  grid-template-rows: 1fr auto;
+  padding: 60px 0 0;
+  position: relative;
+  border-bottom: 1px solid var(--line);
+}
+
+.hero-bg-num {
+  position: absolute;
+  bottom: -20px; right: 40px;
+  font-family: var(--ff-head);
+  font-size: clamp(200px, 28vw, 420px);
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(102,200,0,0.06);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+}
+
+.hero-left {
+  padding: 60px 40px 60px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+  border-right: 1px solid var(--line);
+}
+
+.hero-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 40px;
+}
+.hero-eyebrow-line {
+  width: 40px; height: 1px;
+  background: var(--g);
+}
+.hero-eyebrow span {
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--g);
+}
+
+.hero h1 {
+  font-family: var(--ff-head);
+  font-size: clamp(80px, 11vw, 160px);
+  line-height: 0.92;
+  letter-spacing: 2px;
+  color: var(--ink);
+  text-transform: uppercase;
+  margin-bottom: 0;
+}
+.hero h1 .line-green { color: var(--g); }
+.hero h1 .line-serif {
+  font-family: var(--ff-serif);
+  font-size: clamp(60px, 8vw, 120px);
+  font-style: italic;
+  letter-spacing: -1px;
+  color: var(--ink);
+  display: block;
+  line-height: 1;
+  text-transform: none;
+}
+
+.hero-desc {
+  margin-top: 48px;
+  max-width: 460px;
+  font-size: 13px;
+  line-height: 1.9;
+  color: var(--muted);
+  font-weight: 300;
+  position: relative;
+  padding-left: 20px;
+}
+.hero-desc::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 4px; bottom: 4px;
+  width: 2px;
+  background: var(--g);
+  opacity: 0.4;
+}
+
+.hero-ctas {
+  margin-top: 48px;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.btn-primary {
+  background: var(--g);
+  color: #000;
+  padding: 13px 30px;
+  font-family: var(--ff-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-decoration: none;
+  display: inline-block;
+  transition: background 0.15s, transform 0.1s;
+  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
+}
+.btn-primary:hover {
+  background: #80ef00;
+  transform: translate(-2px, -2px);
+}
+
+.btn-ghost {
+  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.15s;
+  border-bottom: 1px solid var(--dim);
+  padding-bottom: 2px;
+}
+.btn-ghost:hover { color: var(--g); border-color: var(--g); }
+
+.hero-right {
+  display: flex;
+  flex-direction: column;
+  padding: 60px 32px;
+  gap: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-stat {
+  flex: 1;
+  padding: 28px 0;
+  border-bottom: 1px solid var(--line);
+}
+.hero-stat:last-child { border-bottom: none; }
+
+.hero-stat-num {
+  font-family: var(--ff-head);
+  font-size: 52px;
+  color: var(--g);
+  line-height: 1;
+  display: block;
+  margin-bottom: 6px;
+}
+.hero-stat-label {
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.hero-bottom {
+  grid-column: 1 / -1;
+  border-top: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  height: 44px;
+}
+
+.hero-ticker {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  animation: run 25s linear infinite;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.hero-ticker-item {
+  padding: 0 28px;
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--dim);
+  border-right: 1px solid var(--line);
+  height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.hero-ticker-item em {
+  font-style: normal;
+  color: var(--g);
+}
+@keyframes run {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* ══════════════════════════════════
+   SECTION COMMONS
+══════════════════════════════════ */
+section { position: relative; z-index: 1; }
+
+.s-label {
+  font-size: 9px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--g);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+.s-label::after {
+  content: '';
+  flex: 1;
+  max-width: 48px;
+  height: 1px;
+  background: var(--g);
+  opacity: 0.4;
+}
+
+/* ══════════════════════════════════
+   PROBLEM SECTION
+══════════════════════════════════ */
+.problem {
+  display: grid;
+  grid-template-columns: 56px 1fr 1fr;
+  min-height: 80vh;
+  border-bottom: 1px solid var(--line);
+}
+
+.problem-index {
+  border-right: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 48px 0;
+}
+.problem-index-num {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  transform: rotate(180deg);
+  font-family: var(--ff-mono);
+  font-size: 9px;
+  letter-spacing: 3px;
+  color: var(--dim);
+  text-align: center;
+  padding: 0 18px;
+}
+.problem-index-tag {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  font-family: var(--ff-head);
+  font-size: 11px;
+  letter-spacing: 4px;
+  color: var(--g);
+  text-align: center;
+  padding: 0 18px;
+  text-transform: uppercase;
+}
+
+.problem-left {
+  padding: 80px 60px;
+  border-right: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.problem-headline {
+  font-family: var(--ff-head);
+  font-size: clamp(56px, 6vw, 96px);
+  line-height: 0.95;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin-bottom: 0;
+}
+.problem-headline span {
+  color: var(--g);
+  display: block;
+}
+
+.problem-right {
+  padding: 80px 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.problem-body {
+  font-size: 15px;
+  line-height: 2;
+  color: var(--muted);
+  max-width: 440px;
+}
+.problem-body strong {
+  color: var(--ink);
+  font-weight: 400;
+}
+
+.problem-pull {
+  margin-top: 48px;
+  padding: 32px 0;
+  border-top: 1px solid var(--line);
+}
+.problem-pull-text {
+  font-family: var(--ff-serif);
+  font-style: italic;
+  font-size: clamp(20px, 2.5vw, 28px);
+  line-height: 1.5;
+  color: var(--ink);
+  max-width: 400px;
+}
+.problem-pull-text em {
+  font-style: normal;
+  color: var(--g);
+}
+
+/* ══════════════════════════════════
+   FLYWHEEL
+══════════════════════════════════ */
+.flywheel {
+  border-bottom: 1px solid var(--line);
+}
+
+.flywheel-top {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  border-bottom: 1px solid var(--line);
+}
+.flywheel-node {
+  padding: 64px 48px;
+  border-right: 1px solid var(--line);
+  position: relative;
+  overflow: hidden;
+  transition: background 0.3s;
+}
+.flywheel-node:last-child { border-right: none; }
+.flywheel-node:hover { background: var(--g4); }
+.flywheel-node:hover .fn-num { color: var(--g); -webkit-text-stroke-color: var(--g); }
+
+.fn-num {
+  font-family: var(--ff-head);
+  font-size: 100px;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--dim);
+  display: block;
+  margin-bottom: 32px;
+  transition: color 0.3s, -webkit-text-stroke-color 0.3s;
+}
+.fn-title {
+  font-family: var(--ff-head);
+  font-size: 40px;
+  letter-spacing: 2px;
+  color: var(--g);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  display: block;
+}
+.fn-desc {
+  font-size: 12px;
+  line-height: 2;
+  color: var(--muted);
+  max-width: 260px;
+}
+
+.flywheel-bottom {
+  padding: 60px 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+}
+.flywheel-tagline {
+  font-family: var(--ff-cond);
+  font-size: clamp(28px, 3.5vw, 48px);
+  font-weight: 300;
+  letter-spacing: 2px;
+  color: var(--ink);
+  max-width: 600px;
+  line-height: 1.3;
+}
+.flywheel-tagline strong {
+  color: var(--g);
+  font-weight: 600;
+}
+.flywheel-arrow-big {
+  font-size: 64px;
+  color: var(--g);
+  opacity: 0.3;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+/* ══════════════════════════════════
+   PROTOCOL
+══════════════════════════════════ */
+.protocol {
+  background: var(--paper);
+  border-bottom: 1px solid var(--line);
+}
+
+.protocol-inner {
+  display: grid;
+  grid-template-columns: 1fr 440px;
+  min-height: 600px;
+}
+
+.protocol-content {
+  padding: 80px;
+  border-right: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.protocol-title {
+  font-family: var(--ff-head);
+  font-size: clamp(52px, 6vw, 88px);
+  line-height: 0.9;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--ink);
+  margin-bottom: 48px;
+}
+.protocol-title em {
+  font-style: normal;
+  color: var(--g);
+  display: block;
+}
+
+.protocol-body {
+  font-size: 14px;
+  line-height: 2;
+  color: var(--muted);
+  max-width: 520px;
+  margin-bottom: 48px;
+}
+.protocol-body b {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.rec-tag {
+  display: inline-block;
+  font-family: var(--ff-mono);
+  font-size: 10px;
+  letter-spacing: 2px;
+  padding: 4px 10px;
+  border: 1px solid var(--g);
+  color: var(--g);
+  margin-right: 4px;
+  background: var(--g4);
+}
+
+.protocol-points {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border-top: 1px solid var(--line);
+}
+.protocol-point {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--line);
+}
+.pp-num {
+  font-family: var(--ff-mono);
+  font-size: 9px;
+  letter-spacing: 1px;
+  color: var(--g);
+  flex-shrink: 0;
+  margin-top: 2px;
+  opacity: 0.7;
+}
+.pp-text {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+.pp-text b { color: var(--ink); font-weight: 500; }
+
+.protocol-sidebar {
+  padding: 80px 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  position: relative;
+  overflow: hidden;
+}
+.protocol-sidebar::before {
+  content: '';
+  position: absolute;
+  top: -100px; right: -100px;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(102,200,0,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.ps-box {
+  border: 1px solid var(--line);
+  padding: 32px;
+  background: rgba(102,200,0,0.03);
+  position: relative;
+}
+.ps-box::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 3px; height: 100%;
+  background: var(--g);
+}
+.ps-title {
+  font-family: var(--ff-head);
+  font-size: 13px;
+  letter-spacing: 3px;
+  color: var(--g);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.ps-val {
+  font-family: var(--ff-head);
+  font-size: 56px;
+  color: var(--ink);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.ps-val span { color: var(--g); }
+.ps-note {
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.learn-more-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--g);
+  text-decoration: none;
+  font-weight: 500;
+  border-bottom: 1px solid var(--g);
+  padding-bottom: 3px;
+  transition: gap 0.2s;
+  align-self: flex-start;
+}
+.learn-more-link:hover { gap: 18px; }
+
+/* ══════════════════════════════════
+   USE CASE
+══════════════════════════════════ */
+.usecase {
+  border-bottom: 1px solid var(--line);
+}
+
+.uc-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 60px 80px 40px;
+  border-bottom: 1px solid var(--line);
+}
+
+.uc-title {
+  font-family: var(--ff-head);
+  font-size: clamp(52px, 7vw, 112px);
+  line-height: 0.92;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--ink);
+}
+.uc-title em {
+  font-style: normal;
+  color: var(--g);
+}
+
+.uc-count {
+  font-family: var(--ff-mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--muted);
+  text-transform: uppercase;
+  padding-bottom: 8px;
+}
+
+.uc-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.uc-card {
+  padding: 64px 80px;
+  border-right: 1px solid var(--line);
+  position: relative;
+  overflow: hidden;
+}
+.uc-card:last-child { border-right: none; }
+
+.uc-card-tag {
+  font-size: 9px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--g);
+  margin-bottom: 32px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.uc-card-tag::before {
+  content: '';
+  width: 6px; height: 6px;
+  background: var(--g);
+  border-radius: 50%;
+}
+
+.uc-card-name {
+  font-family: var(--ff-head);
+  font-size: 64px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--ink);
+  line-height: 0.9;
+  margin-bottom: 24px;
+}
+
+.uc-card-sub {
+  font-family: var(--ff-serif);
+  font-style: italic;
+  font-size: 18px;
+  color: var(--muted);
+  margin-bottom: 40px;
+  line-height: 1.6;
+}
+
+.uc-features {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-bottom: 48px;
+  border-top: 1px solid var(--line);
+}
+.uc-feature {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 0.5px;
+}
+.uc-feature::before {
+  content: '→';
+  color: var(--g);
+  font-family: var(--ff-mono);
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
+.uc-card-more {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-right: none;
+  background: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 20px,
+    rgba(102,200,0,0.015) 20px,
+    rgba(102,200,0,0.015) 21px
+  );
+}
+.more-cross {
+  font-family: var(--ff-head);
+  font-size: 80px;
+  color: var(--g);
+  opacity: 0.3;
+  line-height: 1;
+  margin-bottom: 20px;
+  transition: opacity 0.3s;
+}
+.uc-card-more:hover .more-cross { opacity: 0.7; }
+.more-label {
+  font-family: var(--ff-cond);
+  font-size: 22px;
+  font-weight: 300;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* ══════════════════════════════════
+   CTA SECTION
+══════════════════════════════════ */
+.cta-section {
+  padding: 100px 80px;
+  border-bottom: 1px solid var(--line);
+  position: relative;
+  overflow: hidden;
+}
+.cta-section::before {
+  content: 'LIVE';
+  position: absolute;
+  font-family: var(--ff-head);
+  font-size: 30vw;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(102,200,0,0.04);
+  bottom: -60px; right: -40px;
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+}
+
+.cta-inner {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 48px;
+  position: relative;
+  z-index: 1;
+}
+
+.cta-text .s-label { margin-bottom: 20px; }
+.cta-headline {
+  font-family: var(--ff-head);
+  font-size: clamp(40px, 5vw, 72px);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--ink);
+  line-height: 0.95;
+}
+.cta-headline em {
+  font-style: normal;
+  color: var(--g);
+}
+
+.cta-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-end;
+}
+
+.social-row {
+  display: flex;
+  gap: 12px;
+}
+.social-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border: 1px solid var(--line);
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  transition: all 0.15s;
+  background: transparent;
+}
+.social-btn:hover {
+  border-color: var(--g);
+  color: var(--g);
+  background: var(--g4);
+}
+.social-btn svg { width: 14px; height: 14px; }
+
+/* ══════════════════════════════════
+   FOOTER
+══════════════════════════════════ */
+footer {
+  background: var(--paper);
+  border-top: 1px solid var(--line);
+}
+
+.footer-top {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  border-bottom: 1px solid var(--line);
+}
+
+.footer-col {
+  padding: 48px 40px;
+  border-right: 1px solid var(--line);
+}
+.footer-col:last-child { border-right: none; }
+
+.fc-brand .nav-logo {
+  font-size: 20px;
+  display: inline-flex;
+  margin-bottom: 16px;
+}
+.fc-brand p {
+  font-size: 12px;
+  line-height: 1.9;
+  color: var(--dim);
+  max-width: 260px;
+}
+
+.fc-title {
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--g);
+  margin-bottom: 20px;
+}
+.fc-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.fc-links a {
+  text-decoration: none;
+  font-size: 12px;
+  color: var(--dim);
+  transition: color 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.fc-links a::before {
+  content: '—';
+  opacity: 0.3;
+  font-size: 10px;
+}
+.fc-links a:hover { color: var(--muted); }
+
+.footer-bottom {
+  padding: 20px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.footer-bottom p {
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: var(--dim);
+}
+.footer-bottom a {
+  color: var(--g);
+  text-decoration: none;
+}
+
+/* ══════════════════════════════════
+   SCROLL REVEAL
+══════════════════════════════════ */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1);
+}
+.reveal.on {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1);
+}
+.reveal-left.on { opacity: 1; transform: translateX(0); }
+
+/* ══════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════ */
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr; }
+  .hero-right { display: none; }
+  nav { padding: 0 20px; }
+  .nav-right a:not(.nav-launch) { display: none; }
+  .problem { grid-template-columns: 1fr; }
+  .problem-index { display: none; }
+  .problem-left, .problem-right { padding: 48px 24px; }
+  .flywheel-top { grid-template-columns: 1fr; }
+  .flywheel-node { border-right: none; border-bottom: 1px solid var(--line); }
+  .flywheel-bottom { padding: 40px 24px; flex-direction: column; }
+  .protocol-inner { grid-template-columns: 1fr; }
+  .protocol-content { padding: 48px 24px; }
+  .protocol-sidebar { padding: 48px 24px; }
+  .uc-header { padding: 40px 24px 28px; flex-direction: column; align-items: flex-start; gap: 12px; }
+  .uc-body { grid-template-columns: 1fr; }
+  .uc-card { padding: 48px 24px; border-right: none; border-bottom: 1px solid var(--line); }
+  .cta-section { padding: 60px 24px; }
+  .cta-inner { flex-direction: column; align-items: flex-start; }
+  .cta-actions { align-items: flex-start; }
+  .footer-top { grid-template-columns: 1fr 1fr; }
+  .footer-col { padding: 32px 24px; }
+  .footer-bottom { padding: 20px 24px; flex-direction: column; gap: 8px; }
+  .hero-left { padding: 48px 24px; }
+}
+</style>
+</head>
+<body>
+
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<div class="grid-lines">
+  <span></span><span></span><span></span><span></span>
+  <span></span><span></span><span></span><span></span>
+  <span></span><span></span><span></span><span></span>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="/" class="nav-logo">LIVE<em>RECORD</em><sup>.FUN</sup></a>
+  <div class="nav-right">
+    <div class="nav-status"><div class="nav-status-dot"></div>MAINNET LIVE</div>
+    <a href="#protocol">Protocol</a>
+    <a href="#usecase">Apps</a>
+    <a href="https://docs.liverecord.fun" target="_blank">Docs</a>
+    <a href="#" class="nav-launch">Launch App</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow reveal">
+      <div class="hero-eyebrow-line"></div>
+      <span>Fandom Economy · Onchain</span>
+    </div>
+    <h1 class="reveal" style="transition-delay:0.08s">
+      RECORDING<br>
+      THE<br>
+      <span class="line-green">FANDOM</span><br>
+      <span class="line-serif">Economy,</span><br>
+      ONCHAIN
+    </h1>
+    <p class="hero-desc reveal" style="transition-delay:0.16s">
+      LiveRecord turns invisible fandom activity into visible, lasting value — captured by AI, preserved forever on blockchain.
+    </p>
+    <div class="hero-ctas reveal" style="transition-delay:0.22s">
+      <a href="https://docs.liverecord.fun" target="_blank" class="btn-primary">Read Docs</a>
+      <a href="#protocol" class="btn-ghost">How it works →</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-stat reveal" style="transition-delay:0.28s">
+      <span class="hero-stat-num">∞</span>
+      <span class="hero-stat-label">Fan records · Onchain</span>
+    </div>
+    <div class="hero-stat reveal" style="transition-delay:0.34s">
+      <span class="hero-stat-num">AI</span>
+      <span class="hero-stat-label">R.E.C. Scoring Engine</span>
+    </div>
+    <div class="hero-stat reveal" style="transition-delay:0.40s">
+      <span class="hero-stat-num">$LRC</span>
+      <span class="hero-stat-label">Global Engagement Index</span>
+    </div>
+    <div class="hero-stat reveal" style="transition-delay:0.46s">
+      <span class="hero-stat-num">24/7</span>
+      <span class="hero-stat-label">Permissionless · Always on</span>
+    </div>
+  </div>
+  <div class="hero-bg-num">01</div>
+  <div class="hero-bottom">
+    <div class="hero-ticker">
+      <div class="hero-ticker-item">LIVERECORD <em>·</em> FANDOM ECONOMY</div>
+      <div class="hero-ticker-item">R.E.C. PROTOCOL <em>·</em> AI POWERED</div>
+      <div class="hero-ticker-item">$LRC TOKEN <em>·</em> ONCHAIN</div>
+      <div class="hero-ticker-item">GLOBAL FAN INDEX <em>·</em> LIVE</div>
+      <div class="hero-ticker-item">PERMISSIONLESS <em>·</em> TRUSTLESS</div>
+      <div class="hero-ticker-item">IDOLS <em>·</em> ANIME <em>·</em> GAMES <em>·</em> MUSIC</div>
+      <div class="hero-ticker-item">LIVERECORD.FUN <em>·</em> EST. 2025</div>
+      <div class="hero-ticker-item">LIVERECORD <em>·</em> FANDOM ECONOMY</div>
+      <div class="hero-ticker-item">R.E.C. PROTOCOL <em>·</em> AI POWERED</div>
+      <div class="hero-ticker-item">$LRC TOKEN <em>·</em> ONCHAIN</div>
+      <div class="hero-ticker-item">GLOBAL FAN INDEX <em>·</em> LIVE</div>
+      <div class="hero-ticker-item">PERMISSIONLESS <em>·</em> TRUSTLESS</div>
+      <div class="hero-ticker-item">IDOLS <em>·</em> ANIME <em>·</em> GAMES <em>·</em> MUSIC</div>
+      <div class="hero-ticker-item">LIVERECORD.FUN <em>·</em> EST. 2025</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="problem" id="problem">
+  <div class="problem-index">
+    <div class="problem-index-num">§ 001</div>
+    <div class="problem-index-tag">Problem</div>
+  </div>
+  <div class="problem-left">
+    <div class="s-label reveal-left">The Problem LiveRecord Solves</div>
+    <h2 class="problem-headline reveal-left" style="transition-delay:0.1s">
+      FANS<br>
+      <span>INVISIBLE.</span><br>
+      NO<br>
+      MORE.
+    </h2>
+  </div>
+  <div class="problem-right">
+    <div>
+      <p class="problem-body reveal" style="transition-delay:0.05s">
+        For decades, being a fan meant buying — CDs, records, concert tickets, merchandise. Your devotion was measured by what you could <strong>own</strong>.
+      </p>
+      <p class="problem-body reveal" style="margin-top:24px;transition-delay:0.12s">
+        Then the internet changed everything. Social media gave fans a voice. Fandom evolved from passive consumption into <strong>active participation</strong> — where fans invest not only money, but time, creativity, and emotion.
+      </p>
+      <p class="problem-body reveal" style="margin-top:24px;transition-delay:0.18s">
+        Yet paradoxically, much of that passion remains <strong>invisible</strong> in today's entertainment system. Fans create massive value — trending topics, viral content, cultural movements — and receive <strong>nothing in return</strong>.
+      </p>
+    </div>
+    <div class="problem-pull reveal" style="transition-delay:0.24s">
+      <p class="problem-pull-text">
+        Passion, not just capital, should determine <em>worth</em>.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- FLYWHEEL -->
+<section class="flywheel" id="flywheel">
+  <div class="flywheel-top">
+    <div class="flywheel-node reveal">
+      <span class="fn-num">01</span>
+      <span class="fn-title">IP</span>
+      <p class="fn-desc">Idols, music, anime, and games that power global fandom movements and cultural phenomena worldwide</p>
+    </div>
+    <div class="flywheel-node reveal" style="transition-delay:0.1s">
+      <span class="fn-num">02</span>
+      <span class="fn-title">Fandom</span>
+      <p class="fn-desc">Communities that amplify IP through creativity, shared passion, and collective energy — the true engine of entertainment</p>
+    </div>
+    <div class="flywheel-node reveal" style="transition-delay:0.2s">
+      <span class="fn-num">03</span>
+      <span class="fn-title">$LRC</span>
+      <p class="fn-desc">The global fan engagement index for entertainment — connecting fandom passion to real economic value, onchain</p>
+    </div>
+  </div>
+  <div class="flywheel-bottom">
+    <p class="flywheel-tagline reveal">
+      LiveRecord is driven by <strong>IPs that inspire</strong>, fandoms that amplify, and <strong>$LRC that connects them</strong> onchain.
+    </p>
+    <div class="flywheel-arrow-big reveal" style="transition-delay:0.1s">↻</div>
+  </div>
+</section>
+
+<!-- PROTOCOL -->
+<section class="protocol" id="protocol">
+  <div class="protocol-inner">
+    <div class="protocol-content">
+      <div>
+        <div class="s-label reveal">LiveRecord Protocol</div>
+        <h2 class="protocol-title reveal" style="transition-delay:0.08s">
+          FANDOM<br>
+          ECONOMY<br>
+          <em>ONCHAIN</em>
+        </h2>
+        <p class="protocol-body reveal" style="transition-delay:0.14s">
+          LiveRecord Protocol addresses a fundamental problem: fandom powers the entertainment economy, yet fan contributions remain <b>invisible and unrewarded</b>.<br><br>
+          Through <span class="rec-tag">R.E.C.</span> — Record of Emotional Contribution — the protocol establishes the global engagement index for entertainment. It uses <b>AI to quantify genuine fandom activity</b> across the internet and preserves it permanently on blockchain.<br><br>
+          <span style="color:var(--g);font-family:var(--ff-mono);font-size:13px;">$LRC</span> transforms this into economic value, enabling fans to earn rewards for their devotion while creating permissionless infrastructure for the fandom economy.
+        </p>
+        <a href="https://docs.liverecord.fun" target="_blank" class="learn-more-link reveal" style="transition-delay:0.2s">Learn more ↗</a>
+      </div>
+      <div class="protocol-points reveal" style="transition-delay:0.26s">
+        <div class="protocol-point">
+          <span class="pp-num">01</span>
+          <p class="pp-text"><b>AI-powered scoring</b> — R.E.C. uses machine learning to detect and quantify genuine fan activity across social platforms, streaming services, and community spaces</p>
+        </div>
+        <div class="protocol-point">
+          <span class="pp-num">02</span>
+          <p class="pp-text"><b>Permanent onchain record</b> — every fan contribution is recorded on blockchain, creating an immutable history of fandom that belongs to the fans</p>
+        </div>
+        <div class="protocol-point">
+          <span class="pp-num">03</span>
+          <p class="pp-text"><b>Permissionless infrastructure</b> — any IP, any fandom, any community can build on top of LiveRecord Protocol without asking permission</p>
+        </div>
+      </div>
+    </div>
+    <div class="protocol-sidebar">
+      <div class="ps-box reveal">
+        <div class="ps-title">R.E.C. Score</div>
+        <div class="ps-val">∞<span>+</span></div>
+        <p class="ps-note">Fan contributions tracked and scored by the R.E.C. engine — growing every second</p>
+      </div>
+      <div class="ps-box reveal" style="transition-delay:0.1s">
+        <div class="ps-title">$LRC Token</div>
+        <div class="ps-val"><span>#</span>1</div>
+        <p class="ps-note">Global engagement index for entertainment — the benchmark for fandom value</p>
+      </div>
+      <div class="ps-box reveal" style="transition-delay:0.2s">
+        <div class="ps-title">Networks</div>
+        <div class="ps-val">EVM<span>+</span></div>
+        <p class="ps-note">Deployed across EVM-compatible chains — accessible to every fan globally</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- USE CASE -->
+<section class="usecase" id="usecase">
+  <div class="uc-header">
+    <h2 class="uc-title reveal">
+      FANDOM,<br><em>ACTIVATED</em>
+    </h2>
+    <div class="uc-count reveal" style="transition-delay:0.1s">01 → Use Cases</div>
+  </div>
+  <div class="uc-body">
+    <div class="uc-card reveal">
+      <div class="uc-card-tag">First Use Case</div>
+      <div class="uc-card-name">IRC<br>APP</div>
+      <p class="uc-card-sub">Turning fandom activity into experience — loyalty membership, fan vote, and exclusive perks for the J-Pop global fandom.</p>
+      <ul class="uc-features">
+        <li class="uc-feature">IRC Score powered by R.E.C.</li>
+        <li class="uc-feature">Loyalty membership &amp; fan vote</li>
+        <li class="uc-feature">Exclusive perks for J-Pop global fandom</li>
+      </ul>
+      <a href="#" class="btn-primary">Launch App</a>
+    </div>
+    <div class="uc-card uc-card-more reveal" style="transition-delay:0.12s">
+      <div class="more-cross">+</div>
+      <div class="more-label">More use cases,<br>more fandoms<br>coming soon…</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA / SOCIAL -->
+<section class="cta-section">
+  <div class="cta-inner">
+    <div class="cta-text">
+      <div class="s-label reveal">Join the movement</div>
+      <h2 class="cta-headline reveal" style="transition-delay:0.1s">
+        FOLLOW<br>
+        <em>LIVERECORD</em>
+      </h2>
+    </div>
+    <div class="cta-actions reveal" style="transition-delay:0.18s">
+      <div class="social-row">
+        <a href="https://x.com/liverecord_fun" target="_blank" class="social-btn">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          @liverecord_fun
+        </a>
+        <a href="https://docs.liverecord.fun" target="_blank" class="social-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          Docs
+        </a>
+      </div>
+      <a href="#" class="btn-primary" style="align-self:flex-start">Launch App →</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-col fc-brand">
+      <a href="/" class="nav-logo">LIVE<em>RECORD</em><sup>.FUN</sup></a>
+      <p>Recording the fandom economy — permanently preserved onchain for every fan across the world. Passion, not capital, determines worth.</p>
+    </div>
+    <div class="footer-col">
+      <div class="fc-title">Protocol</div>
+      <ul class="fc-links">
+        <li><a href="#">About</a></li>
+        <li><a href="#">R.E.C.</a></li>
+        <li><a href="#">$LRC Token</a></li>
+        <li><a href="#">Roadmap</a></li>
+        <li><a href="#">Whitepaper</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <div class="fc-title">Developers</div>
+      <ul class="fc-links">
+        <li><a href="https://docs.liverecord.fun" target="_blank">Documentation</a></li>
+        <li><a href="#">API Reference</a></li>
+        <li><a href="#">GitHub</a></li>
+        <li><a href="#">SDK</a></li>
+        <li><a href="#">Bug Bounty</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <div class="fc-title">Community</div>
+      <ul class="fc-links">
+        <li><a href="#">X / Twitter</a></li>
+        <li><a href="#">Discord</a></li>
+        <li><a href="#">Telegram</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Newsletter</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 <a href="/">liverecord.fun</a> — All rights reserved</p>
+    <p style="color:var(--dim)">Built for fans, by fans.</p>
+  </div>
+</footer>
+
+<script>
+/* CURSOR */
+const cur = document.getElementById('cursor');
+const ring = document.getElementById('cursor-ring');
+let mx=0, my=0, rx=0, ry=0;
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cur.style.left = mx - 5 + 'px';
+  cur.style.top  = my - 5 + 'px';
+});
+(function animRing() {
+  rx += (mx - rx - 18) * 0.14;
+  ry += (my - ry - 18) * 0.14;
+  ring.style.left = rx + 'px';
+  ring.style.top  = ry + 'px';
+  requestAnimationFrame(animRing);
+})();
+document.querySelectorAll('a,button').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    cur.style.transform = 'scale(2.5)';
+    ring.style.width = '58px';
+    ring.style.height = '58px';
+    ring.style.opacity = '0.8';
+  });
+  el.addEventListener('mouseleave', () => {
+    cur.style.transform = 'scale(1)';
+    ring.style.width = '36px';
+    ring.style.height = '36px';
+    ring.style.opacity = '0.5';
+  });
+});
+
+/* SCROLL REVEAL */
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('on');
+      io.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal, .reveal-left').forEach(el => io.observe(el));
+
+/* NAV SCROLL */
+window.addEventListener('scroll', () => {
+  document.querySelector('nav').style.borderBottomColor =
+    window.scrollY > 40 ? 'rgba(102,200,0,0.2)' : 'rgba(102,200,0,0.13)';
+});
+</script>
+</body>
+</html>
