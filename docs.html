@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Documentation - LIVERECORD Protocol</title>
-<meta name="description" content="LiveRecord Protocol documentation. Learn how R.E.C. scoring works, how to earn $REC, and how to build on the fandom economy infrastructure."/>
+<meta name="description" content="LiveRecord Protocol documentation. Learn how R.E.C. scoring works, how to earn $RECORD, and how to build on the fandom economy infrastructure."/>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@300;400;500;700&family=Barlow+Condensed:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -182,7 +182,7 @@ footer{border-top:1px solid var(--line);}
     <div class="sidebar-section">
       <span class="sidebar-heading">Protocol</span>
       <a class="sidebar-link" href="#rec-scoring">R.E.C. Scoring</a>
-      <a class="sidebar-link" href="#rec-token">$REC Token</a>
+      <a class="sidebar-link" href="#rec-token">$RECORD Token</a>
       <a class="sidebar-link" href="#networks">Networks</a>
       <a class="sidebar-link" href="#smart-contracts">Smart Contracts</a>
     </div>
@@ -198,7 +198,7 @@ footer{border-top:1px solid var(--line);}
     <div class="sidebar-section">
       <span class="sidebar-heading">Tokenomics</span>
       <a class="sidebar-link" href="#tokenomics">Token Distribution</a>
-      <a class="sidebar-link" href="#earning">Earning $REC</a>
+      <a class="sidebar-link" href="#earning">Earning $RECORD</a>
       <a class="sidebar-link" href="#governance">Governance</a>
     </div>
     <div class="sidebar-divider"></div>
@@ -218,14 +218,14 @@ footer{border-top:1px solid var(--line);}
       <a href="#quickstart">Quick Start</a>
       <a href="#concepts">Core Concepts</a>
       <a href="#rec-scoring">R.E.C. Scoring</a>
-      <a href="#rec-token">$REC Token</a>
+      <a href="#rec-token">$RECORD Token</a>
       <a href="#networks">Networks</a>
       <a href="#smart-contracts">Smart Contracts</a>
       <a href="#developers">Developer Guide</a>
       <a href="#api-reference">API Reference</a>
       <a href="#sdk">SDK</a>
       <a href="#tokenomics">Tokenomics</a>
-      <a href="#earning">Earning $REC</a>
+      <a href="#earning">Earning $RECORD</a>
       <a href="#governance">Governance</a>
       <a href="#roadmap">Roadmap</a>
     </div>
@@ -239,7 +239,7 @@ footer{border-top:1px solid var(--line);}
       <div class="docs-hero-label">LiveRecord Protocol</div>
       <h1 class="docs-hero-title">PROTOCOL<br><em>DOCUMENTATION</em></h1>
       <p class="docs-hero-desc">
-        LiveRecord is an onchain infrastructure protocol that records fan engagement permanently on blockchain. This documentation covers everything you need to understand the protocol, earn $REC, and build on top of LiveRecord.
+        LiveRecord is an onchain infrastructure protocol that records fan engagement permanently on blockchain. This documentation covers everything you need to understand the protocol, earn $RECORD, and build on top of LiveRecord.
       </p>
       <div class="docs-hero-cards">
         <a href="#quickstart" class="docs-hero-card">
@@ -271,7 +271,7 @@ footer{border-top:1px solid var(--line);}
         LiveRecord changes this. Through our <strong>R.E.C. (Record of Emotional Contribution)</strong> engine, we use AI to quantify genuine fan engagement across the internet - social media activity, streaming data, fan art creation, community participation, event attendance - and record it permanently on blockchain.
       </p>
       <p class="doc-p">
-        The result is a verifiable, immutable record of every fan's contribution to their fandom. This record is tied to <strong>$REC</strong> - the global fan engagement index token - which converts fandom activity into real economic value.
+        The result is a verifiable, immutable record of every fan's contribution to their fandom. This record is tied to <strong>$RECORD</strong> - the global fan engagement index token - which converts fandom activity into real economic value.
       </p>
       <div class="doc-info">
         <p><strong>Core principle:</strong> Passion, not just capital, should determine worth. LiveRecord makes fan contribution visible, permanent, and valuable.</p>
@@ -280,7 +280,7 @@ footer{border-top:1px solid var(--line);}
       <ul class="doc-ul">
         <li><strong>R.E.C. Engine</strong> - AI model that detects, scores, and validates genuine fan activity</li>
         <li><strong>Fandom Records</strong> - Immutable onchain records of individual fan contributions</li>
-        <li><strong>$REC Token</strong> - Native protocol token and global fan engagement index</li>
+        <li><strong>$RECORD Token</strong> - Native protocol token and global fan engagement index</li>
         <li><strong>LiveRecord Protocol</strong> - Permissionless smart contract infrastructure any IP can integrate</li>
       </ul>
     </div>
@@ -308,11 +308,11 @@ footer{border-top:1px solid var(--line);}
       <h3>Step 3 - Your R.E.C. Score Builds</h3>
       <p class="doc-p">Once linked, the R.E.C. Engine continuously scores your fandom activity. You can check your score in real time at any time. Scores are committed to blockchain at each epoch (every 24 hours).</p>
 
-      <h3>Step 4 - Claim $REC</h3>
-      <p class="doc-p">At each epoch, eligible fans can claim their $REC rewards based on their R.E.C. Score. Claims are low-cost and near-instant on Solana.</p>
+      <h3>Step 4 - Claim $RECORD</h3>
+      <p class="doc-p">At each epoch, eligible fans can claim their $RECORD rewards based on their R.E.C. Score. Claims are low-cost and near-instant on Solana.</p>
       <div class="code-block">
         <div class="cb-lang">Rust (Anchor)</div>
-        <pre>// Claim your $REC rewards (Anchor program instruction)
+        <pre>// Claim your $RECORD rewards (Anchor program instruction)
 liverecord.methods
   .claimRewards(epoch, score, merkleProof)
   .accounts({
@@ -343,7 +343,7 @@ liverecord.methods
       </ul>
 
       <h3>Epochs</h3>
-      <p class="doc-p">LiveRecord operates in 24-hour epochs. At the end of each epoch, the R.E.C. Engine finalizes scores for all observed fans, publishes a Merkle root onchain, and opens the claim window for that epoch's $REC distribution.</p>
+      <p class="doc-p">LiveRecord operates in 24-hour epochs. At the end of each epoch, the R.E.C. Engine finalizes scores for all observed fans, publishes a Merkle root onchain, and opens the claim window for that epoch's $RECORD distribution.</p>
 
       <h3>IP Fandoms</h3>
       <p class="doc-p">An IP Fandom is a tracked entertainment property on LiveRecord - an idol group, anime series, music artist, or game franchise. Each IP Fandom has its own fandom pool, score multipliers, and reward allocation. IPs can join the protocol permissionlessly.</p>
@@ -401,14 +401,14 @@ Where:
     <!-- REC TOKEN -->
     <div class="doc-section" id="rec-token">
       <div class="doc-section-label">Token</div>
-      <h2>$REC <em>TOKEN</em></h2>
-      <p class="doc-p">$REC is the native token of LiveRecord Protocol. It serves as the <strong>global fan engagement index for entertainment</strong> - a benchmark for fandom value, denominated onchain.</p>
+      <h2>$RECORD <em>TOKEN</em></h2>
+      <p class="doc-p">$RECORD is the native token of LiveRecord Protocol. It serves as the <strong>global fan engagement index for entertainment</strong> - a benchmark for fandom value, denominated onchain.</p>
 
       <h3>Token Utility</h3>
       <ul class="doc-ul">
         <li><strong>Fandom rewards</strong> - earned by fans with high R.E.C. scores each epoch</li>
-        <li><strong>IP integration</strong> - IP owners stake $REC to join the protocol and allocate reward pools</li>
-        <li><strong>Governance</strong> - $REC holders vote on protocol parameters, new IP admissions, and score model updates</li>
+        <li><strong>IP integration</strong> - IP owners stake $RECORD to join the protocol and allocate reward pools</li>
+        <li><strong>Governance</strong> - $RECORD holders vote on protocol parameters, new IP admissions, and score model updates</li>
         <li><strong>Fan benefits</strong> - gating exclusive experiences, early access, and merchandise perks in partner apps</li>
         <li><strong>Developer incentives</strong> - granted to builders deploying approved integrations on the protocol</li>
       </ul>
@@ -419,8 +419,8 @@ Where:
           <tr><th>Parameter</th><th>Value</th></tr>
         </thead>
         <tbody>
-          <tr><td>Symbol</td><td>$REC</td></tr>
-          <tr><td>Total Supply</td><td>1,000,000,000 $REC</td></tr>
+          <tr><td>Symbol</td><td>$RECORD</td></tr>
+          <tr><td>Total Supply</td><td>1,000,000,000 $RECORD</td></tr>
           <tr><td>Standard</td><td>SPL Token (Solana)</td></tr>
           <tr><td>Network</td><td>Solana</td></tr>
           <tr><td>Decimals</td><td>9</td></tr>
@@ -461,8 +461,8 @@ Where:
         <tbody>
           <tr><td>LiveRecordRegistry</td><td>Registers fans, IPs, and links wallet addresses to R.E.C. profiles</td></tr>
           <tr><td>RECScoreOracle</td><td>Publishes epoch Merkle roots for R.E.C. scores onchain</td></tr>
-          <tr><td>RewardDistributor</td><td>Handles $REC epoch claims with Merkle proof verification</td></tr>
-          <tr><td>RECToken</td><td>SPL Token mint for the $REC token</td></tr>
+          <tr><td>RewardDistributor</td><td>Handles $RECORD epoch claims with Merkle proof verification</td></tr>
+          <tr><td>RECToken</td><td>SPL Token mint for the $RECORD token</td></tr>
           <tr><td>FandomPool</td><td>Per-IP reward pools and staking contracts</td></tr>
           <tr><td>Governance</td><td>Governor + Timelock for protocol governance</td></tr>
         </tbody>
@@ -472,7 +472,7 @@ Where:
         <div class="cb-lang">Rust (Anchor)</div>
         <pre>#[program]
 pub mod reward_distributor {
-  // Claim $REC for a specific epoch
+  // Claim $RECORD for a specific epoch
   pub fn claim(
     ctx: Context&lt;Claim&gt;,
     epoch: u64,
@@ -506,7 +506,7 @@ pub mod reward_distributor {
       <h3>Common Use Cases for Builders</h3>
       <ul class="doc-ul">
         <li><strong>Fan loyalty apps</strong> - gate perks and experiences by R.E.C. score threshold</li>
-        <li><strong>Voting systems</strong> - weight fan votes by $REC balance or R.E.C. score</li>
+        <li><strong>Voting systems</strong> - weight fan votes by $RECORD balance or R.E.C. score</li>
         <li><strong>Leaderboards</strong> - build real-time fandom leaderboards per IP</li>
         <li><strong>NFT gating</strong> - let fans mint exclusive NFTs based on their fandom record</li>
         <li><strong>IP dashboards</strong> - analytics for IP owners to understand their global fandom</li>
@@ -646,7 +646,7 @@ await lr.connect(wallet); // Solana Wallet Adapter wallet</pre>
         <pre>const fan = await lr.getFan('7xKXt...abcd'); // Solana wallet pubkey
 console.log(fan.recScore);     // 4821
 console.log(fan.fandoms);      // [{ ipId, score, rank }, ...]
-console.log(fan.unclaimedRec); // BN (lamports of $REC)</pre>
+console.log(fan.unclaimedRec); // BN (lamports of $RECORD)</pre>
         <button class="code-copy" onclick="copyCode(this)">Copy</button>
       </div>
 
@@ -660,7 +660,7 @@ const epochs = await lr.getClaimableEpochs(userPubkey);
 for (const epoch of epochs) {
   const sig = await lr.claimRewards(epoch.id);
   await connection.confirmTransaction(sig, 'confirmed');
-  console.log(`Claimed ${epoch.amount} $REC for epoch ${epoch.id}`);
+  console.log(`Claimed ${epoch.amount} $RECORD for epoch ${epoch.id}`);
 }</pre>
         <button class="code-copy" onclick="copyCode(this)">Copy</button>
       </div>
@@ -678,7 +678,7 @@ for (const epoch of epochs) {
         <tbody>
           <tr><td>epoch.finalized</td><td>Fired when an epoch closes and scores are published</td></tr>
           <tr><td>fan.score_updated</td><td>Fired when a fan's R.E.C. score changes significantly</td></tr>
-          <tr><td>fan.reward_claimed</td><td>Fired when a fan claims $REC rewards</td></tr>
+          <tr><td>fan.reward_claimed</td><td>Fired when a fan claims $RECORD rewards</td></tr>
           <tr><td>ip.registered</td><td>Fired when a new IP joins the protocol</td></tr>
         </tbody>
       </table>
@@ -705,7 +705,7 @@ for (const epoch of epochs) {
     <div class="doc-section" id="tokenomics">
       <div class="doc-section-label">Economics</div>
       <h2>TOKEN <em>DISTRIBUTION</em></h2>
-      <p class="doc-p">Total supply: <strong>1,000,000,000 $REC</strong>. Distribution is designed to reward fans first, with long vesting schedules for team and investors to align long-term incentives.</p>
+      <p class="doc-p">Total supply: <strong>1,000,000,000 $RECORD</strong>. Distribution is designed to reward fans first, with long vesting schedules for team and investors to align long-term incentives.</p>
       <table class="doc-table">
         <thead><tr><th>Allocation</th><th>%</th><th>Tokens</th><th>Vesting</th></tr></thead>
         <tbody>
@@ -722,8 +722,8 @@ for (const epoch of epochs) {
     <!-- EARNING -->
     <div class="doc-section" id="earning">
       <div class="doc-section-label">Rewards</div>
-      <h2>EARNING <em>$REC</em></h2>
-      <p class="doc-p">Fans earn $REC based on their R.E.C. Score at the end of each 24-hour epoch. The more genuine your fandom engagement, the higher your score, the larger your share of that epoch's $REC distribution.</p>
+      <h2>EARNING <em>$RECORD</em></h2>
+      <p class="doc-p">Fans earn $RECORD based on their R.E.C. Score at the end of each 24-hour epoch. The more genuine your fandom engagement, the higher your score, the larger your share of that epoch's $RECORD distribution.</p>
 
       <h3>Epoch Distribution Formula</h3>
       <div class="code-block">
@@ -733,7 +733,7 @@ for (const epoch of epochs) {
 Where:
   fan_rec_score      = your R.E.C. score at epoch close
   total_epoch_rec_score = sum of all scored fans in epoch
-  epoch_allocation   = total $REC allocated for that epoch</pre>
+  epoch_allocation   = total $RECORD allocated for that epoch</pre>
         <button class="code-copy" onclick="copyCode(this)">Copy</button>
       </div>
 
@@ -755,9 +755,9 @@ Where:
     <div class="doc-section" id="governance">
       <div class="doc-section-label">Protocol</div>
       <h2><em>GOVERNANCE</em></h2>
-      <p class="doc-p">LiveRecord Protocol is governed by $REC token holders. Major protocol decisions - score model parameters, new IP admissions, reward allocations, smart contract upgrades - require a governance vote.</p>
+      <p class="doc-p">LiveRecord Protocol is governed by $RECORD token holders. Major protocol decisions - score model parameters, new IP admissions, reward allocations, smart contract upgrades - require a governance vote.</p>
       <h3>Voting Power</h3>
-      <p class="doc-p">1 $REC = 1 vote. Votes can be delegated. A minimum of 100,000 $REC is required to submit a proposal.</p>
+      <p class="doc-p">1 $RECORD = 1 vote. Votes can be delegated. A minimum of 100,000 $RECORD is required to submit a proposal.</p>
       <h3>Governance Process</h3>
       <ul class="doc-ul">
         <li><strong>Proposal</strong> - posted on governance forum for community discussion (3 days)</li>
@@ -780,11 +780,11 @@ Where:
           </div>
           <div class="rm-phase-content">
             <h4>Genesis - Protocol Launch</h4>
-            <p>Initial launch of LiveRecord Protocol on Solana. Core infrastructure live, first IP integrations, $REC token launch.</p>
+            <p>Initial launch of LiveRecord Protocol on Solana. Core infrastructure live, first IP integrations, $RECORD token launch.</p>
             <ul>
               <li>LiveRecord Protocol v1 deployed on Solana</li>
               <li>R.E.C. Engine - first model version live</li>
-              <li>$REC token launch via EasyA Kickstart</li>
+              <li>$RECORD token launch via EasyA Kickstart</li>
               <li>IRC App - first fandom integration (J-Pop)</li>
               <li>Developer API v1 public access</li>
             </ul>
@@ -814,7 +814,7 @@ Where:
           </div>
           <div class="rm-phase-content">
             <h4>Governance - DAO Transition</h4>
-            <p>Transfer protocol governance to $REC token holders. Launch DAO, introduce community score model updates.</p>
+            <p>Transfer protocol governance to $RECORD token holders. Launch DAO, introduce community score model updates.</p>
             <ul>
               <li>LiveRecord DAO launch</li>
               <li>Governance v1: on-chain voting live</li>
@@ -835,7 +835,7 @@ Where:
             <ul>
               <li>100+ IPs tracked across all entertainment categories</li>
               <li>Real-world event integration (concerts, conventions)</li>
-              <li>Cross-chain $REC bridging</li>
+              <li>Cross-chain $RECORD bridging</li>
               <li>Institutional IP partnership program</li>
               <li>LiveRecord Protocol v2 - full decentralization</li>
             </ul>
